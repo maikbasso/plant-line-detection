@@ -40,8 +40,12 @@ int main(){
 
     //read frame per frame
     while(cap.read(frame)){
+    	//resize image for input
+    	Mat tempImage;
+    	resize(frame,tempImage, Size(320,180) );
+
         //set image
-        ld->setImage(frame);
+        ld->setImage(tempImage);
 
         //detect
         ld->detect();

@@ -16,17 +16,22 @@ public:
 
 class Line{
 public:
-    Line();
     Line(Point p1, Point p2);
     Point p1;
-    Point P2;
+    Point p2;
 };
+Line::Line(Point p1, Point p2){
+    this->p1 = p1;
+    this->p2 = p2;
+}
 
 class PlantLineDetection{
 private:
     Image *images[7];
     int height = 0;
     int width = 0;
+    vector <Line*>lines;
+    vector <Line*>filteredLines;
 
     // define the adaptative thresholds and properties
     int heightThreshold = 0;
@@ -43,13 +48,18 @@ private:
     float fps = 0;
     int frameCounter = 0;
 
+    //methods
+    void pretreatment();
+    void lineDetection();
+    void resultsFilter();
+    bool isParallelLines(Point p1, Point p2, Point p3, Point p4);
+    float lineDistance(Point p1, Point p2, Point p3, Point p4);
+    Point intersectPoint(Point p1, Point p2, Point p3, Point p4);
+
 public:
     PlantLineDetection();
     void setImage(Mat image);
     void detect();
-    bool isParallelLines(Point p1, Point p2, Point p3, Point p4);
-    float lineDistance(Point p1, Point p2, Point p3, Point p4);
-    Point intersectPoint(Point p1, Point p2, Point p3, Point p4);
     Mat getResultsFrame();
 };
 
@@ -87,6 +97,14 @@ void PlantLineDetection::setImage(Mat frame){
 }
 
 void PlantLineDetection::detect(){
+    this->pretreatment();
+    this->lineDetection();
+    this->resultsFilter();
+    //get current time
+    this->stopTime = time(0);
+}
+
+void PlantLineDetection::pretreatment(){
     for(int y=0; y < this->height; y++){
 
         bool isLine = false;
@@ -143,10 +161,16 @@ void PlantLineDetection::detect(){
             }
         }
     }
-
+}
+void PlantLineDetection::lineDetection(){
+    //clear the previews line properties
+    this->lines.clear();
+    this->filteredLines.clear();
     //hough transform
-    /*vector<Vec2f> lines;
-    HoughLines(this->images[4]->data, lines, 1, CV_PI/45, 30, 0, 0);
+    vector<Vec2f> lines;
+    Mat imageGray;
+    cvtColor( this->images[4]->data, imageGray, CV_BGR2GRAY );
+    HoughLines(imageGray, lines, 1, CV_PI/90, 30, 0, 0);
     //HoughLines(this->images[4]->data, lines, 2, CV_PI/45, 30, 0, 0);
     for(size_t i = 0; i < lines.size(); i++){
         //get the rho and theta values
@@ -165,9 +189,55 @@ void PlantLineDetection::detect(){
         p1.y = cvRound(y0 + 1000*(a));
         p2.x = cvRound(x0 - 1000*(-b));
         p2.y = cvRound(x0 - 1000*(a));
-        //manage lines
-        line(this->images[5]->data, p1, p2, Scalar(0,0,255), 3, CV_AA);
-    }*/
+        //print lines
+        line(this->images[5]->data, p1, p2, Scalar(255,0,0), 1, CV_AA);
+        //save lines
+        this->lines.push_back(new Line(p1,p2));
+    }
+}
+void PlantLineDetection::resultsFilter(){
+    vector <Line*>lastLine;
+    for(size_t i=0; i < this->lines.size(); i++){
+        int x1 = this->lines[i]->p1.x;
+        int y1 = this->lines[i]->p1.y;
+        int x2 = this->lines[i]->p2.x;
+        int y2 = this->lines[i]->p2.y;
+
+        // calculate the new points on image with equation of the line
+        int y3 = 2;
+        int x3 = (x2*y3+x1*y2-x2*y1-x1*y3)/(y2-y1);
+
+        int y4 = this->height - y3;
+        int x4 = (x2*y4+x1*y2-x2*y1-x1*y4)/(y2-y1);
+
+        //get new line
+        Line *newLine = new Line(Point(x3,y3), Point(x4,y4));
+
+        if(lastLine.size() < 1){
+            lastLine.push_back(newLine);
+            line(this->images[6]->data, newLine->p1, newLine->p2, Scalar(255,0,0), 1, CV_AA);
+        }
+        else{
+            int count = 0;
+            for(int n=0; n < lastLine.size(); n++){
+                Point p = this->intersectPoint(lastLine[n]->p1,lastLine[n]->p2, newLine->p1, newLine->p2);
+                if(0 < p.x && p.x < this->width && 0 < p.y && p.y < this->height){
+                    count++;
+                }
+                if(this->isParallelLines(lastLine[n]->p1,lastLine[n]->p2, newLine->p1, newLine->p2) == true){
+                    if(this->lineDistance(lastLine[n]->p1,lastLine[n]->p2, newLine->p1, newLine->p2) < this->maxLineDistance){
+                        count++;
+                    }
+                }
+            }
+            
+            if(count == 0){
+                this->filteredLines.push_back(newLine);
+                line(this->images[6]->data, newLine->p1, newLine->p2, Scalar(255,0,0), 1, CV_AA);
+            }
+            lastLine.push_back(newLine);
+        }
+    }
 }
 
 float PlantLineDetection::lineDistance(Point p1, Point p2, Point p3, Point p4){
@@ -251,13 +321,13 @@ Mat PlantLineDetection::getResultsFrame(){
         }
 
     }
-    //system("clear");
-    //cout << "frame resolution = " << this->width << "x" << this->height << endl;
-    //cout << "frame counter    = " << this->frameCounter << endl;
-    //cout << "time per frame   = " << difftime(time(0), this->startTime) << "s" << endl;
-    //cout << "fps              = " << (1/difftime(time(0), this->startTime)) << endl;
-    //cout << "numberOfLines = " << 0 << endl;
-    //cout << "finalLines = " << 0 << endl;
+    system("clear");
+    cout << "frame resolution = " << this->width << "x" << this->height << endl;
+    cout << "frame counter    = " << this->frameCounter << endl;
+    cout << "time per frame   = " << difftime(this->stopTime, this->startTime) << "s" << endl;
+    cout << "fps              = " << (1 / difftime(this->stopTime, this->startTime)) << endl;
+    cout << "all lines        = " << this->lines.size() << endl;
+    cout << "finalLines       = " << this->filteredLines.size() << endl;
 
     return resultsImage;
 }
