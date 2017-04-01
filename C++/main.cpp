@@ -27,31 +27,31 @@ int main(){
     //select the start time video in ms
     //cap.set(CV_CAP_PROP_POS_MSEC, 300);
 
-    //get the video properties
-    double capMode = cap.get(CV_CAP_PROP_MODE);
-    double capFormat = cap.get(CV_CAP_PROP_FORMAT);
-    double fps = cap.get(CV_CAP_PROP_FPS);
-    int frameWidth = cap.get(CV_CAP_PROP_FRAME_WIDTH);
-    int frameHeight = cap.get(CV_CAP_PROP_FRAME_HEIGHT);
-
-
     //show the video properties
     cout << "Video properties: " << endl << "============================" << endl;
-    cout << "Capture format: " << capFormat << endl;
-    cout << "Capture mode: " << capMode << endl;
-    cout << "Frame size: " << frameWidth << "x" << frameHeight << endl;
-    cout << "Frame per seconds: " << fps << endl;
+    cout << "Capture format: " << cap.get(CV_CAP_PROP_FORMAT) << endl;
+    cout << "Capture mode: " << cap.get(CV_CAP_PROP_MODE) << endl;
+    cout << "Frame size: " << cap.get(CV_CAP_PROP_FRAME_WIDTH) << "x" << cap.get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
+    cout << "Frame per seconds: " << cap.get(CV_CAP_PROP_FPS) << endl;
     cout << "============================" << endl << "Press ESC for exit." << endl << endl;
 
     //create a window called "Results"
-    //namedWindow("Results",CV_WINDOW_AUTOSIZE);
+    namedWindow("Results", CV_WINDOW_AUTOSIZE);
 
     //read frame per frame
     while(cap.read(frame)){
+        //set image
         ld->setImage(frame);
+
+        //detect
+        ld->detect();
+
+        //get results
         resultsFrame = ld->getResultsFrame();
+
         //show the frame in "MyVideo" window
-        //imshow("Results", resultsFrame);
+        imshow("Results", resultsFrame);
+
         //wait for 'esc' key press for 30 ms. If 'esc' key is pressed, break loop
         if(waitKey(30) == 27) {
                 break;
