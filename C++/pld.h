@@ -108,11 +108,8 @@ void PlantLineDetection::setImage(Mat frame){
 }
 
 void PlantLineDetection::detect(){
-    cout << "pretreatment" << endl;
     this->pretreatment();
-    cout << "line detection" << endl;
     this->lineDetection();
-    cout << "results filter" << endl;
     this->resultsFilter();
     //get current time
     this->stopTime = getTickCount();
@@ -183,7 +180,7 @@ void PlantLineDetection::lineDetection(){
     this->filteredLines.clear();
     //hough transform
     vector<Vec2f> lines;
-    HoughLines(this->images[4]->data, lines, 1, CV_PI/90, 30, 0, 0);
+    HoughLines(this->images[4]->data, lines, 2, CV_PI/45, 30);
     for(size_t i = 0; i < lines.size(); i++){
         //get the rho and theta values
         float rho = lines[i][0];
@@ -235,11 +232,10 @@ void PlantLineDetection::resultsFilter(){
             for(int n=0; n < lastLine.size(); n++){
                 Point p = this->intersectPoint(lastLine[n]->p1,lastLine[n]->p2, newLine->p1, newLine->p2);
                 if(0 < p.x < this->width && 0 < p.y < this->height){
-                    count++;
-                }
-                if(this->isParallelLines(lastLine[n]->p1,lastLine[n]->p2, newLine->p1, newLine->p2) == true){
-                    if(this->lineDistance(lastLine[n]->p1,lastLine[n]->p2, newLine->p1, newLine->p2) < this->maxLineDistance){
-                        count++;
+                    if(this->isParallelLines(lastLine[n]->p1,lastLine[n]->p2, newLine->p1, newLine->p2) == true){
+                        if(this->lineDistance(lastLine[n]->p1,lastLine[n]->p2, newLine->p1, newLine->p2) < this->maxLineDistance){
+                            count++;
+                        }
                     }
                 }
             }
