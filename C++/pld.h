@@ -3,7 +3,6 @@
 #include "opencv2/highgui.hpp"
 #include "opencv2/videoio.hpp"
 #include <iostream>
-#include <ctime>
 
 using namespace cv;
 using namespace std;
@@ -39,12 +38,13 @@ private:
     int maxLineDistance = 20;//px
 
     //results display properties
+    bool printResultsImage = true;
     int resultFrameSize[2] = {220, 160};
     int grid[2]= {3,3};
 
     // for benchmark
-    time_t startTime;
-    time_t stopTime;
+    int64 startTime;
+    int64 stopTime;
     float fps = 0;
     int frameCounter = 0;
 
@@ -60,7 +60,7 @@ public:
     PlantLineDetection();
     void setImage(Mat image);
     void detect();
-    Mat getResultsFrame();
+    void showResults();
 };
 
 PlantLineDetection::PlantLineDetection(){
@@ -69,39 +69,53 @@ PlantLineDetection::PlantLineDetection(){
         this->images[i] = new Image();
     }
 
+    if(this->printResultsImage == true){
+        //create a window called "Results"
+        namedWindow("Results", CV_WINDOW_AUTOSIZE);
+    }
+
 }
 
 void PlantLineDetection::setImage(Mat frame){
     //get current time
-    this->startTime = time(0);
+    this->startTime = getTickCount();
     //number of frame
     this->frameCounter++;
     //get image size
     this->width = frame.size[1];
     this->height = frame.size[0];
     //set the frame results
-    frame.copyTo(this->images[0]->data);
+    this->images[0]->data = frame.clone();
     this->images[0]->name = "Original Image";
-    this->images[1]->data = Mat::zeros(this->height, this->width, frame.type());
+
+    this->images[1]->data = Mat::zeros(this->height, this->width, CV_8U);
     this->images[1]->name = "Green Extraction";
-    this->images[2]->data = Mat::zeros(this->height, this->width, frame.type());
+
+    this->images[2]->data = Mat::zeros(this->height, this->width, CV_8U);
     this->images[2]->name = "Threshold Filter";
-    this->images[3]->data = Mat::zeros(this->height, this->width, frame.type());
+
+    this->images[3]->data = Mat::zeros(this->height, this->width, CV_8U);
     this->images[3]->name = "Object Detection";
-    this->images[4]->data = Mat::zeros(this->height, this->width, frame.type());
+
+    this->images[4]->data = Mat::zeros(this->height, this->width, CV_8U);
     this->images[4]->name = "Skeletonization";
-    frame.copyTo(this->images[5]->data);
+
+    this->images[5]->data = frame.clone();
     this->images[5]->name = "Hough Lines";
-    frame.copyTo(this->images[6]->data);
+
+    this->images[6]->data = frame.clone();
     this->images[6]->name = "Final Result";
 }
 
 void PlantLineDetection::detect(){
+    cout << "pretreatment" << endl;
     this->pretreatment();
+    cout << "line detection" << endl;
     this->lineDetection();
+    cout << "results filter" << endl;
     this->resultsFilter();
     //get current time
-    this->stopTime = time(0);
+    this->stopTime = getTickCount();
 }
 
 void PlantLineDetection::pretreatment(){
@@ -129,7 +143,7 @@ void PlantLineDetection::pretreatment(){
                 greyLevel = (2*g)-r-b;
             }
 
-            this->images[1]->data.at<Vec3b>(Point(x,y)) = Vec3b(greyLevel, greyLevel, greyLevel);
+            this->images[1]->data.at<uchar>(Point(x,y)) = greyLevel;
 
             // threshold filter
             if(this->colorThreshold[0] <= greyLevel && greyLevel <= this->colorThreshold[1]){
@@ -139,7 +153,7 @@ void PlantLineDetection::pretreatment(){
                 greyLevel = 0;
             }
 
-            this->images[2]->data.at<Vec3b>(Point(x,y)) = Vec3b(greyLevel,greyLevel,greyLevel);
+            this->images[2]->data.at<uchar>(Point(x,y)) = greyLevel;
 
             // detect the object
             if(isLine == false && greyLevel == 255){
@@ -150,11 +164,11 @@ void PlantLineDetection::pretreatment(){
                 x2 = x;
             }
             else if(isLine == true && greyLevel == 0){
-                this->images[3]->data.at<Vec3b>(Point(x1,y)) = Vec3b(255,255,255);
-                this->images[3]->data.at<Vec3b>(Point(x2,y)) = Vec3b(255,255,255);
+                this->images[3]->data.at<uchar>(Point(x1,y)) = 255;
+                this->images[3]->data.at<uchar>(Point(x2,y)) = 255;
                 if(x2 != 0){
                     int meanx = (x1+x2) / 2;
-                    this->images[4]->data.at<Vec3b>(Point(meanx,y)) = Vec3b(255,255,255);
+                    this->images[4]->data.at<uchar>(Point(meanx,y)) = 255;
                 }
                 isLine = false;
                 x1 = x2 = 0;
@@ -162,16 +176,14 @@ void PlantLineDetection::pretreatment(){
         }
     }
 }
+
 void PlantLineDetection::lineDetection(){
     //clear the previews line properties
     this->lines.clear();
     this->filteredLines.clear();
     //hough transform
     vector<Vec2f> lines;
-    Mat imageGray;
-    cvtColor( this->images[4]->data, imageGray, CV_BGR2GRAY );
-    HoughLines(imageGray, lines, 1, CV_PI/90, 30, 0, 0);
-    //HoughLines(this->images[4]->data, lines, 2, CV_PI/45, 30, 0, 0);
+    HoughLines(this->images[4]->data, lines, 1, CV_PI/90, 30, 0, 0);
     for(size_t i = 0; i < lines.size(); i++){
         //get the rho and theta values
         float rho = lines[i][0];
@@ -195,6 +207,7 @@ void PlantLineDetection::lineDetection(){
         this->lines.push_back(new Line(p1,p2));
     }
 }
+
 void PlantLineDetection::resultsFilter(){
     vector <Line*>lastLine;
     for(size_t i=0; i < this->lines.size(); i++){
@@ -221,7 +234,7 @@ void PlantLineDetection::resultsFilter(){
             int count = 0;
             for(int n=0; n < lastLine.size(); n++){
                 Point p = this->intersectPoint(lastLine[n]->p1,lastLine[n]->p2, newLine->p1, newLine->p2);
-                if(0 < p.x && p.x < this->width && 0 < p.y && p.y < this->height){
+                if(0 < p.x < this->width && 0 < p.y < this->height){
                     count++;
                 }
                 if(this->isParallelLines(lastLine[n]->p1,lastLine[n]->p2, newLine->p1, newLine->p2) == true){
@@ -230,7 +243,7 @@ void PlantLineDetection::resultsFilter(){
                     }
                 }
             }
-            
+
             if(count == 0){
                 this->filteredLines.push_back(newLine);
                 line(this->images[6]->data, newLine->p1, newLine->p2, Scalar(255,0,0), 1, CV_AA);
@@ -298,36 +311,52 @@ Point PlantLineDetection::intersectPoint(Point p1, Point p2, Point p3, Point p4)
     }
 }
 
-Mat PlantLineDetection::getResultsFrame(){
-    int numCols = this->grid[0];
-    int numRows = this->grid[1];
-    Mat resultsImage = Mat::zeros(numRows*this->resultFrameSize[1], numCols*this->resultFrameSize[0], this->images[0]->data.type());
-    int countx = 0;
-    int county = 0;
-    for(int i=0; i < 7; i++){
-        //create temp image
-        Mat tempImage = Mat::zeros(this->resultFrameSize[1], this->resultFrameSize[0], this->images[0]->data.type());
-        //resize the image
-        resize(this->images[i]->data,tempImage, Size(tempImage.cols,tempImage.rows) );
-        //write name in frame
-        putText(tempImage, this->images[i]->name, Point(25, 25), FONT_HERSHEY_COMPLEX, 0.3, Scalar(255, 255, 255), 1, LINE_AA);
-        //copy temp image to resultsImage
-        tempImage.copyTo(resultsImage(cv::Rect(countx*this->resultFrameSize[0], county*this->resultFrameSize[1],tempImage.cols, tempImage.rows)));
-        //grid design
-        countx++;
-        if(countx == numCols){
-            county++;
-            countx = 0;
-        }
+void PlantLineDetection::showResults(){
+    if(this->printResultsImage == true){
+        int numCols = this->grid[0];
+        int numRows = this->grid[1];
+        Mat resultsImage = Mat::zeros(numRows*this->resultFrameSize[1], numCols*this->resultFrameSize[0], this->images[0]->data.type());
+        int countx = 0;
+        int county = 0;
+        for(int i=0; i < 7; i++){
+            Mat currentImage;
+            if(this->images[i]->data.type() == CV_8UC1){
+                cvtColor(this->images[i]->data, currentImage, CV_GRAY2BGR);
+            }
+            else{
+                currentImage = this->images[i]->data.clone();
+            }
+            //create temp image
+            Mat tempImage = Mat::zeros(this->resultFrameSize[1], this->resultFrameSize[0], this->images[0]->data.type());
+            //resize the image
+            resize(currentImage,tempImage, Size(tempImage.cols,tempImage.rows) );
+            //write name in frame
+            putText(tempImage, this->images[i]->name, Point(25, 25), FONT_HERSHEY_COMPLEX, 0.3, Scalar(255, 255, 255), 1, LINE_AA);
+            //copy temp image to resultsImage
+            tempImage.copyTo(resultsImage(cv::Rect(countx*this->resultFrameSize[0], county*this->resultFrameSize[1],tempImage.cols, tempImage.rows)));
+            //grid design
+            countx++;
+            if(countx == numCols){
+                county++;
+                countx = 0;
+            }
 
+        }
+        //show the frame in "Results" window
+        imshow("Results", resultsImage);
     }
     system("clear");
-    cout << "frame resolution = " << this->width << "x" << this->height << endl;
+    double timeInSeconds = (this->stopTime - this->startTime) / getTickFrequency();
+    cout << "=========================================" << endl;
+    cout << "Plant Line Detection (PLD) by Maik Basso" << endl;
+    cout << "=========================================" << endl;
+    cout << "frame resolution = " << this->width << " x " << this->height << endl;
     cout << "frame counter    = " << this->frameCounter << endl;
-    cout << "time per frame   = " << difftime(this->stopTime, this->startTime) << "s" << endl;
-    cout << "fps              = " << (1 / difftime(this->stopTime, this->startTime)) << endl;
+    cout << "time per frame   = " << timeInSeconds << " s" << endl;
+    cout << "fps              = " << (1 / timeInSeconds) << endl;
     cout << "all lines        = " << this->lines.size() << endl;
-    cout << "finalLines       = " << this->filteredLines.size() << endl;
-
-    return resultsImage;
+    cout << "filtered lines   = " << this->filteredLines.size() << endl;
+    cout << "=========================================" << endl;
+    cout << "CTRL+C for close." << endl;
+    cout << "=========================================" << endl;
 }

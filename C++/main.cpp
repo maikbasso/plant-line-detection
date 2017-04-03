@@ -35,9 +35,6 @@ int main(){
     cout << "Frame per seconds: " << cap.get(CV_CAP_PROP_FPS) << endl;
     cout << "============================" << endl << "Press ESC for exit." << endl << endl;
 
-    //create a window called "Results"
-    namedWindow("Results", CV_WINDOW_AUTOSIZE);
-
     //read frame per frame
     while(cap.read(frame)){
     	//resize image for input
@@ -50,11 +47,8 @@ int main(){
         //detect
         ld->detect();
 
-        //get results
-        resultsFrame = ld->getResultsFrame();
-
-        //show the frame in "MyVideo" window
-        imshow("Results", resultsFrame);
+        //show results
+        ld->showResults();
 
         //wait for 'esc' key press for 30 ms. If 'esc' key is pressed, break loop
         if(waitKey(30) == 27) {
