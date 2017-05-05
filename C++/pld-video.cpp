@@ -50,7 +50,7 @@ int main(){
         //wait for 'esc' key press for 30 ms. If 'esc' key is pressed, break loop
         if(waitKey(30) == 27) {
             break;
-       }
+        }
     }
 
     //end the program without errors
