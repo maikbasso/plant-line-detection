@@ -4,6 +4,9 @@ import time
 import numpy as np
 import cv2
 
+#cv version
+print "cv version: " + cv2.__version__
+
 class LineDetection():
     images = None
     data = None
@@ -122,7 +125,7 @@ class LineDetection():
 
         img = np.asarray(self.images[4][0])
         #linesHough = cv2.HoughLines(img,2,np.pi/90,40, 100, 1)
-        linesHough = cv2.HoughLines(img,2,np.pi/45,30)
+        linesHough = cv2.HoughLines(img,1,np.pi/180,10)
         if linesHough != None:
             for rho,theta in linesHough[0]:
                 a = np.cos(theta)

@@ -1,7 +1,10 @@
-#include "opencv2/core.hpp"
-#include "opencv2/imgproc.hpp"
-#include "opencv2/highgui.hpp"
-#include "opencv2/videoio.hpp"
+/*
+    @Author: Maik Basso <maik@maikbasso.com.br> 
+
+*/
+
+ //Include file for every supported OpenCV function
+#include <opencv2/opencv.hpp>
 #include <iostream>
 
 using namespace cv;
@@ -27,31 +30,32 @@ Line::Line(Point p1, Point p2){
 class PlantLineDetection{
 private:
     Image *images[7];
-    int height = 0;
-    int width = 0;
+    int height;
+    int width;
     vector <Line*>lines;
     vector <Line*>filteredLines;
 
     // define the adaptative thresholds and properties
-    int heightThreshold = 0;
-    int colorThreshold[2] = {70, 255};
-    int maxLineDistance = 20;//px
+    int heightThreshold;
+    int colorThreshold[2];
+    int maxLineDistance;
 
     //results display properties
-    bool printResultsImage = true;
-    int resultFrameSize[2] = {220, 160};
-    int grid[2]= {3,3};
+    bool printResultsImage;
+    int resultFrameSize[2];
+    int grid[2];
 
     // for benchmark
     int64 startTime;
     int64 stopTime;
-    float fps = 0;
-    int frameCounter = 0;
+    float fps;
+    int frameCounter;
 
     //methods
     void pretreatment();
     void lineDetection();
-    void resultsFilter();
+    void reduceLinesForImageSpace();
+    void lineFilter();
     bool isParallelLines(Point p1, Point p2, Point p3, Point p4);
     float lineDistance(Point p1, Point p2, Point p3, Point p4);
     Point intersectPoint(Point p1, Point p2, Point p3, Point p4);
@@ -64,6 +68,21 @@ public:
 };
 
 PlantLineDetection::PlantLineDetection(){
+    //set default values
+    height = 0;
+    width = 0;
+    heightThreshold = 0;
+    colorThreshold[0] = 80;
+    colorThreshold[1] = 255;
+    maxLineDistance = 20;//px
+    printResultsImage = true;
+    resultFrameSize[0] = 220;
+    resultFrameSize[1] = 160;
+    grid[0] = 3;
+    grid[1] = 3;
+    fps = 0;
+    frameCounter = 0;
+
     // load the images from the algorithm
     for(int i=0; i < 7; i++){
         this->images[i] = new Image();
@@ -110,7 +129,8 @@ void PlantLineDetection::setImage(Mat frame){
 void PlantLineDetection::detect(){
     this->pretreatment();
     this->lineDetection();
-    this->resultsFilter();
+    this->reduceLinesForImageSpace();
+    this->lineFilter();
     //get current time
     this->stopTime = getTickCount();
 }
@@ -178,36 +198,44 @@ void PlantLineDetection::lineDetection(){
     //clear the previews line properties
     this->lines.clear();
     this->filteredLines.clear();
-    //hough transform
+    //the vector of all polar lines
     vector<Vec2f> lines;
-    HoughLines(this->images[4]->data, lines, 2, CV_PI/45, 30);
+    // detect lines with hough transform
+    //Mat image = this->images[4]->data;
+    //Canny(this->images[4]->data, image, 50, 200, 7);
+    HoughLines(this->images[4]->data, lines, 1, CV_PI/180, 50, 0, 0);
     for(size_t i = 0; i < lines.size(); i++){
         //get the rho and theta values
         float rho = lines[i][0];
         float theta = lines[i][1];
-        //calculate a and b
-        double a = cos(theta);
-        double b = sin(theta);
-        //calculate the generic point
-        double x0 = a*rho;
-        double y0 = b*rho;
-        //declare the points of line
-        Point p1, p2;
-        //calculate the points p1 and p2
-        p1.x = cvRound(x0 + 1000*(-b));
-        p1.y = cvRound(y0 + 1000*(a));
-        p2.x = cvRound(x0 - 1000*(-b));
-        p2.y = cvRound(x0 - 1000*(a));
-        //print lines
-        line(this->images[5]->data, p1, p2, Scalar(255,0,0), 1, CV_AA);
-        //save lines
-        this->lines.push_back(new Line(p1,p2));
+        //Check if this lines are in the desired range
+        if(theta>CV_PI/180*1 && theta<CV_PI/180*180){
+            //calculate a and b
+            double a = cos(theta);
+            double b = sin(theta);
+            //calculate the generic point
+            double x0 = a*rho;
+            double y0 = b*rho;
+            //declare the points of line
+            Point p1, p2;
+            //calculate the points p1 and p2
+            p1.x = cvRound(x0 + 1000*(-b));
+            p1.y = cvRound(y0 + 1000*(a));
+            p2.x = cvRound(x0 - 1000*(-b));
+            p2.y = cvRound(x0 - 1000*(a));
+            //save line
+            this->lines.push_back(new Line(p1,p2));
+        }
     }
 }
 
-void PlantLineDetection::resultsFilter(){
+/*void PlantLineDetection::resultsFilter(){
     vector <Line*>lastLine;
     for(size_t i=0; i < this->lines.size(); i++){
+
+        //print all lines
+        line(this->images[5]->data, this->lines[i]->p1, this->lines[i]->p2, Scalar(255,0,0), 1, CV_AA);
+
         int x1 = this->lines[i]->p1.x;
         int y1 = this->lines[i]->p1.y;
         int x2 = this->lines[i]->p2.x;
@@ -231,9 +259,9 @@ void PlantLineDetection::resultsFilter(){
             int count = 0;
             for(int n=0; n < lastLine.size(); n++){
                 Point p = this->intersectPoint(lastLine[n]->p1,lastLine[n]->p2, newLine->p1, newLine->p2);
-                if(0 < p.x < this->width && 0 < p.y < this->height){
+                if(0 <= p.x <= this->width && 0 <= p.y <= this->height){
                     if(this->isParallelLines(lastLine[n]->p1,lastLine[n]->p2, newLine->p1, newLine->p2) == true){
-                        if(this->lineDistance(lastLine[n]->p1,lastLine[n]->p2, newLine->p1, newLine->p2) < this->maxLineDistance){
+                        if(this->lineDistance(lastLine[n]->p1,lastLine[n]->p2, newLine->p1, newLine->p2) <= this->maxLineDistance){
                             count++;
                         }
                     }
@@ -246,6 +274,42 @@ void PlantLineDetection::resultsFilter(){
             }
             lastLine.push_back(newLine);
         }
+    }
+}*/
+
+void PlantLineDetection::reduceLinesForImageSpace(){
+    for(size_t i=0; i < this->lines.size(); i++){
+
+        int x1 = this->lines[i]->p1.x;
+        int y1 = this->lines[i]->p1.y;
+        int x2 = this->lines[i]->p2.x;
+        int y2 = this->lines[i]->p2.y;
+
+        // calculate the new points on image with equation of the line
+        int y3 = 2;
+        int x3 = (x2*y3+x1*y2-x2*y1-x1*y3)/(y2-y1);
+
+        int y4 = this->height - y3;
+        int x4 = (x2*y4+x1*y2-x2*y1-x1*y4)/(y2-y1);
+
+        //replace the line points
+        this->lines[i]->p1.x = x3;
+        this->lines[i]->p1.y = y3;
+        this->lines[i]->p2.x = x4;
+        this->lines[i]->p2.y = y4;
+
+        //print all lines
+        line(this->images[5]->data, this->lines[i]->p1, this->lines[i]->p2, Scalar(255,0,0), 1, CV_AA);
+    }
+}
+
+void PlantLineDetection::lineFilter(){
+    vector <Line*>lastLine;
+    for(size_t i=0; i < this->lines.size(); i++){
+        //separete all lines with equal equation
+
+        //calculate the average points for all lines in same space
+        
     }
 }
 
@@ -327,7 +391,9 @@ void PlantLineDetection::showResults(){
             //resize the image
             resize(currentImage,tempImage, Size(tempImage.cols,tempImage.rows) );
             //write name in frame
-            putText(tempImage, this->images[i]->name, Point(25, 25), FONT_HERSHEY_COMPLEX, 0.3, Scalar(255, 255, 255), 1, LINE_AA);
+            ostringstream convert;   // stream used for the conversion
+            convert << i;
+            putText(tempImage, convert.str() + "-" + this->images[i]->name, Point(25, 25), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(255, 255, 255), 1, 5);
             //copy temp image to resultsImage
             tempImage.copyTo(resultsImage(cv::Rect(countx*this->resultFrameSize[0], county*this->resultFrameSize[1],tempImage.cols, tempImage.rows)));
             //grid design
@@ -336,7 +402,6 @@ void PlantLineDetection::showResults(){
                 county++;
                 countx = 0;
             }
-
         }
         //show the frame in "Results" window
         imshow("Results", resultsImage);
@@ -346,13 +411,17 @@ void PlantLineDetection::showResults(){
     cout << "=========================================" << endl;
     cout << "Plant Line Detection (PLD) by Maik Basso" << endl;
     cout << "=========================================" << endl;
-    cout << "frame resolution = " << this->width << " x " << this->height << endl;
-    cout << "frame counter    = " << this->frameCounter << endl;
-    cout << "time per frame   = " << timeInSeconds << " s" << endl;
-    cout << "fps              = " << (1 / timeInSeconds) << endl;
-    cout << "all lines        = " << this->lines.size() << endl;
-    cout << "filtered lines   = " << this->filteredLines.size() << endl;
+    cout << "OpenCV version   = " << CV_VERSION << endl;
+    //show the plant line detection properties
     cout << "=========================================" << endl;
-    cout << "CTRL+C for close." << endl;
+    cout << "Frame resolution = " << this->width << " x " << this->height << endl;
+    cout << "Frame counter    = " << this->frameCounter << endl;
+    cout << "Time per frame   = " << timeInSeconds << " s" << endl;
+    cout << "FPS              = " << (1 / timeInSeconds) << endl;
+    cout << "All lines        = " << this->lines.size() << endl;
+    cout << "Filtered lines   = " << this->filteredLines.size() << endl;
+    // instructions for close the program
+    cout << "=========================================" << endl;
+    cout << "CTRL+C for close in terminal." << endl << "ESC for close in GUI interface." << endl;
     cout << "=========================================" << endl;
 }
