@@ -42,6 +42,7 @@ private:
 
     //results display properties
     bool printResultsImage;
+    bool saveFrames;
     int resultFrameSize[2];
     int grid[2];
 
@@ -76,8 +77,9 @@ PlantLineDetection::PlantLineDetection(){
     colorThreshold[1] = 255;
     maxLineDistance = 20;//px
     printResultsImage = true;
-    resultFrameSize[0] = 220;
-    resultFrameSize[1] = 160;
+    saveFrames = true;
+    resultFrameSize[0] = 260;
+    resultFrameSize[1] = 180;
     grid[0] = 3;
     grid[1] = 3;
     fps = 0;
@@ -144,22 +146,22 @@ void PlantLineDetection::pretreatment(){
         for(int x=0; x < this->width; x++){
             //get the pixelIm1 data
             Vec3b pixel = this->images[0]->data.at<Vec3b>(Point(x,y));
-            int b = (int)pixel.val[0];
-            int g = (int)pixel.val[1];
-            int r = (int)pixel.val[2];
+            int B = (int)pixel.val[0];
+            int G = (int)pixel.val[1];
+            int R = (int)pixel.val[2];
 
             // green extraction (method by GUO-QUAN JIANG)
-            int greyLevel = 250;
-            if ((2*g) <= (r + b)){
+            int greyLevel = 0;
+            if ((2*G) <= (R + B)){
                 greyLevel = 0;
             }
-            else if((2*g) >= r+b+255){
+            else if((2*G) >= R+B+255){
                 greyLevel = 255;
             }
             else{
-                greyLevel = (2*g)-r-b;
+                greyLevel = (2*G)-R-B;
             }
-
+            
             this->images[1]->data.at<uchar>(Point(x,y)) = greyLevel;
 
             // threshold filter
@@ -385,6 +387,10 @@ void PlantLineDetection::showResults(){
             }
             else{
                 currentImage = this->images[i]->data.clone();
+            }
+            //save frames
+            if(this->saveFrames){
+                imwrite("frames/" + this->images[i]->name + ".png", currentImage);
             }
             //create temp image
             Mat tempImage = Mat::zeros(this->resultFrameSize[1], this->resultFrameSize[0], this->images[0]->data.type());

@@ -22,7 +22,7 @@ int main(){
     //from camera capture
     //cap.open(0);
     //from video file
-    cap.open("../videos/video-lines.mp4");
+    cap.open("videos/video-lines.mp4");
 
     if(!cap.isOpened()){
         cout << "Cannot open the capture or video file." << endl;
