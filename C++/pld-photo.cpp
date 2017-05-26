@@ -34,11 +34,11 @@ int main(){
     PlantLineDetection *ld = new PlantLineDetection();
         
     //resize image for input
-    //Mat tempImage;
-    //resize(image, tempImage, Size(320,240) );
+    Mat tempImage;
+    resize(image, tempImage, Size(320,240) );
 
     //set image
-    ld->setImage(image);
+    ld->setImage(tempImage);
 
     // detect
     ld->detect();
