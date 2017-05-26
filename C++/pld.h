@@ -65,7 +65,6 @@ public:
     PlantLineDetection();
     void setImage(Mat image);
     void detect();
-    vector <Line> getLines();
     void showResults();
 };
 
@@ -96,10 +95,6 @@ PlantLineDetection::PlantLineDetection(){
         namedWindow("Results", CV_WINDOW_AUTOSIZE);
     }
 
-}
-
-vector <Line> PlantLineDetection::getLines(){
-    return this->filteredLines;
 }
 
 void PlantLineDetection::setImage(Mat frame){
