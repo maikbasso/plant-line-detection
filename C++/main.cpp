@@ -99,7 +99,9 @@ int main(){
         cout << "[1] video" << endl;
         cout << "[2] photo" << endl;
         cout << ">> ";
-        cin >> op;
+        //cin >> op;
+        //fixed for build it in sublime cout << "2" << endl;
+        op = 2; cout << "2" << endl;
 
         if(op == 1){
             cout << "Video input selected!" << endl;
