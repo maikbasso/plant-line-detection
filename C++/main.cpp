@@ -60,7 +60,7 @@ void photo(){
     Mat image;
 
     // open a image file
-    image = imread("../../photos/teste1.png");
+    image = imread("../../photos/test3.png");
 
     // Check for invalid input
     if(!image.data){
@@ -114,7 +114,7 @@ int main(){
             op = 0;
         }
         else if(op == 0){
-            cout << "Bey Bey!" << endl;
+            cout << "Bye Bye!" << endl;
         }
         else{
             cout << "Error: Select the correct data type!" << endl;

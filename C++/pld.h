@@ -138,12 +138,12 @@ void PlantLineDetection::detect(){
 }
 
 void PlantLineDetection::pretreatment(){
-    for(int y=0; y < this->height; y++){
+    for(int y=(this->height-1); y >= 0; y--){
 
         bool isLine = false;
         int x1,x2 = 0;
 
-        for(int x=0; x < this->width; x++){
+        for(int x=(this->width-1); x >= 0; x--){
             //get the pixelIm1 data
             Vec3b pixel = this->images[0]->data.at<Vec3b>(Point(x,y));
             int B = (int)pixel.val[0];
@@ -161,6 +161,23 @@ void PlantLineDetection::pretreatment(){
             else{
                 greyLevel = (2*G)-R-B;
             }
+
+            //MPRI
+            // int bottom = G + R;
+            // int top = G - R;
+            // if(bottom == 0){
+            //     bottom = 1;
+            // }
+            // int MPRI = top / bottom;
+
+            // greyLevel = MPRI;
+
+            // if(greyLevel > 255){
+            //     greyLevel = 255;
+            // }
+            // else if(greyLevel < 0){
+            //     greyLevel = 0;
+            // }
             
             this->images[1]->data.at<uchar>(Point(x,y)) = greyLevel;
 
@@ -194,6 +211,15 @@ void PlantLineDetection::pretreatment(){
             }
         }
     }
+
+    //cvSobel(this->images[2]->data, this->images[3]->data);
+
+    //threshold(this->images[1]->data, this->images[2]->data, 100, 255, CV_THRESH_OTSU | CV_THRESH_BINARY);
+
+    //Mat img = this->images[4]->data;
+    //Canny(this->images[4]->data, img, 50, 200, 3);
+    //dilate(this->images[4]->data, img, Mat(), Point(-1, -1), 2, 1, 1);
+    //Canny(img, img, 50, 200, 3);
 }
 
 void PlantLineDetection::lineDetection(){
@@ -203,10 +229,8 @@ void PlantLineDetection::lineDetection(){
     //the vector of all polar lines
     vector<Vec2f> lines;
     // detect lines with hough transform
-    Mat img;
-    Canny(this->images[4]->data, img, 50, 200, 3);
-    HoughLines(img, lines, 1, CV_PI/180, 50, 0, 0);
-    //HoughLines(img, lines, 1, CV_PI/180, 30, 0, 0);
+    HoughLines(this->images[4]->data, lines, 1, CV_PI/180, 30, 0, 0);
+    //HoughLines(this->images[4]->data, lines, 1, CV_PI/180, 30, 0, 0);
     for(size_t i = 0; i < lines.size(); i++){
         //get the rho and theta values
         float rho = lines[i][0];
