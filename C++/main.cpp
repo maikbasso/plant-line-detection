@@ -10,7 +10,9 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
 //my libraries
+#include "line.h"
 #include "pld.h"
+#include "line-follower.h"
 
 using namespace cv;
 using namespace std;
@@ -60,7 +62,7 @@ void photo(){
     Mat image;
 
     // open a image file
-    image = imread("../../photos/test3.png");
+    image = imread("../../photos/test1.png");
 
     // Check for invalid input
     if(!image.data){
@@ -70,6 +72,9 @@ void photo(){
     
     // create the line detection object
     PlantLineDetection *ld = new PlantLineDetection();
+
+    //create the follow line object
+    LineFollower *fl = new LineFollower();
         
     //resize image for input
     Mat tempImage;
@@ -83,6 +88,23 @@ void photo(){
 
     // show results
     ld->showResults();
+
+    vector <Line*> lines = ld->getDetectedLines();
+    cout << "List of lines:" << endl;
+    for(int i = 0; i< lines.size(); i++){
+
+        cout  << i << ":\tp1(" << lines[i]->p1.x << ", " << lines[i]->p1.y << ")\tp2(" << lines[i]->p2.x << ", " << lines[i]->p2.y << ")" << endl;
+
+    }
+
+    fl->setSize(320,240);
+    fl->setLines(lines);
+
+    cout << "Followed Line: " << endl;
+
+    Line* followedLine = fl->getFollowedLine();
+
+    cout  << "\tp1(" << followedLine->p1.x << ", " << followedLine->p1.y << ")\tp2(" << followedLine->p2.x << ", " << followedLine->p2.y << ")" << endl;
 
     //wait key to finish
     waitKey(0);

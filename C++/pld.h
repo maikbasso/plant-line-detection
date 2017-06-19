@@ -1,6 +1,5 @@
 /*
     @Author: Maik Basso <maik@maikbasso.com.br> 
-
 */
 
  //Include file for every supported OpenCV function
@@ -15,17 +14,6 @@ public:
     Mat data;
     string name;
 };
-
-class Line{
-public:
-    Line(Point p1, Point p2);
-    Point p1;
-    Point p2;
-};
-Line::Line(Point p1, Point p2){
-    this->p1 = p1;
-    this->p2 = p2;
-}
 
 class PlantLineDetection{
 private:
@@ -53,7 +41,8 @@ private:
     int frameCounter;
 
     //methods
-    void pretreatment();
+    void pretreatmentRGB();
+    void pretreatmentHSV();
     void lineDetection();
     void reduceLinesForImageSpace();
     void lineFilter();
@@ -66,6 +55,7 @@ public:
     void setImage(Mat image);
     void detect();
     void showResults();
+    vector <Line*> getDetectedLines();
 };
 
 PlantLineDetection::PlantLineDetection(){
@@ -77,7 +67,7 @@ PlantLineDetection::PlantLineDetection(){
     colorThreshold[1] = 255;
     maxLineDistance = 20;//px
     printResultsImage = true;
-    saveFrames = true;
+    saveFrames = false;
     resultFrameSize[0] = 260;
     resultFrameSize[1] = 180;
     grid[0] = 3;
@@ -94,7 +84,6 @@ PlantLineDetection::PlantLineDetection(){
         //create a window called "Results"
         namedWindow("Results", CV_WINDOW_AUTOSIZE);
     }
-
 }
 
 void PlantLineDetection::setImage(Mat frame){
@@ -129,7 +118,8 @@ void PlantLineDetection::setImage(Mat frame){
 }
 
 void PlantLineDetection::detect(){
-    this->pretreatment();
+    this->pretreatmentRGB();
+    //this->pretreatmentHSV();
     this->lineDetection();
     this->reduceLinesForImageSpace();
     this->lineFilter();
@@ -137,7 +127,11 @@ void PlantLineDetection::detect(){
     this->stopTime = getTickCount();
 }
 
-void PlantLineDetection::pretreatment(){
+vector <Line*> PlantLineDetection::getDetectedLines(){
+    return this->filteredLines;
+}
+
+void PlantLineDetection::pretreatmentRGB(){
     for(int y=(this->height-1); y >= 0; y--){
 
         bool isLine = false;
@@ -161,23 +155,6 @@ void PlantLineDetection::pretreatment(){
             else{
                 greyLevel = (2*G)-R-B;
             }
-
-            //MPRI
-            // int bottom = G + R;
-            // int top = G - R;
-            // if(bottom == 0){
-            //     bottom = 1;
-            // }
-            // int MPRI = top / bottom;
-
-            // greyLevel = MPRI;
-
-            // if(greyLevel > 255){
-            //     greyLevel = 255;
-            // }
-            // else if(greyLevel < 0){
-            //     greyLevel = 0;
-            // }
             
             this->images[1]->data.at<uchar>(Point(x,y)) = greyLevel;
 
@@ -217,9 +194,34 @@ void PlantLineDetection::pretreatment(){
     //threshold(this->images[1]->data, this->images[2]->data, 100, 255, CV_THRESH_OTSU | CV_THRESH_BINARY);
 
     //Mat img = this->images[4]->data;
+    //dilate(this->images[4]->data, img, Mat(), Point(-1, -1), 2, 1, 1);
     //Canny(this->images[4]->data, img, 50, 200, 3);
     //dilate(this->images[4]->data, img, Mat(), Point(-1, -1), 2, 1, 1);
     //Canny(img, img, 50, 200, 3);
+    //this->images[4]->data = img;
+}
+
+void PlantLineDetection::pretreatmentHSV(){
+    //declare the limits
+    int H_MIN = 33;
+    int H_MAX = 82;
+    int S_MIN = 127;
+    int S_MAX = 256;
+    int V_MIN = 95;
+    int V_MAX = 142;  
+
+    //temp image
+    Mat HSV;
+    
+    //convert an image to hsv
+    cvtColor(this->images[0]->data, HSV, COLOR_BGR2HSV);
+    imshow("HSV", HSV);
+    //applies the threshold
+    inRange(HSV, Scalar(H_MIN,S_MIN,V_MIN), Scalar(H_MAX,S_MAX,V_MAX), this->images[3]->data);
+
+    dilate(this->images[3]->data, this->images[4]->data, Mat());
+    dilate(this->images[4]->data, this->images[4]->data, Mat());
+
 }
 
 void PlantLineDetection::lineDetection(){
@@ -229,14 +231,14 @@ void PlantLineDetection::lineDetection(){
     //the vector of all polar lines
     vector<Vec2f> lines;
     // detect lines with hough transform
-    HoughLines(this->images[4]->data, lines, 1, CV_PI/180, 30, 0, 0);
-    //HoughLines(this->images[4]->data, lines, 1, CV_PI/180, 30, 0, 0);
+    //HoughLines(this->images[4]->data, lines, 1, CV_PI/180, 180, 0, 0); // HSV
+    HoughLines(this->images[4]->data, lines, 1, CV_PI/180, 38, 50, 10 ); // RGB
     for(size_t i = 0; i < lines.size(); i++){
         //get the rho and theta values
         float rho = lines[i][0];
         float theta = lines[i][1];
         //Check if this lines are in the desired range
-        if(theta>CV_PI/180*1 && theta<CV_PI/180*180){
+        //if(theta>CV_PI/180*1 && theta<CV_PI/180*180){
             //calculate a and b
             double a = cos(theta);
             double b = sin(theta);
@@ -252,7 +254,7 @@ void PlantLineDetection::lineDetection(){
             p2.y = cvRound(x0 - 1000*(a));
             //save line
             this->lines.push_back(new Line(p1,p2));
-        }
+        //}
     }
 }
 
@@ -263,6 +265,9 @@ void PlantLineDetection::reduceLinesForImageSpace(){
         int y1 = this->lines[i]->p1.y;
         int x2 = this->lines[i]->p2.x;
         int y2 = this->lines[i]->p2.y;
+
+        //print all lines
+        line(this->images[5]->data, Point(x1,y1), Point(x2,y2), Scalar(255,0,0), 1, CV_AA);
 
         // calculate the new points on image with equation of the line
         int y3 = 2;
@@ -276,55 +281,130 @@ void PlantLineDetection::reduceLinesForImageSpace(){
         this->lines[i]->p1.y = y3;
         this->lines[i]->p2.x = x4;
         this->lines[i]->p2.y = y4;
-
-        //print all lines
-        line(this->images[5]->data, this->lines[i]->p1, this->lines[i]->p2, Scalar(255,0,0), 1, CV_AA);
     }
 }
 
-void PlantLineDetection::lineFilter(){
-    vector <Line*>lastLine;
-    for(size_t i=0; i < this->lines.size(); i++){
+// void PlantLineDetection::lineFilter(){
+//     vector <Line*>lastLine;
+//     for(size_t i=0; i < this->lines.size(); i++){
 
-        if(lastLine.size() == 0){
-            line(this->images[6]->data, this->lines[i]->p1, this->lines[i]->p2, Scalar(255,0,0), 1, CV_AA);
-        }
-        else{
+//         if(lastLine.size() == 0){
+//             line(this->images[6]->data, this->lines[i]->p1, this->lines[i]->p2, Scalar(255,0,0), 1, CV_AA);
+//         }
+//         else{
             
-            int count = 0;
+//             int count = 0;
 
-            for(size_t n=0; n < lastLine.size(); n++){
+//             for(size_t n=0; n < lastLine.size(); n++){
 
-                Point p = this->intersectPoint(lastLine[n]->p1,lastLine[n]->p2, this->lines[i]->p1, this->lines[i]->p2);
+//                 Point p = this->intersectPoint(lastLine[n]->p1,lastLine[n]->p2, this->lines[i]->p1, this->lines[i]->p2);
                 
-                if(0 < p.x && p.x < this->width && 0 < p.y && p.y < this->height){
-                    count++;
-                }
+//                 if(0 < p.x && p.x < this->width && 0 < p.y && p.y < this->height){
+//                     count++;
+//                 }
 
-                if(this->isParallelLines(lastLine[n]->p1,lastLine[n]->p2, this->lines[i]->p1, this->lines[i]->p2) == true){
-                    if(this->lineDistance(lastLine[n]->p1,lastLine[n]->p2, this->lines[i]->p1, this->lines[i]->p2) < this->maxLineDistance){
-                        count++;
+//                 if(this->isParallelLines(lastLine[n]->p1,lastLine[n]->p2, this->lines[i]->p1, this->lines[i]->p2) == true){
+//                     if(this->lineDistance(lastLine[n]->p1,lastLine[n]->p2, this->lines[i]->p1, this->lines[i]->p2) < this->maxLineDistance){
+//                         count++;
+//                     }
+//                 }
+//             }
+
+//             if(count == 0){
+//                 this->filteredLines.push_back(this->lines[i]);
+//                 line(this->images[6]->data, this->lines[i]->p1, this->lines[i]->p2, Scalar(255,0,0), 1, CV_AA);
+//             }
+//         }
+
+//         lastLine.push_back(this->lines[i]);
+//     }
+// }
+
+void PlantLineDetection::lineFilter(){
+    vector<int> avg;
+    vector<int> avgx1;
+    vector<int> avgx2;
+    int maxLineDistance = 8;
+    vector<Line*> newLines;
+
+    for(size_t i=0; i < this->lines.size(); i++){
+        for(size_t z=0; z < this->lines.size(); z++){
+
+            Point p = this->intersectPoint(this->lines[i]->p1, this->lines[i]->p2, this->lines[z]->p1, this->lines[z]->p2);
+
+            if(this->lineDistance(this->lines[i]->p1, this->lines[i]->p2, this->lines[z]->p1, this->lines[z]->p2) <= maxLineDistance){
+                int x1 = this->lines[i]->p1.x;
+                int y1 = this->lines[i]->p1.y;
+                int x2 = this->lines[i]->p2.x;
+                int y2 = this->lines[i]->p2.y;
+
+                int ya = this->height/2;
+                int xa = (x2*ya+x1*y2-x2*y1-x1*ya)/(y2-y1);
+
+                int x3 = this->lines[z]->p1.x;
+                int y3 = this->lines[z]->p1.y;
+                int x4 = this->lines[z]->p2.x;
+                int y4 = this->lines[z]->p2.y;
+
+                int yb = this->height/2;
+                int xb = (x4*yb+x3*y4-x4*y3-x3*yb)/(y4-y3);
+
+                int avgx = (xa + xb) / 2;
+
+                bool equals = false;
+                for (size_t m=0; m < avg.size(); m++){
+                    if(abs(avg[m] - avgx) <= maxLineDistance){
+                        equals = true;
+                        avg[m] = abs((avg[m] + avgx) / 2);
+                        //avgx1[m] = abs((avgx1[m] + ((x1+x3)/2)) / 2);
+                        //avgx2[m] = abs((avgx2[m] + ((x2+x4)/2)) / 2);
+                        break;
                     }
                 }
+
+                if(equals == false){
+                    avg.push_back(avgx);
+                    avgx1.push_back((x1+x3)/2);
+                    avgx2.push_back((x2+x4)/2);
+                }
+
             }
 
-            if(count == 0){
-                this->filteredLines.push_back(this->lines[i]);
-                line(this->images[6]->data, this->lines[i]->p1, this->lines[i]->p2, Scalar(255,0,0), 1, CV_AA);
-            }
         }
-
-        lastLine.push_back(this->lines[i]);
     }
+
+    //show and store the results
+    cout << "Vector of avgs:" << endl;
+    for (size_t m=0; m < avg.size(); m++){
+        cout << avg[m] << ", ";
+        //store the detected lines
+        //this->filteredLines.push_back(new Line(Point(avgx1[m],1),Point(avg[m],this->height-1)));
+        this->filteredLines.push_back(new Line(Point(avgx1[m],1),Point(avgx2[m],this->height-1)));
+        //draw lines in image
+        line(this->images[6]->data, this->filteredLines[m]->p1, this->filteredLines[m]->p2, Scalar(255,0,0), 1, CV_AA);
+    }
+    cout << endl;
 }
 
 int PlantLineDetection::lineDistance(Point p1, Point p2, Point p3, Point p4){
-    if(p1.x < p3.x){
-        return p3.x - p1.x;
-    }
-    if(p1.x >= p3.x){
-        return p1.x - p3.x;
-    }
+
+    int x1 = p1.x;
+    int y1 = p1.y;
+    int x2 = p2.x;
+    int y2 = p2.y;
+
+    int ya = this->height/2;
+    int xa = (x2*ya+x1*y2-x2*y1-x1*ya)/(y2-y1);
+
+    x1 = p3.x;
+    y1 = p3.y;
+    x2 = p4.x;
+    y2 = p4.y;
+
+    int yb = this->height/2;
+    int xb = (x2*yb+x1*y2-x2*y1-x1*yb)/(y2-y1);
+
+    return abs(xa - xb);
 }
 
 bool PlantLineDetection::isParallelLines(Point p1, Point p2, Point p3, Point p4){
