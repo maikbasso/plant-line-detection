@@ -511,6 +511,11 @@ void PlantLineDetection::showResults(){
     cout << "FPS              = " << (1 / timeInSeconds) << endl;
     cout << "All lines        = " << this->lines.size() << endl;
     cout << "Filtered lines   = " << this->filteredLines.size() << endl;
+    cout << "=========================================" << endl;
+    cout << "List of lines:" << endl;
+    for(int i = 0; i< this->filteredLines.size(); i++){
+        cout  << i << ":\tp1(" << this->filteredLines[i]->p1.x << ", " << this->filteredLines[i]->p1.y << ")\tp2(" << this->filteredLines[i]->p2.x << ", " << this->filteredLines[i]->p2.y << ")" << endl;
+    }
     // instructions for close the program
     cout << "=========================================" << endl;
     cout << "CTRL+C for close in terminal." << endl << "ESC for close in GUI interface." << endl;

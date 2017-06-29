@@ -13,7 +13,6 @@
 #include "line.h"
 #include "pld.h"
 #include "line-follower.h"
-#include "camera-scale.h"
 
 using namespace cv;
 using namespace std;
@@ -59,11 +58,8 @@ void video(){
 
 void photo(){
 
-    // create the mat
-    Mat image;
-
-    // open a image file
-    image = imread("../../photos/test1.png");
+    // create the mat and open an image
+    Mat image = imread("../../photos/test1.png");
 
     // Check for invalid input
     if(!image.data){
@@ -72,59 +68,39 @@ void photo(){
     }
     
     // create the line detection object
-    PlantLineDetection *ld = new PlantLineDetection();
+    PlantLineDetection *pld = new PlantLineDetection();
 
     //create the follow line object
     LineFollower *fl = new LineFollower();
-
-    //create the camera scale object
-    CameraScale *cs = new CameraScale();
+    
+    //set parameters to line follower
+    fl->setImageSize(320,240); // in px
+    fl->setReferenceToFollow(320/2); // in px
+    fl->setCameraApertureAngle(64); //66 <> 62 degrees from raspicam
+    fl->setCameraAngleToGround(15); //in relation of the ground
+    fl->setCameraHeight(2); //in meters
         
     //resize image for input
     Mat tempImage;
     resize(image, tempImage, Size(320,240) );
 
     //set image
-    ld->setImage(tempImage);
+    pld->setImage(tempImage);
 
     // detect
-    ld->detect();
+    pld->detect();
 
     // show results
-    ld->showResults();
+    pld->showResults();
 
-    vector <Line*> lines = ld->getDetectedLines();
-    cout << "List of lines:" << endl;
-    for(int i = 0; i< lines.size(); i++){
-
-        cout  << i << ":\tp1(" << lines[i]->p1.x << ", " << lines[i]->p1.y << ")\tp2(" << lines[i]->p2.x << ", " << lines[i]->p2.y << ")" << endl;
-
-    }
+    vector <Line*> lines = pld->getDetectedLines();
 
     if(lines.size() > 0){
-        fl->setImageSize(320,240);
+
         fl->setLines(lines);
+        fl->follow();
+        fl->showResults();
 
-        cout << "Followed Line: " << endl;
-
-        Line* followedLine = fl->getFollowedLine();
-
-        cout  << "\tp1(" << followedLine->p1.x << ", " << followedLine->p1.y << ")\tp2(" << followedLine->p2.x << ", " << followedLine->p2.y << ")" << endl;
-
-
-        cs->setCameraAperture(64); //66 <> 62 degrees
-        cs->setCameraAngle(15); //in relation of the ground
-        cs->setHeight(2); //in meters
-        cs->setImageSize(320,240); //in pixels
-
-        float* sizeInMeters = cs->getSizeInMeters();
-
-        cout << "Image proportion in meters: " << sizeInMeters[0] << " x " << sizeInMeters[1] << endl;
-
-        float d = (320/2) - ((followedLine->p1.x + followedLine->p2.x)/2);
-        cout << "Distance in px: " << d << endl;
-        float d_metros = d*sizeInMeters[0]/320;
-        cout << "Distance in m: " << d_metros << endl;
     }
 
     //wait key to finish
@@ -177,5 +153,5 @@ int main(){
     }while(op != 0);
 
     // finish the program without errors
-    return 0;    
+    return 0;
 }
