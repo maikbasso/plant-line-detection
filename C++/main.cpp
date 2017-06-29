@@ -13,6 +13,7 @@
 #include "line.h"
 #include "pld.h"
 #include "line-follower.h"
+#include "camera-scale.h"
 
 using namespace cv;
 using namespace std;
@@ -66,7 +67,7 @@ void photo(){
 
     // Check for invalid input
     if(!image.data){
-        cout <<  "Could not open or find the image." << endl;
+        cout << "Could not open or find the image." << endl;
         return;
     }
     
@@ -75,6 +76,9 @@ void photo(){
 
     //create the follow line object
     LineFollower *fl = new LineFollower();
+
+    //create the camera scale object
+    CameraScale *cs = new CameraScale();
         
     //resize image for input
     Mat tempImage;
@@ -97,17 +101,38 @@ void photo(){
 
     }
 
-    fl->setSize(320,240);
-    fl->setLines(lines);
+    if(lines.size() > 0){
+        fl->setImageSize(320,240);
+        fl->setLines(lines);
 
-    cout << "Followed Line: " << endl;
+        cout << "Followed Line: " << endl;
 
-    Line* followedLine = fl->getFollowedLine();
+        Line* followedLine = fl->getFollowedLine();
 
-    cout  << "\tp1(" << followedLine->p1.x << ", " << followedLine->p1.y << ")\tp2(" << followedLine->p2.x << ", " << followedLine->p2.y << ")" << endl;
+        cout  << "\tp1(" << followedLine->p1.x << ", " << followedLine->p1.y << ")\tp2(" << followedLine->p2.x << ", " << followedLine->p2.y << ")" << endl;
+
+
+        cs->setCameraAperture(64); //66 <> 62 degrees
+        cs->setCameraAngle(15); //in relation of the ground
+        cs->setHeight(2); //in meters
+        cs->setImageSize(320,240); //in pixels
+
+        float* sizeInMeters = cs->getSizeInMeters();
+
+        cout << "Image proportion in meters: " << sizeInMeters[0] << " x " << sizeInMeters[1] << endl;
+
+        float d = (320/2) - ((followedLine->p1.x + followedLine->p2.x)/2);
+        cout << "Distance in px: " << d << endl;
+        float d_metros = d*sizeInMeters[0]/320;
+        cout << "Distance in m: " << d_metros << endl;
+    }
 
     //wait key to finish
     waitKey(0);
+}
+
+void piCamera(){
+
 }
 
 int main(){
@@ -117,9 +142,10 @@ int main(){
     do{
         // ask user for use video or photo data
         cout << "Select the input data:" << endl;
-        cout << "[0] exit" << endl;
-        cout << "[1] video" << endl;
-        cout << "[2] photo" << endl;
+        cout << "\t[0] Exit" << endl;
+        cout << "\t[1] Video" << endl;
+        cout << "\t[2] Photo" << endl;
+        cout << "\t[3] Raspicam" << endl;
         cout << ">> ";
         //cin >> op;
         //fixed for build it in sublime cout << "2" << endl;
@@ -135,6 +161,11 @@ int main(){
             photo();
             op = 0;
         }
+        else if(op == 3){
+            cout << "Raspicam was selected as input!" << endl;
+            piCamera();
+            op = 0;
+        }
         else if(op == 0){
             cout << "Bye Bye!" << endl;
         }
@@ -145,6 +176,6 @@ int main(){
 
     }while(op != 0);
 
-    // end the program without errors
+    // finish the program without errors
     return 0;    
 }

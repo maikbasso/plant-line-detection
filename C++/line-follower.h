@@ -19,7 +19,7 @@ private:
 public:
 	LineFollower();
     void setLines(vector<Line*> lines);
-    void setSize(int width, int height);
+    void setImageSize(int width, int height);
     Line* getFollowedLine();
 };
 
@@ -33,7 +33,7 @@ void LineFollower::setLines(vector<Line*> lines){
 	this->lines = lines;
 }
 
-void LineFollower::setSize(int width, int height){
+void LineFollower::setImageSize(int width, int height){
 	this->width = width;
 	this->height = height;
 }
