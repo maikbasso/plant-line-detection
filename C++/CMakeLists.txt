@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 project( PLD )
 find_package( OpenCV REQUIRED )
+include_directories( libs/PLD )
 add_executable( main main.cpp )
 target_link_libraries( main ${OpenCV_LIBS} )

@@ -1,18 +1,12 @@
 /*
     @Author: Maik Basso <maik@maikbasso.com.br> 
-
-    To compile and run program:
-    g++ -std=c++11 pld-video.cpp -o pld-video `pkg-config --cflags --libs opencv` && ./pld-video
-
 */
 
-//Include file for every supported OpenCV function
-#include <opencv2/opencv.hpp>
 #include <iostream>
-//my libraries
-#include "line.h"
-#include "pld.h"
-#include "line-follower.h"
+#include <opencv2/opencv.hpp>
+#include "line.hpp"
+#include "pld.hpp"
+#include "line-follower.hpp"
 
 using namespace cv;
 using namespace std;

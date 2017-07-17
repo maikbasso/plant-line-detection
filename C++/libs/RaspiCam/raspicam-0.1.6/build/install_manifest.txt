@@ -1,0 +1,14 @@
+/usr/local/lib/cmake/Findraspicam.cmake
+/usr/local/lib/cmake/raspicamConfig.cmake
+/usr/local/lib/libraspicam.so.0.1.6
+/usr/local/lib/libraspicam.so.0.1
+/usr/local/lib/libraspicam.so
+/usr/local/lib/libraspicam_cv.so
+/usr/local/include/raspicam/raspicamtypes.h
+/usr/local/include/raspicam/raspicam.h
+/usr/local/include/raspicam/raspicam_cv.h
+/usr/local/include/raspicam/raspicam_still_cv.h
+/usr/local/bin/raspicam_test
+/usr/local/bin/raspicam_still_test
+/usr/local/bin/raspicam_cv_test
+/usr/local/bin/raspicam_cv_still_test
