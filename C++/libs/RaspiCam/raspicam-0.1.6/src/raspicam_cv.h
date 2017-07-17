@@ -103,6 +103,9 @@ namespace raspicam {
         /** Returns the camera identifier. We assume the camera id is the one of the raspberry obtained using raspberry serial number obtained in /proc/cpuinfo
          */
         std::string getId()const;
+        
+        void setHorizontalFlip ( bool hFlip );
+        void setVerticalFlip ( bool vFlip );
 
         private:
         cv::Mat image;

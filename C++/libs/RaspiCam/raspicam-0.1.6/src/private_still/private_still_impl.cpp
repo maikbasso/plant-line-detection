@@ -399,6 +399,8 @@ namespace raspicam {
             userdata->imageCallback = userCallback;
             encoder_output_port->userdata = ( struct MMAL_PORT_USERDATA_T * ) userdata;
             startCapture();
+            //maik change
+            return 0;
         }
 
         int Private_Impl_Still::startCapture() {
@@ -601,9 +603,10 @@ namespace raspicam {
         }
 
         void Private_Impl_Still::commitBrightness() {
-            mmal_port_parameter_set_rational ( camera->control, MMAL_PARAMETER_BRIGHTNESS, ( MMAL_RATIONAL_T ) {
-                brightness, 100
-            } );
+            //maik change
+            //mmal_port_parameter_set_rational ( camera->control, MMAL_PARAMETER_BRIGHTNESS, ( MMAL_RATIONAL_T ) {
+            //    brightness, 100
+            //} );
         }
 
         void Private_Impl_Still::commitQuality() {
@@ -816,6 +819,9 @@ namespace raspicam {
                 return MMAL_PARAM_IMAGEFX_COLOURBALANCE;
             case RASPICAM_IMAGE_EFFECT_CARTOON:
                 return MMAL_PARAM_IMAGEFX_CARTOON;
+            //maik change
+            default:
+				return MMAL_PARAM_IMAGEFX_NONE;
             }
         }
         

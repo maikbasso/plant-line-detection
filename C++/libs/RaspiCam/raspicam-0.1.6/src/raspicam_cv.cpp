@@ -218,5 +218,12 @@ namespace raspicam {
     std::string RaspiCam_Cv::getId() const{
         return _impl->getId();
     }
+    
+    void RaspiCam_Cv::setHorizontalFlip ( bool hFlip ) {
+        _impl->setHorizontalFlip ( hFlip );
+    }
+    void RaspiCam_Cv::setVerticalFlip ( bool vFlip ) {
+        _impl->setVerticalFlip ( vFlip );
+    }
 
 }

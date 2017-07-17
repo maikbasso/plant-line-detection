@@ -1,0 +1,1451 @@
+ok: CLASS ..Ml : 
+
+
+===== Header: /home/pi/opencv-3.1.0/modules/ml/include/opencv2/ml.hpp =====
+Namespaces: set([u'cv', u'cv.ml'])
+
+--- Incoming ---
+[u'const cv.ml.VAR_NUMERICAL', u'0', [], []]
+ok: CONST VAR_NUMERICAL=0
+
+--- Incoming ---
+[u'const cv.ml.VAR_ORDERED', u'0', [], []]
+ok: CONST VAR_ORDERED=0
+
+--- Incoming ---
+[u'const cv.ml.VAR_CATEGORICAL', u'1', [], []]
+ok: CONST VAR_CATEGORICAL=1
+
+--- Incoming ---
+[u'const cv.ml.TEST_ERROR', u'0', [], []]
+ok: CONST TEST_ERROR=0
+
+--- Incoming ---
+[u'const cv.ml.TRAIN_ERROR', u'1', [], []]
+ok: CONST TRAIN_ERROR=1
+
+--- Incoming ---
+[u'const cv.ml.ROW_SAMPLE', u'0', [], []]
+ok: CONST ROW_SAMPLE=0
+
+--- Incoming ---
+[u'const cv.ml.COL_SAMPLE', u'1', [], []]
+ok: CONST COL_SAMPLE=1
+
+--- Incoming ---
+[u'class cv.ml.TrainData', '', [], []]
+ok: CLASS cv.ml..TrainData : 
+
+--- Incoming ---
+[u'cv.ml.TrainData.getLayout', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.TrainData.getLayout []>
+
+--- Incoming ---
+[u'cv.ml.TrainData.getNTrainSamples', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.TrainData.getNTrainSamples []>
+
+--- Incoming ---
+[u'cv.ml.TrainData.getNTestSamples', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.TrainData.getNTestSamples []>
+
+--- Incoming ---
+[u'cv.ml.TrainData.getNSamples', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.TrainData.getNSamples []>
+
+--- Incoming ---
+[u'cv.ml.TrainData.getNVars', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.TrainData.getNVars []>
+
+--- Incoming ---
+[u'cv.ml.TrainData.getNAllVars', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.TrainData.getNAllVars []>
+
+--- Incoming ---
+[   u'cv.ml.TrainData.getSample',
+    u'void',
+    [],
+    [   ['Mat', u'varIdx', '', []],
+        [u'int', u'sidx', u'', []],
+        [u'float*', u'buf', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.TrainData.getSample [ARG Mat varIdx=, ARG int sidx=, ARG float * buf=]>
+
+--- Incoming ---
+[u'cv.ml.TrainData.getSamples', u'Mat', [], [], u'Mat']
+ok: FUNC <Mat cv.ml.TrainData.getSamples []>
+
+--- Incoming ---
+[u'cv.ml.TrainData.getMissing', u'Mat', [], [], u'Mat']
+ok: FUNC <Mat cv.ml.TrainData.getMissing []>
+
+--- Incoming ---
+[   u'cv.ml.TrainData.getTrainSamples',
+    u'Mat',
+    [],
+    [   [u'int', u'layout', u'ROW_SAMPLE', []],
+        [u'bool', u'compressSamples', u'true', []],
+        [u'bool', u'compressVars', u'true', []]],
+    u'Mat']
+ok: FUNC <Mat cv.ml.TrainData.getTrainSamples [ARG int layout=ROW_SAMPLE, ARG bool compressSamples=true, ARG bool compressVars=true]>
+
+--- Incoming ---
+[u'cv.ml.TrainData.getTrainResponses', u'Mat', [], [], u'Mat']
+ok: FUNC <Mat cv.ml.TrainData.getTrainResponses []>
+
+--- Incoming ---
+[u'cv.ml.TrainData.getTrainNormCatResponses', u'Mat', [], [], u'Mat']
+ok: FUNC <Mat cv.ml.TrainData.getTrainNormCatResponses []>
+
+--- Incoming ---
+[u'cv.ml.TrainData.getTestResponses', u'Mat', [], [], u'Mat']
+ok: FUNC <Mat cv.ml.TrainData.getTestResponses []>
+
+--- Incoming ---
+[u'cv.ml.TrainData.getTestNormCatResponses', u'Mat', [], [], u'Mat']
+ok: FUNC <Mat cv.ml.TrainData.getTestNormCatResponses []>
+
+--- Incoming ---
+[u'cv.ml.TrainData.getResponses', u'Mat', [], [], u'Mat']
+ok: FUNC <Mat cv.ml.TrainData.getResponses []>
+
+--- Incoming ---
+[u'cv.ml.TrainData.getNormCatResponses', u'Mat', [], [], u'Mat']
+ok: FUNC <Mat cv.ml.TrainData.getNormCatResponses []>
+
+--- Incoming ---
+[u'cv.ml.TrainData.getSampleWeights', u'Mat', [], [], u'Mat']
+ok: FUNC <Mat cv.ml.TrainData.getSampleWeights []>
+
+--- Incoming ---
+[u'cv.ml.TrainData.getTrainSampleWeights', u'Mat', [], [], u'Mat']
+ok: FUNC <Mat cv.ml.TrainData.getTrainSampleWeights []>
+
+--- Incoming ---
+[u'cv.ml.TrainData.getTestSampleWeights', u'Mat', [], [], u'Mat']
+ok: FUNC <Mat cv.ml.TrainData.getTestSampleWeights []>
+
+--- Incoming ---
+[u'cv.ml.TrainData.getVarIdx', u'Mat', [], [], u'Mat']
+ok: FUNC <Mat cv.ml.TrainData.getVarIdx []>
+
+--- Incoming ---
+[u'cv.ml.TrainData.getVarType', u'Mat', [], [], u'Mat']
+ok: FUNC <Mat cv.ml.TrainData.getVarType []>
+
+--- Incoming ---
+[u'cv.ml.TrainData.getResponseType', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.TrainData.getResponseType []>
+
+--- Incoming ---
+[u'cv.ml.TrainData.getTrainSampleIdx', u'Mat', [], [], u'Mat']
+ok: FUNC <Mat cv.ml.TrainData.getTrainSampleIdx []>
+
+--- Incoming ---
+[u'cv.ml.TrainData.getTestSampleIdx', u'Mat', [], [], u'Mat']
+ok: FUNC <Mat cv.ml.TrainData.getTestSampleIdx []>
+
+--- Incoming ---
+[   u'cv.ml.TrainData.getValues',
+    u'void',
+    [],
+    [   [u'int', u'vi', u'', []],
+        ['Mat', u'sidx', '', []],
+        [u'float*', u'values', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.TrainData.getValues [ARG int vi=, ARG Mat sidx=, ARG float * values=]>
+
+--- Incoming ---
+[u'cv.ml.TrainData.getDefaultSubstValues', u'Mat', [], [], u'Mat']
+ok: FUNC <Mat cv.ml.TrainData.getDefaultSubstValues []>
+
+--- Incoming ---
+[   u'cv.ml.TrainData.getCatCount',
+    u'int',
+    [],
+    [[u'int', u'vi', u'', []]],
+    u'int']
+ok: FUNC <int cv.ml.TrainData.getCatCount [ARG int vi=]>
+
+--- Incoming ---
+[u'cv.ml.TrainData.getClassLabels', u'Mat', [], [], u'Mat']
+ok: FUNC <Mat cv.ml.TrainData.getClassLabels []>
+
+--- Incoming ---
+[u'cv.ml.TrainData.getCatOfs', u'Mat', [], [], u'Mat']
+ok: FUNC <Mat cv.ml.TrainData.getCatOfs []>
+
+--- Incoming ---
+[u'cv.ml.TrainData.getCatMap', u'Mat', [], [], u'Mat']
+ok: FUNC <Mat cv.ml.TrainData.getCatMap []>
+
+--- Incoming ---
+[   u'cv.ml.TrainData.setTrainTestSplit',
+    u'void',
+    [],
+    [[u'int', u'count', u'', []], [u'bool', u'shuffle', u'true', []]],
+    u'void']
+ok: FUNC <void cv.ml.TrainData.setTrainTestSplit [ARG int count=, ARG bool shuffle=true]>
+
+--- Incoming ---
+[   u'cv.ml.TrainData.setTrainTestSplitRatio',
+    u'void',
+    [],
+    [[u'double', u'ratio', u'', []], [u'bool', u'shuffle', u'true', []]],
+    u'void']
+ok: FUNC <void cv.ml.TrainData.setTrainTestSplitRatio [ARG double ratio=, ARG bool shuffle=true]>
+
+--- Incoming ---
+[u'cv.ml.TrainData.shuffleTrainTest', u'void', [], [], u'void']
+ok: FUNC <void cv.ml.TrainData.shuffleTrainTest []>
+
+--- Incoming ---
+[   u'cv.ml.TrainData.getSubVector',
+    u'Mat',
+    ['/S'],
+    [[u'Mat', u'vec', u'', []], [u'Mat', u'idx', u'', []]],
+    u'Mat']
+ok: FUNC <Mat cv.ml.TrainData.getSubVector [ARG Mat vec=, ARG Mat idx=]>
+
+--- Incoming ---
+[   u'cv.ml.TrainData.create',
+    u'Ptr_TrainData',
+    ['/S'],
+    [   ['Mat', u'samples', '', []],
+        [u'int', u'layout', u'', []],
+        ['Mat', u'responses', '', []],
+        ['Mat', u'varIdx', u'Mat()', []],
+        ['Mat', u'sampleIdx', u'Mat()', []],
+        ['Mat', u'sampleWeights', u'Mat()', []],
+        ['Mat', u'varType', u'Mat()', []]],
+    u'Ptr<TrainData>']
+ok: FUNC <Ptr_TrainData cv.ml.TrainData.create [ARG Mat samples=, ARG int layout=, ARG Mat responses=, ARG Mat varIdx=Mat(), ARG Mat sampleIdx=Mat(), ARG Mat sampleWeights=Mat(), ARG Mat varType=Mat()]>
+
+--- Incoming ---
+[u'class cv.ml.StatModel', ': cv::Algorithm', [], []]
+ok: CLASS cv.ml..StatModel : Algorithm
+
+--- Incoming ---
+[u'const cv.ml.StatModel.UPDATE_MODEL', u'1', [], []]
+ok: CONST UPDATE_MODEL=1
+
+--- Incoming ---
+[u'const cv.ml.StatModel.RAW_OUTPUT', u'1', [], []]
+ok: CONST RAW_OUTPUT=1
+
+--- Incoming ---
+[u'const cv.ml.StatModel.COMPRESSED_INPUT', u'2', [], []]
+ok: CONST COMPRESSED_INPUT=2
+
+--- Incoming ---
+[u'const cv.ml.StatModel.PREPROCESSED_INPUT', u'4', [], []]
+ok: CONST PREPROCESSED_INPUT=4
+
+--- Incoming ---
+[u'cv.ml.StatModel.getVarCount', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.StatModel.getVarCount []>
+
+--- Incoming ---
+[u'cv.ml.StatModel.empty', u'bool', [], [], u'bool']
+ok: FUNC <bool cv.ml.StatModel.empty []>
+
+--- Incoming ---
+[u'cv.ml.StatModel.isTrained', u'bool', [], [], u'bool']
+ok: FUNC <bool cv.ml.StatModel.isTrained []>
+
+--- Incoming ---
+[u'cv.ml.StatModel.isClassifier', u'bool', [], [], u'bool']
+ok: FUNC <bool cv.ml.StatModel.isClassifier []>
+
+--- Incoming ---
+[   u'cv.ml.StatModel.train',
+    u'bool',
+    [],
+    [[u'Ptr_TrainData', u'trainData', u'', []], [u'int', u'flags', u'0', []]],
+    u'bool']
+ok: FUNC <bool cv.ml.StatModel.train [ARG Ptr_TrainData trainData=, ARG int flags=0]>
+
+--- Incoming ---
+[   u'cv.ml.StatModel.train',
+    u'bool',
+    [],
+    [   ['Mat', u'samples', '', []],
+        [u'int', u'layout', u'', []],
+        ['Mat', u'responses', '', []]],
+    u'bool']
+ok: FUNC <bool cv.ml.StatModel.train [ARG Mat samples=, ARG int layout=, ARG Mat responses=]>
+
+--- Incoming ---
+[   u'cv.ml.StatModel.calcError',
+    u'float',
+    [],
+    [   [u'Ptr_TrainData', u'data', u'', []],
+        [u'bool', u'test', u'', []],
+        ['Mat', u'resp', '', ['/O']]],
+    u'float']
+ok: FUNC <float cv.ml.StatModel.calcError [ARG Ptr_TrainData data=, ARG bool test=, ARG Mat resp=]>
+
+--- Incoming ---
+[   u'cv.ml.StatModel.predict',
+    u'float',
+    [],
+    [   ['Mat', u'samples', '', []],
+        ['Mat', u'results', u'Mat()', ['/O']],
+        [u'int', u'flags', u'0', []]],
+    u'float']
+ok: FUNC <float cv.ml.StatModel.predict [ARG Mat samples=, ARG Mat results=Mat(), ARG int flags=0]>
+
+--- Incoming ---
+[u'class cv.ml.NormalBayesClassifier', u': cv::ml::StatModel', [], []]
+ok: CLASS cv.ml..NormalBayesClassifier : StatModel
+
+--- Incoming ---
+[   u'cv.ml.NormalBayesClassifier.predictProb',
+    u'float',
+    [],
+    [   ['Mat', u'inputs', '', []],
+        ['Mat', u'outputs', '', ['/O']],
+        ['Mat', u'outputProbs', '', ['/O']],
+        [u'int', u'flags', u'0', []]],
+    u'float']
+ok: FUNC <float cv.ml.NormalBayesClassifier.predictProb [ARG Mat inputs=, ARG Mat outputs=, ARG Mat outputProbs=, ARG int flags=0]>
+
+--- Incoming ---
+[   u'cv.ml.NormalBayesClassifier.create',
+    u'Ptr_NormalBayesClassifier',
+    ['/S'],
+    [],
+    u'Ptr<NormalBayesClassifier>']
+ok: FUNC <Ptr_NormalBayesClassifier cv.ml.NormalBayesClassifier.create []>
+
+--- Incoming ---
+[u'class cv.ml.KNearest', u': cv::ml::StatModel', [], []]
+ok: CLASS cv.ml..KNearest : StatModel
+
+--- Incoming ---
+[u'cv.ml.KNearest.getDefaultK', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.KNearest.getDefaultK []>
+
+--- Incoming ---
+[   u'cv.ml.KNearest.setDefaultK',
+    u'void',
+    [],
+    [[u'int', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.KNearest.setDefaultK [ARG int val=]>
+
+--- Incoming ---
+[u'cv.ml.KNearest.getIsClassifier', u'bool', [], [], u'bool']
+ok: FUNC <bool cv.ml.KNearest.getIsClassifier []>
+
+--- Incoming ---
+[   u'cv.ml.KNearest.setIsClassifier',
+    u'void',
+    [],
+    [[u'bool', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.KNearest.setIsClassifier [ARG bool val=]>
+
+--- Incoming ---
+[u'cv.ml.KNearest.getEmax', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.KNearest.getEmax []>
+
+--- Incoming ---
+[u'cv.ml.KNearest.setEmax', u'void', [], [[u'int', u'val', u'', []]], u'void']
+ok: FUNC <void cv.ml.KNearest.setEmax [ARG int val=]>
+
+--- Incoming ---
+[u'cv.ml.KNearest.getAlgorithmType', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.KNearest.getAlgorithmType []>
+
+--- Incoming ---
+[   u'cv.ml.KNearest.setAlgorithmType',
+    u'void',
+    [],
+    [[u'int', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.KNearest.setAlgorithmType [ARG int val=]>
+
+--- Incoming ---
+[   u'cv.ml.KNearest.findNearest',
+    u'float',
+    [],
+    [   ['Mat', u'samples', '', []],
+        [u'int', u'k', u'', []],
+        ['Mat', u'results', '', ['/O']],
+        ['Mat', u'neighborResponses', u'Mat()', ['/O']],
+        ['Mat', u'dist', u'Mat()', ['/O']]],
+    u'float']
+ok: FUNC <float cv.ml.KNearest.findNearest [ARG Mat samples=, ARG int k=, ARG Mat results=, ARG Mat neighborResponses=Mat(), ARG Mat dist=Mat()]>
+
+--- Incoming ---
+[u'const cv.ml.KNearest.BRUTE_FORCE', u'1', [], []]
+ok: CONST BRUTE_FORCE=1
+
+--- Incoming ---
+[u'const cv.ml.KNearest.KDTREE', u'2', [], []]
+ok: CONST KDTREE=2
+
+--- Incoming ---
+[u'cv.ml.KNearest.create', u'Ptr_KNearest', ['/S'], [], u'Ptr<KNearest>']
+ok: FUNC <Ptr_KNearest cv.ml.KNearest.create []>
+
+--- Incoming ---
+[u'class cv.ml.SVM', u': cv::ml::StatModel', [], []]
+ok: CLASS cv.ml..SVM : StatModel
+
+--- Incoming ---
+[u'cv.ml.SVM.getType', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.SVM.getType []>
+
+--- Incoming ---
+[u'cv.ml.SVM.setType', u'void', [], [[u'int', u'val', u'', []]], u'void']
+ok: FUNC <void cv.ml.SVM.setType [ARG int val=]>
+
+--- Incoming ---
+[u'cv.ml.SVM.getGamma', u'double', [], [], u'double']
+ok: FUNC <double cv.ml.SVM.getGamma []>
+
+--- Incoming ---
+[u'cv.ml.SVM.setGamma', u'void', [], [[u'double', u'val', u'', []]], u'void']
+ok: FUNC <void cv.ml.SVM.setGamma [ARG double val=]>
+
+--- Incoming ---
+[u'cv.ml.SVM.getCoef0', u'double', [], [], u'double']
+ok: FUNC <double cv.ml.SVM.getCoef0 []>
+
+--- Incoming ---
+[u'cv.ml.SVM.setCoef0', u'void', [], [[u'double', u'val', u'', []]], u'void']
+ok: FUNC <void cv.ml.SVM.setCoef0 [ARG double val=]>
+
+--- Incoming ---
+[u'cv.ml.SVM.getDegree', u'double', [], [], u'double']
+ok: FUNC <double cv.ml.SVM.getDegree []>
+
+--- Incoming ---
+[u'cv.ml.SVM.setDegree', u'void', [], [[u'double', u'val', u'', []]], u'void']
+ok: FUNC <void cv.ml.SVM.setDegree [ARG double val=]>
+
+--- Incoming ---
+[u'cv.ml.SVM.getC', u'double', [], [], u'double']
+ok: FUNC <double cv.ml.SVM.getC []>
+
+--- Incoming ---
+[u'cv.ml.SVM.setC', u'void', [], [[u'double', u'val', u'', []]], u'void']
+ok: FUNC <void cv.ml.SVM.setC [ARG double val=]>
+
+--- Incoming ---
+[u'cv.ml.SVM.getNu', u'double', [], [], u'double']
+ok: FUNC <double cv.ml.SVM.getNu []>
+
+--- Incoming ---
+[u'cv.ml.SVM.setNu', u'void', [], [[u'double', u'val', u'', []]], u'void']
+ok: FUNC <void cv.ml.SVM.setNu [ARG double val=]>
+
+--- Incoming ---
+[u'cv.ml.SVM.getP', u'double', [], [], u'double']
+ok: FUNC <double cv.ml.SVM.getP []>
+
+--- Incoming ---
+[u'cv.ml.SVM.setP', u'void', [], [[u'double', u'val', u'', []]], u'void']
+ok: FUNC <void cv.ml.SVM.setP [ARG double val=]>
+
+--- Incoming ---
+[u'cv.ml.SVM.getClassWeights', u'Mat', [], [], u'cv::Mat']
+ok: FUNC <Mat cv.ml.SVM.getClassWeights []>
+
+--- Incoming ---
+[   u'cv.ml.SVM.setClassWeights',
+    u'void',
+    [],
+    [[u'Mat', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.SVM.setClassWeights [ARG Mat val=]>
+
+--- Incoming ---
+[u'cv.ml.SVM.getTermCriteria', u'TermCriteria', [], [], u'cv::TermCriteria']
+ok: FUNC <TermCriteria cv.ml.SVM.getTermCriteria []>
+
+--- Incoming ---
+[   u'cv.ml.SVM.setTermCriteria',
+    u'void',
+    [],
+    [[u'TermCriteria', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.SVM.setTermCriteria [ARG TermCriteria val=]>
+
+--- Incoming ---
+[u'cv.ml.SVM.getKernelType', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.SVM.getKernelType []>
+
+--- Incoming ---
+[   u'cv.ml.SVM.setKernel',
+    u'void',
+    [],
+    [[u'int', u'kernelType', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.SVM.setKernel [ARG int kernelType=]>
+
+--- Incoming ---
+[u'const cv.ml.SVM.C_SVC', u'100', [], []]
+ok: CONST C_SVC=100
+
+--- Incoming ---
+[u'const cv.ml.SVM.NU_SVC', u'101', [], []]
+ok: CONST NU_SVC=101
+
+--- Incoming ---
+[u'const cv.ml.SVM.ONE_CLASS', u'102', [], []]
+ok: CONST ONE_CLASS=102
+
+--- Incoming ---
+[u'const cv.ml.SVM.EPS_SVR', u'103', [], []]
+ok: CONST EPS_SVR=103
+
+--- Incoming ---
+[u'const cv.ml.SVM.NU_SVR', u'104', [], []]
+ok: CONST NU_SVR=104
+
+--- Incoming ---
+[u'const cv.ml.SVM.CUSTOM', u'-1', [], []]
+ok: CONST CUSTOM=-1
+
+--- Incoming ---
+[u'const cv.ml.SVM.LINEAR', u'0', [], []]
+ok: CONST LINEAR=0
+
+--- Incoming ---
+[u'const cv.ml.SVM.POLY', u'1', [], []]
+ok: CONST POLY=1
+
+--- Incoming ---
+[u'const cv.ml.SVM.RBF', u'2', [], []]
+ok: CONST RBF=2
+
+--- Incoming ---
+[u'const cv.ml.SVM.SIGMOID', u'3', [], []]
+ok: CONST SIGMOID=3
+
+--- Incoming ---
+[u'const cv.ml.SVM.CHI2', u'4', [], []]
+ok: CONST CHI2=4
+
+--- Incoming ---
+[u'const cv.ml.SVM.INTER', u'5', [], []]
+ok: CONST INTER=5
+
+--- Incoming ---
+[u'const cv.ml.SVM.C', u'0', [], []]
+ok: CONST C=0
+
+--- Incoming ---
+[u'const cv.ml.SVM.GAMMA', u'1', [], []]
+ok: CONST GAMMA=1
+
+--- Incoming ---
+[u'const cv.ml.SVM.P', u'2', [], []]
+ok: CONST P=2
+
+--- Incoming ---
+[u'const cv.ml.SVM.NU', u'3', [], []]
+ok: CONST NU=3
+
+--- Incoming ---
+[u'const cv.ml.SVM.COEF', u'4', [], []]
+ok: CONST COEF=4
+
+--- Incoming ---
+[u'const cv.ml.SVM.DEGREE', u'5', [], []]
+ok: CONST DEGREE=5
+
+--- Incoming ---
+[u'cv.ml.SVM.getSupportVectors', u'Mat', [], [], u'Mat']
+ok: FUNC <Mat cv.ml.SVM.getSupportVectors []>
+
+--- Incoming ---
+[u'cv.ml.SVM.getUncompressedSupportVectors', u'Mat', [], [], u'Mat']
+ok: FUNC <Mat cv.ml.SVM.getUncompressedSupportVectors []>
+
+--- Incoming ---
+[   u'cv.ml.SVM.getDecisionFunction',
+    u'double',
+    [],
+    [   [u'int', u'i', u'', []],
+        ['Mat', u'alpha', '', ['/O']],
+        ['Mat', u'svidx', '', ['/O']]],
+    u'double']
+ok: FUNC <double cv.ml.SVM.getDecisionFunction [ARG int i=, ARG Mat alpha=, ARG Mat svidx=]>
+
+--- Incoming ---
+[u'cv.ml.SVM.create', u'Ptr_SVM', ['/S'], [], u'Ptr<SVM>']
+ok: FUNC <Ptr_SVM cv.ml.SVM.create []>
+
+--- Incoming ---
+[u'class cv.ml.EM', u': cv::ml::StatModel', [], []]
+ok: CLASS cv.ml..EM : StatModel
+
+--- Incoming ---
+[u'const cv.ml.EM.COV_MAT_SPHERICAL', u'0', [], []]
+ok: CONST COV_MAT_SPHERICAL=0
+
+--- Incoming ---
+[u'const cv.ml.EM.COV_MAT_DIAGONAL', u'1', [], []]
+ok: CONST COV_MAT_DIAGONAL=1
+
+--- Incoming ---
+[u'const cv.ml.EM.COV_MAT_GENERIC', u'2', [], []]
+ok: CONST COV_MAT_GENERIC=2
+
+--- Incoming ---
+[u'const cv.ml.EM.COV_MAT_DEFAULT', u'COV_MAT_DIAGONAL', [], []]
+ok: CONST COV_MAT_DEFAULT=COV_MAT_DIAGONAL
+
+--- Incoming ---
+[u'const cv.ml.EM.DEFAULT_NCLUSTERS', u'5', [], []]
+ok: CONST DEFAULT_NCLUSTERS=5
+
+--- Incoming ---
+[u'const cv.ml.EM.DEFAULT_MAX_ITERS', u'100', [], []]
+ok: CONST DEFAULT_MAX_ITERS=100
+
+--- Incoming ---
+[u'const cv.ml.EM.START_E_STEP', u'1', [], []]
+ok: CONST START_E_STEP=1
+
+--- Incoming ---
+[u'const cv.ml.EM.START_M_STEP', u'2', [], []]
+ok: CONST START_M_STEP=2
+
+--- Incoming ---
+[u'const cv.ml.EM.START_AUTO_STEP', u'0', [], []]
+ok: CONST START_AUTO_STEP=0
+
+--- Incoming ---
+[u'cv.ml.EM.getClustersNumber', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.EM.getClustersNumber []>
+
+--- Incoming ---
+[   u'cv.ml.EM.setClustersNumber',
+    u'void',
+    [],
+    [[u'int', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.EM.setClustersNumber [ARG int val=]>
+
+--- Incoming ---
+[u'cv.ml.EM.getCovarianceMatrixType', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.EM.getCovarianceMatrixType []>
+
+--- Incoming ---
+[   u'cv.ml.EM.setCovarianceMatrixType',
+    u'void',
+    [],
+    [[u'int', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.EM.setCovarianceMatrixType [ARG int val=]>
+
+--- Incoming ---
+[u'cv.ml.EM.getTermCriteria', u'TermCriteria', [], [], u'TermCriteria']
+ok: FUNC <TermCriteria cv.ml.EM.getTermCriteria []>
+
+--- Incoming ---
+[   u'cv.ml.EM.setTermCriteria',
+    u'void',
+    [],
+    [[u'TermCriteria', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.EM.setTermCriteria [ARG TermCriteria val=]>
+
+--- Incoming ---
+[u'cv.ml.EM.getWeights', u'Mat', [], [], u'Mat']
+ok: FUNC <Mat cv.ml.EM.getWeights []>
+
+--- Incoming ---
+[u'cv.ml.EM.getMeans', u'Mat', [], [], u'Mat']
+ok: FUNC <Mat cv.ml.EM.getMeans []>
+
+--- Incoming ---
+[   u'cv.ml.EM.getCovs',
+    u'void',
+    [],
+    [[u'vector_Mat', u'covs', u'', ['/O']]],
+    u'void']
+ok: FUNC <void cv.ml.EM.getCovs [ARG vector_Mat covs=]>
+
+--- Incoming ---
+[   u'cv.ml.EM.predict2',
+    u'Vec2d',
+    [],
+    [['Mat', u'sample', '', []], ['Mat', u'probs', '', ['/O']]],
+    u'Vec2d']
+ok: FUNC <Vec2d cv.ml.EM.predict2 [ARG Mat sample=, ARG Mat probs=]>
+
+--- Incoming ---
+[   u'cv.ml.EM.trainEM',
+    u'bool',
+    [],
+    [   ['Mat', u'samples', '', []],
+        ['Mat', u'logLikelihoods', u'Mat()', ['/O']],
+        ['Mat', u'labels', u'Mat()', ['/O']],
+        ['Mat', u'probs', u'Mat()', ['/O']]],
+    u'bool']
+ok: FUNC <bool cv.ml.EM.trainEM [ARG Mat samples=, ARG Mat logLikelihoods=Mat(), ARG Mat labels=Mat(), ARG Mat probs=Mat()]>
+
+--- Incoming ---
+[   u'cv.ml.EM.trainE',
+    u'bool',
+    [],
+    [   ['Mat', u'samples', '', []],
+        ['Mat', u'means0', '', []],
+        ['Mat', u'covs0', u'Mat()', []],
+        ['Mat', u'weights0', u'Mat()', []],
+        ['Mat', u'logLikelihoods', u'Mat()', ['/O']],
+        ['Mat', u'labels', u'Mat()', ['/O']],
+        ['Mat', u'probs', u'Mat()', ['/O']]],
+    u'bool']
+ok: FUNC <bool cv.ml.EM.trainE [ARG Mat samples=, ARG Mat means0=, ARG Mat covs0=Mat(), ARG Mat weights0=Mat(), ARG Mat logLikelihoods=Mat(), ARG Mat labels=Mat(), ARG Mat probs=Mat()]>
+
+--- Incoming ---
+[   u'cv.ml.EM.trainM',
+    u'bool',
+    [],
+    [   ['Mat', u'samples', '', []],
+        ['Mat', u'probs0', '', []],
+        ['Mat', u'logLikelihoods', u'Mat()', ['/O']],
+        ['Mat', u'labels', u'Mat()', ['/O']],
+        ['Mat', u'probs', u'Mat()', ['/O']]],
+    u'bool']
+ok: FUNC <bool cv.ml.EM.trainM [ARG Mat samples=, ARG Mat probs0=, ARG Mat logLikelihoods=Mat(), ARG Mat labels=Mat(), ARG Mat probs=Mat()]>
+
+--- Incoming ---
+[u'cv.ml.EM.create', u'Ptr_EM', ['/S'], [], u'Ptr<EM>']
+ok: FUNC <Ptr_EM cv.ml.EM.create []>
+
+--- Incoming ---
+[u'class cv.ml.DTrees', u': cv::ml::StatModel', [], []]
+ok: CLASS cv.ml..DTrees : StatModel
+
+--- Incoming ---
+[u'const cv.ml.DTrees.PREDICT_AUTO', u'0', [], []]
+ok: CONST PREDICT_AUTO=0
+
+--- Incoming ---
+[u'const cv.ml.DTrees.PREDICT_SUM', u'(1<<8)', [], []]
+ok: CONST PREDICT_SUM=(1<<8)
+
+--- Incoming ---
+[u'const cv.ml.DTrees.PREDICT_MAX_VOTE', u'(2<<8)', [], []]
+ok: CONST PREDICT_MAX_VOTE=(2<<8)
+
+--- Incoming ---
+[u'const cv.ml.DTrees.PREDICT_MASK', u'(3<<8)', [], []]
+ok: CONST PREDICT_MASK=(3<<8)
+
+--- Incoming ---
+[u'cv.ml.DTrees.getMaxCategories', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.DTrees.getMaxCategories []>
+
+--- Incoming ---
+[   u'cv.ml.DTrees.setMaxCategories',
+    u'void',
+    [],
+    [[u'int', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.DTrees.setMaxCategories [ARG int val=]>
+
+--- Incoming ---
+[u'cv.ml.DTrees.getMaxDepth', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.DTrees.getMaxDepth []>
+
+--- Incoming ---
+[   u'cv.ml.DTrees.setMaxDepth',
+    u'void',
+    [],
+    [[u'int', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.DTrees.setMaxDepth [ARG int val=]>
+
+--- Incoming ---
+[u'cv.ml.DTrees.getMinSampleCount', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.DTrees.getMinSampleCount []>
+
+--- Incoming ---
+[   u'cv.ml.DTrees.setMinSampleCount',
+    u'void',
+    [],
+    [[u'int', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.DTrees.setMinSampleCount [ARG int val=]>
+
+--- Incoming ---
+[u'cv.ml.DTrees.getCVFolds', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.DTrees.getCVFolds []>
+
+--- Incoming ---
+[u'cv.ml.DTrees.setCVFolds', u'void', [], [[u'int', u'val', u'', []]], u'void']
+ok: FUNC <void cv.ml.DTrees.setCVFolds [ARG int val=]>
+
+--- Incoming ---
+[u'cv.ml.DTrees.getUseSurrogates', u'bool', [], [], u'bool']
+ok: FUNC <bool cv.ml.DTrees.getUseSurrogates []>
+
+--- Incoming ---
+[   u'cv.ml.DTrees.setUseSurrogates',
+    u'void',
+    [],
+    [[u'bool', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.DTrees.setUseSurrogates [ARG bool val=]>
+
+--- Incoming ---
+[u'cv.ml.DTrees.getUse1SERule', u'bool', [], [], u'bool']
+ok: FUNC <bool cv.ml.DTrees.getUse1SERule []>
+
+--- Incoming ---
+[   u'cv.ml.DTrees.setUse1SERule',
+    u'void',
+    [],
+    [[u'bool', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.DTrees.setUse1SERule [ARG bool val=]>
+
+--- Incoming ---
+[u'cv.ml.DTrees.getTruncatePrunedTree', u'bool', [], [], u'bool']
+ok: FUNC <bool cv.ml.DTrees.getTruncatePrunedTree []>
+
+--- Incoming ---
+[   u'cv.ml.DTrees.setTruncatePrunedTree',
+    u'void',
+    [],
+    [[u'bool', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.DTrees.setTruncatePrunedTree [ARG bool val=]>
+
+--- Incoming ---
+[u'cv.ml.DTrees.getRegressionAccuracy', u'float', [], [], u'float']
+ok: FUNC <float cv.ml.DTrees.getRegressionAccuracy []>
+
+--- Incoming ---
+[   u'cv.ml.DTrees.setRegressionAccuracy',
+    u'void',
+    [],
+    [[u'float', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.DTrees.setRegressionAccuracy [ARG float val=]>
+
+--- Incoming ---
+[u'cv.ml.DTrees.getPriors', u'Mat', [], [], u'cv::Mat']
+ok: FUNC <Mat cv.ml.DTrees.getPriors []>
+
+--- Incoming ---
+[u'cv.ml.DTrees.setPriors', u'void', [], [[u'Mat', u'val', u'', []]], u'void']
+ok: FUNC <void cv.ml.DTrees.setPriors [ARG Mat val=]>
+
+--- Incoming ---
+[u'cv.ml.DTrees.create', u'Ptr_DTrees', ['/S'], [], u'Ptr<DTrees>']
+ok: FUNC <Ptr_DTrees cv.ml.DTrees.create []>
+
+--- Incoming ---
+[u'class cv.ml.RTrees', u': cv::ml::DTrees', [], []]
+ok: CLASS cv.ml..RTrees : DTrees
+
+--- Incoming ---
+[u'cv.ml.RTrees.getCalculateVarImportance', u'bool', [], [], u'bool']
+ok: FUNC <bool cv.ml.RTrees.getCalculateVarImportance []>
+
+--- Incoming ---
+[   u'cv.ml.RTrees.setCalculateVarImportance',
+    u'void',
+    [],
+    [[u'bool', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.RTrees.setCalculateVarImportance [ARG bool val=]>
+
+--- Incoming ---
+[u'cv.ml.RTrees.getActiveVarCount', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.RTrees.getActiveVarCount []>
+
+--- Incoming ---
+[   u'cv.ml.RTrees.setActiveVarCount',
+    u'void',
+    [],
+    [[u'int', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.RTrees.setActiveVarCount [ARG int val=]>
+
+--- Incoming ---
+[u'cv.ml.RTrees.getTermCriteria', u'TermCriteria', [], [], u'TermCriteria']
+ok: FUNC <TermCriteria cv.ml.RTrees.getTermCriteria []>
+
+--- Incoming ---
+[   u'cv.ml.RTrees.setTermCriteria',
+    u'void',
+    [],
+    [[u'TermCriteria', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.RTrees.setTermCriteria [ARG TermCriteria val=]>
+
+--- Incoming ---
+[u'cv.ml.RTrees.getVarImportance', u'Mat', [], [], u'Mat']
+ok: FUNC <Mat cv.ml.RTrees.getVarImportance []>
+
+--- Incoming ---
+[u'cv.ml.RTrees.create', u'Ptr_RTrees', ['/S'], [], u'Ptr<RTrees>']
+ok: FUNC <Ptr_RTrees cv.ml.RTrees.create []>
+
+--- Incoming ---
+[u'class cv.ml.Boost', u': cv::ml::DTrees', [], []]
+ok: CLASS cv.ml..Boost : DTrees
+
+--- Incoming ---
+[u'cv.ml.Boost.getBoostType', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.Boost.getBoostType []>
+
+--- Incoming ---
+[   u'cv.ml.Boost.setBoostType',
+    u'void',
+    [],
+    [[u'int', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.Boost.setBoostType [ARG int val=]>
+
+--- Incoming ---
+[u'cv.ml.Boost.getWeakCount', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.Boost.getWeakCount []>
+
+--- Incoming ---
+[   u'cv.ml.Boost.setWeakCount',
+    u'void',
+    [],
+    [[u'int', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.Boost.setWeakCount [ARG int val=]>
+
+--- Incoming ---
+[u'cv.ml.Boost.getWeightTrimRate', u'double', [], [], u'double']
+ok: FUNC <double cv.ml.Boost.getWeightTrimRate []>
+
+--- Incoming ---
+[   u'cv.ml.Boost.setWeightTrimRate',
+    u'void',
+    [],
+    [[u'double', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.Boost.setWeightTrimRate [ARG double val=]>
+
+--- Incoming ---
+[u'const cv.ml.Boost.DISCRETE', u'0', [], []]
+ok: CONST DISCRETE=0
+
+--- Incoming ---
+[u'const cv.ml.Boost.REAL', u'1', [], []]
+ok: CONST REAL=1
+
+--- Incoming ---
+[u'const cv.ml.Boost.LOGIT', u'2', [], []]
+ok: CONST LOGIT=2
+
+--- Incoming ---
+[u'const cv.ml.Boost.GENTLE', u'3', [], []]
+ok: CONST GENTLE=3
+
+--- Incoming ---
+[u'cv.ml.Boost.create', u'Ptr_Boost', ['/S'], [], u'Ptr<Boost>']
+ok: FUNC <Ptr_Boost cv.ml.Boost.create []>
+
+--- Incoming ---
+[u'class cv.ml.ANN_MLP', u': cv::ml::StatModel', [], []]
+ok: CLASS cv.ml..ANN_MLP : StatModel
+
+--- Incoming ---
+[u'const cv.ml.ANN_MLP.BACKPROP', u'0', [], []]
+ok: CONST BACKPROP=0
+
+--- Incoming ---
+[u'const cv.ml.ANN_MLP.RPROP', u'1', [], []]
+ok: CONST RPROP=1
+
+--- Incoming ---
+[   u'cv.ml.ANN_MLP.setTrainMethod',
+    u'void',
+    [],
+    [   [u'int', u'method', u'', []],
+        [u'double', u'param1', u'0', []],
+        [u'double', u'param2', u'0', []]],
+    u'void']
+ok: FUNC <void cv.ml.ANN_MLP.setTrainMethod [ARG int method=, ARG double param1=0, ARG double param2=0]>
+
+--- Incoming ---
+[u'cv.ml.ANN_MLP.getTrainMethod', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.ANN_MLP.getTrainMethod []>
+
+--- Incoming ---
+[   u'cv.ml.ANN_MLP.setActivationFunction',
+    u'void',
+    [],
+    [   [u'int', u'type', u'', []],
+        [u'double', u'param1', u'0', []],
+        [u'double', u'param2', u'0', []]],
+    u'void']
+ok: FUNC <void cv.ml.ANN_MLP.setActivationFunction [ARG int type=, ARG double param1=0, ARG double param2=0]>
+
+--- Incoming ---
+[   u'cv.ml.ANN_MLP.setLayerSizes',
+    u'void',
+    [],
+    [['Mat', u'_layer_sizes', '', []]],
+    u'void']
+ok: FUNC <void cv.ml.ANN_MLP.setLayerSizes [ARG Mat _layer_sizes=]>
+
+--- Incoming ---
+[u'cv.ml.ANN_MLP.getLayerSizes', u'Mat', [], [], u'cv::Mat']
+ok: FUNC <Mat cv.ml.ANN_MLP.getLayerSizes []>
+
+--- Incoming ---
+[u'cv.ml.ANN_MLP.getTermCriteria', u'TermCriteria', [], [], u'TermCriteria']
+ok: FUNC <TermCriteria cv.ml.ANN_MLP.getTermCriteria []>
+
+--- Incoming ---
+[   u'cv.ml.ANN_MLP.setTermCriteria',
+    u'void',
+    [],
+    [[u'TermCriteria', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.ANN_MLP.setTermCriteria [ARG TermCriteria val=]>
+
+--- Incoming ---
+[u'cv.ml.ANN_MLP.getBackpropWeightScale', u'double', [], [], u'double']
+ok: FUNC <double cv.ml.ANN_MLP.getBackpropWeightScale []>
+
+--- Incoming ---
+[   u'cv.ml.ANN_MLP.setBackpropWeightScale',
+    u'void',
+    [],
+    [[u'double', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.ANN_MLP.setBackpropWeightScale [ARG double val=]>
+
+--- Incoming ---
+[u'cv.ml.ANN_MLP.getBackpropMomentumScale', u'double', [], [], u'double']
+ok: FUNC <double cv.ml.ANN_MLP.getBackpropMomentumScale []>
+
+--- Incoming ---
+[   u'cv.ml.ANN_MLP.setBackpropMomentumScale',
+    u'void',
+    [],
+    [[u'double', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.ANN_MLP.setBackpropMomentumScale [ARG double val=]>
+
+--- Incoming ---
+[u'cv.ml.ANN_MLP.getRpropDW0', u'double', [], [], u'double']
+ok: FUNC <double cv.ml.ANN_MLP.getRpropDW0 []>
+
+--- Incoming ---
+[   u'cv.ml.ANN_MLP.setRpropDW0',
+    u'void',
+    [],
+    [[u'double', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.ANN_MLP.setRpropDW0 [ARG double val=]>
+
+--- Incoming ---
+[u'cv.ml.ANN_MLP.getRpropDWPlus', u'double', [], [], u'double']
+ok: FUNC <double cv.ml.ANN_MLP.getRpropDWPlus []>
+
+--- Incoming ---
+[   u'cv.ml.ANN_MLP.setRpropDWPlus',
+    u'void',
+    [],
+    [[u'double', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.ANN_MLP.setRpropDWPlus [ARG double val=]>
+
+--- Incoming ---
+[u'cv.ml.ANN_MLP.getRpropDWMinus', u'double', [], [], u'double']
+ok: FUNC <double cv.ml.ANN_MLP.getRpropDWMinus []>
+
+--- Incoming ---
+[   u'cv.ml.ANN_MLP.setRpropDWMinus',
+    u'void',
+    [],
+    [[u'double', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.ANN_MLP.setRpropDWMinus [ARG double val=]>
+
+--- Incoming ---
+[u'cv.ml.ANN_MLP.getRpropDWMin', u'double', [], [], u'double']
+ok: FUNC <double cv.ml.ANN_MLP.getRpropDWMin []>
+
+--- Incoming ---
+[   u'cv.ml.ANN_MLP.setRpropDWMin',
+    u'void',
+    [],
+    [[u'double', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.ANN_MLP.setRpropDWMin [ARG double val=]>
+
+--- Incoming ---
+[u'cv.ml.ANN_MLP.getRpropDWMax', u'double', [], [], u'double']
+ok: FUNC <double cv.ml.ANN_MLP.getRpropDWMax []>
+
+--- Incoming ---
+[   u'cv.ml.ANN_MLP.setRpropDWMax',
+    u'void',
+    [],
+    [[u'double', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.ANN_MLP.setRpropDWMax [ARG double val=]>
+
+--- Incoming ---
+[u'const cv.ml.ANN_MLP.IDENTITY', u'0', [], []]
+ok: CONST IDENTITY=0
+
+--- Incoming ---
+[u'const cv.ml.ANN_MLP.SIGMOID_SYM', u'1', [], []]
+ok: CONST SIGMOID_SYM=1
+
+--- Incoming ---
+[u'const cv.ml.ANN_MLP.GAUSSIAN', u'2', [], []]
+ok: CONST GAUSSIAN=2
+
+--- Incoming ---
+[u'const cv.ml.ANN_MLP.UPDATE_WEIGHTS', u'1', [], []]
+ok: CONST UPDATE_WEIGHTS=1
+
+--- Incoming ---
+[u'const cv.ml.ANN_MLP.NO_INPUT_SCALE', u'2', [], []]
+ok: CONST NO_INPUT_SCALE=2
+
+--- Incoming ---
+[u'const cv.ml.ANN_MLP.NO_OUTPUT_SCALE', u'4', [], []]
+ok: CONST NO_OUTPUT_SCALE=4
+
+--- Incoming ---
+[   u'cv.ml.ANN_MLP.getWeights',
+    u'Mat',
+    [],
+    [[u'int', u'layerIdx', u'', []]],
+    u'Mat']
+ok: FUNC <Mat cv.ml.ANN_MLP.getWeights [ARG int layerIdx=]>
+
+--- Incoming ---
+[u'cv.ml.ANN_MLP.create', u'Ptr_ANN_MLP', ['/S'], [], u'Ptr<ANN_MLP>']
+ok: FUNC <Ptr_ANN_MLP cv.ml.ANN_MLP.create []>
+
+--- Incoming ---
+[u'class cv.ml.LogisticRegression', u': cv::ml::StatModel', [], []]
+ok: CLASS cv.ml..LogisticRegression : StatModel
+
+--- Incoming ---
+[u'cv.ml.LogisticRegression.getLearningRate', u'double', [], [], u'double']
+ok: FUNC <double cv.ml.LogisticRegression.getLearningRate []>
+
+--- Incoming ---
+[   u'cv.ml.LogisticRegression.setLearningRate',
+    u'void',
+    [],
+    [[u'double', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.LogisticRegression.setLearningRate [ARG double val=]>
+
+--- Incoming ---
+[u'cv.ml.LogisticRegression.getIterations', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.LogisticRegression.getIterations []>
+
+--- Incoming ---
+[   u'cv.ml.LogisticRegression.setIterations',
+    u'void',
+    [],
+    [[u'int', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.LogisticRegression.setIterations [ARG int val=]>
+
+--- Incoming ---
+[u'cv.ml.LogisticRegression.getRegularization', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.LogisticRegression.getRegularization []>
+
+--- Incoming ---
+[   u'cv.ml.LogisticRegression.setRegularization',
+    u'void',
+    [],
+    [[u'int', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.LogisticRegression.setRegularization [ARG int val=]>
+
+--- Incoming ---
+[u'cv.ml.LogisticRegression.getTrainMethod', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.LogisticRegression.getTrainMethod []>
+
+--- Incoming ---
+[   u'cv.ml.LogisticRegression.setTrainMethod',
+    u'void',
+    [],
+    [[u'int', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.LogisticRegression.setTrainMethod [ARG int val=]>
+
+--- Incoming ---
+[u'cv.ml.LogisticRegression.getMiniBatchSize', u'int', [], [], u'int']
+ok: FUNC <int cv.ml.LogisticRegression.getMiniBatchSize []>
+
+--- Incoming ---
+[   u'cv.ml.LogisticRegression.setMiniBatchSize',
+    u'void',
+    [],
+    [[u'int', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.LogisticRegression.setMiniBatchSize [ARG int val=]>
+
+--- Incoming ---
+[   u'cv.ml.LogisticRegression.getTermCriteria',
+    u'TermCriteria',
+    [],
+    [],
+    u'TermCriteria']
+ok: FUNC <TermCriteria cv.ml.LogisticRegression.getTermCriteria []>
+
+--- Incoming ---
+[   u'cv.ml.LogisticRegression.setTermCriteria',
+    u'void',
+    [],
+    [[u'TermCriteria', u'val', u'', []]],
+    u'void']
+ok: FUNC <void cv.ml.LogisticRegression.setTermCriteria [ARG TermCriteria val=]>
+
+--- Incoming ---
+[u'const cv.ml.LogisticRegression.REG_DISABLE', u'-1', [], []]
+ok: CONST REG_DISABLE=-1
+
+--- Incoming ---
+[u'const cv.ml.LogisticRegression.REG_L1', u'0', [], []]
+ok: CONST REG_L1=0
+
+--- Incoming ---
+[u'const cv.ml.LogisticRegression.REG_L2', u'1', [], []]
+ok: CONST REG_L2=1
+
+--- Incoming ---
+[u'const cv.ml.LogisticRegression.BATCH', u'0', [], []]
+ok: CONST BATCH=0
+
+--- Incoming ---
+[u'const cv.ml.LogisticRegression.MINI_BATCH', u'1', [], []]
+ok: CONST MINI_BATCH=1
+
+--- Incoming ---
+[   u'cv.ml.LogisticRegression.predict',
+    u'float',
+    [],
+    [   ['Mat', u'samples', '', []],
+        ['Mat', u'results', u'Mat()', ['/O']],
+        [u'int', u'flags', u'0', []]],
+    u'float']
+ok: FUNC <float cv.ml.LogisticRegression.predict [ARG Mat samples=, ARG Mat results=Mat(), ARG int flags=0]>
+
+--- Incoming ---
+[u'cv.ml.LogisticRegression.get_learnt_thetas', u'Mat', [], [], u'Mat']
+ok: FUNC <Mat cv.ml.LogisticRegression.get_learnt_thetas []>
+
+--- Incoming ---
+[   u'cv.ml.LogisticRegression.create',
+    u'Ptr_LogisticRegression',
+    ['/S'],
+    [],
+    u'Ptr<LogisticRegression>']
+ok: FUNC <Ptr_LogisticRegression cv.ml.LogisticRegression.create []>
+
+
+===== Header: /home/pi/opencv-3.1.0/modules/ml/include/opencv2/ml/ml.hpp =====
+Namespaces: set([u'cv', u'cv.ml'])
+
+
+===== Generating... =====
+CLASS cv.ml..EM : StatModel
+[CONST COV_MAT_SPHERICAL=0, CONST COV_MAT_DIAGONAL=1, CONST COV_MAT_GENERIC=2, CONST COV_MAT_DEFAULT=COV_MAT_DIAGONAL, CONST DEFAULT_NCLUSTERS=5, CONST DEFAULT_MAX_ITERS=100, CONST START_E_STEP=1, CONST START_M_STEP=2, CONST START_AUTO_STEP=0]
+FUNC <Mat cv.ml.EM.getMeans []>
+FUNC <Mat cv.ml.EM.getWeights []>
+FUNC <Ptr_EM cv.ml.EM.create []>
+FUNC <TermCriteria cv.ml.EM.getTermCriteria []>
+FUNC <Vec2d cv.ml.EM.predict2 [ARG Mat sample=, ARG Mat probs=]>
+FUNC <bool cv.ml.EM.trainE [ARG Mat samples=, ARG Mat means0=, ARG Mat covs0=Mat(), ARG Mat weights0=Mat(), ARG Mat logLikelihoods=Mat(), ARG Mat labels=Mat(), ARG Mat probs=Mat()]>
+FUNC <bool cv.ml.EM.trainEM [ARG Mat samples=, ARG Mat logLikelihoods=Mat(), ARG Mat labels=Mat(), ARG Mat probs=Mat()]>
+FUNC <bool cv.ml.EM.trainM [ARG Mat samples=, ARG Mat probs0=, ARG Mat logLikelihoods=Mat(), ARG Mat labels=Mat(), ARG Mat probs=Mat()]>
+FUNC <int cv.ml.EM.getClustersNumber []>
+FUNC <int cv.ml.EM.getCovarianceMatrixType []>
+FUNC <void cv.ml.EM.getCovs [ARG vector_Mat covs=]>
+FUNC <void cv.ml.EM.setClustersNumber [ARG int val=]>
+FUNC <void cv.ml.EM.setCovarianceMatrixType [ARG int val=]>
+FUNC <void cv.ml.EM.setTermCriteria [ARG TermCriteria val=]>
+CLASS cv.ml..SVM : StatModel
+[CONST C_SVC=100, CONST NU_SVC=101, CONST ONE_CLASS=102, CONST EPS_SVR=103, CONST NU_SVR=104, CONST CUSTOM=-1, CONST LINEAR=0, CONST POLY=1, CONST RBF=2, CONST SIGMOID=3, CONST CHI2=4, CONST INTER=5, CONST C=0, CONST GAMMA=1, CONST P=2, CONST NU=3, CONST COEF=4, CONST DEGREE=5]
+FUNC <Mat cv.ml.SVM.getClassWeights []>
+FUNC <Mat cv.ml.SVM.getSupportVectors []>
+FUNC <Mat cv.ml.SVM.getUncompressedSupportVectors []>
+FUNC <Ptr_SVM cv.ml.SVM.create []>
+FUNC <TermCriteria cv.ml.SVM.getTermCriteria []>
+FUNC <double cv.ml.SVM.getC []>
+FUNC <double cv.ml.SVM.getCoef0 []>
+FUNC <double cv.ml.SVM.getDecisionFunction [ARG int i=, ARG Mat alpha=, ARG Mat svidx=]>
+FUNC <double cv.ml.SVM.getDegree []>
+FUNC <double cv.ml.SVM.getGamma []>
+FUNC <double cv.ml.SVM.getNu []>
+FUNC <double cv.ml.SVM.getP []>
+FUNC <int cv.ml.SVM.getKernelType []>
+FUNC <int cv.ml.SVM.getType []>
+FUNC <void cv.ml.SVM.setC [ARG double val=]>
+FUNC <void cv.ml.SVM.setClassWeights [ARG Mat val=]>
+FUNC <void cv.ml.SVM.setCoef0 [ARG double val=]>
+FUNC <void cv.ml.SVM.setDegree [ARG double val=]>
+FUNC <void cv.ml.SVM.setGamma [ARG double val=]>
+FUNC <void cv.ml.SVM.setKernel [ARG int kernelType=]>
+FUNC <void cv.ml.SVM.setNu [ARG double val=]>
+FUNC <void cv.ml.SVM.setP [ARG double val=]>
+FUNC <void cv.ml.SVM.setTermCriteria [ARG TermCriteria val=]>
+FUNC <void cv.ml.SVM.setType [ARG int val=]>
+CLASS ..Ml : 
+[CONST VAR_NUMERICAL=0, CONST VAR_ORDERED=0, CONST VAR_CATEGORICAL=1, CONST TEST_ERROR=0, CONST TRAIN_ERROR=1, CONST ROW_SAMPLE=0, CONST COL_SAMPLE=1]
+CLASS cv.ml..NormalBayesClassifier : StatModel
+FUNC <Ptr_NormalBayesClassifier cv.ml.NormalBayesClassifier.create []>
+FUNC <float cv.ml.NormalBayesClassifier.predictProb [ARG Mat inputs=, ARG Mat outputs=, ARG Mat outputProbs=, ARG int flags=0]>
+CLASS cv.ml..TrainData : 
+FUNC <Mat cv.ml.TrainData.getCatMap []>
+FUNC <Mat cv.ml.TrainData.getCatOfs []>
+FUNC <Mat cv.ml.TrainData.getClassLabels []>
+FUNC <Mat cv.ml.TrainData.getDefaultSubstValues []>
+FUNC <Mat cv.ml.TrainData.getMissing []>
+FUNC <Mat cv.ml.TrainData.getNormCatResponses []>
+FUNC <Mat cv.ml.TrainData.getResponses []>
+FUNC <Mat cv.ml.TrainData.getSampleWeights []>
+FUNC <Mat cv.ml.TrainData.getSamples []>
+FUNC <Mat cv.ml.TrainData.getSubVector [ARG Mat vec=, ARG Mat idx=]>
+FUNC <Mat cv.ml.TrainData.getTestNormCatResponses []>
+FUNC <Mat cv.ml.TrainData.getTestResponses []>
+FUNC <Mat cv.ml.TrainData.getTestSampleIdx []>
+FUNC <Mat cv.ml.TrainData.getTestSampleWeights []>
+FUNC <Mat cv.ml.TrainData.getTrainNormCatResponses []>
+FUNC <Mat cv.ml.TrainData.getTrainResponses []>
+FUNC <Mat cv.ml.TrainData.getTrainSampleIdx []>
+FUNC <Mat cv.ml.TrainData.getTrainSampleWeights []>
+FUNC <Mat cv.ml.TrainData.getTrainSamples [ARG int layout=ROW_SAMPLE, ARG bool compressSamples=true, ARG bool compressVars=true]>
+FUNC <Mat cv.ml.TrainData.getVarIdx []>
+FUNC <Mat cv.ml.TrainData.getVarType []>
+FUNC <Ptr_TrainData cv.ml.TrainData.create [ARG Mat samples=, ARG int layout=, ARG Mat responses=, ARG Mat varIdx=Mat(), ARG Mat sampleIdx=Mat(), ARG Mat sampleWeights=Mat(), ARG Mat varType=Mat()]>
+SKIP:static Ptr_TrainData create(Mat samples, int layout, Mat responses, Mat varIdx = Mat(), Mat sampleIdx = Mat(), Mat sampleWeights = Mat(), Mat varType = Mat())	 due to RET typePtr_TrainData
+FUNC <int cv.ml.TrainData.getCatCount [ARG int vi=]>
+FUNC <int cv.ml.TrainData.getLayout []>
+FUNC <int cv.ml.TrainData.getNAllVars []>
+FUNC <int cv.ml.TrainData.getNSamples []>
+FUNC <int cv.ml.TrainData.getNTestSamples []>
+FUNC <int cv.ml.TrainData.getNTrainSamples []>
+FUNC <int cv.ml.TrainData.getNVars []>
+FUNC <int cv.ml.TrainData.getResponseType []>
+FUNC <void cv.ml.TrainData.getSample [ARG Mat varIdx=, ARG int sidx=, ARG float * buf=]>
+FUNC <void cv.ml.TrainData.getValues [ARG int vi=, ARG Mat sidx=, ARG float * values=]>
+FUNC <void cv.ml.TrainData.setTrainTestSplit [ARG int count=, ARG bool shuffle=true]>
+FUNC <void cv.ml.TrainData.setTrainTestSplitRatio [ARG double ratio=, ARG bool shuffle=true]>
+FUNC <void cv.ml.TrainData.shuffleTrainTest []>
+CLASS cv.ml..Boost : DTrees
+[CONST DISCRETE=0, CONST REAL=1, CONST LOGIT=2, CONST GENTLE=3]
+FUNC <Ptr_Boost cv.ml.Boost.create []>
+FUNC <double cv.ml.Boost.getWeightTrimRate []>
+FUNC <int cv.ml.Boost.getBoostType []>
+FUNC <int cv.ml.Boost.getWeakCount []>
+FUNC <void cv.ml.Boost.setBoostType [ARG int val=]>
+FUNC <void cv.ml.Boost.setWeakCount [ARG int val=]>
+FUNC <void cv.ml.Boost.setWeightTrimRate [ARG double val=]>
+CLASS cv.ml..LogisticRegression : StatModel
+[CONST REG_DISABLE=-1, CONST REG_L1=0, CONST REG_L2=1, CONST BATCH=0, CONST MINI_BATCH=1]
+FUNC <Mat cv.ml.LogisticRegression.get_learnt_thetas []>
+FUNC <Ptr_LogisticRegression cv.ml.LogisticRegression.create []>
+FUNC <TermCriteria cv.ml.LogisticRegression.getTermCriteria []>
+FUNC <double cv.ml.LogisticRegression.getLearningRate []>
+FUNC <float cv.ml.LogisticRegression.predict [ARG Mat samples=, ARG Mat results=Mat(), ARG int flags=0]>
+FUNC <int cv.ml.LogisticRegression.getIterations []>
+FUNC <int cv.ml.LogisticRegression.getMiniBatchSize []>
+FUNC <int cv.ml.LogisticRegression.getRegularization []>
+FUNC <int cv.ml.LogisticRegression.getTrainMethod []>
+FUNC <void cv.ml.LogisticRegression.setIterations [ARG int val=]>
+FUNC <void cv.ml.LogisticRegression.setLearningRate [ARG double val=]>
+FUNC <void cv.ml.LogisticRegression.setMiniBatchSize [ARG int val=]>
+FUNC <void cv.ml.LogisticRegression.setRegularization [ARG int val=]>
+FUNC <void cv.ml.LogisticRegression.setTermCriteria [ARG TermCriteria val=]>
+FUNC <void cv.ml.LogisticRegression.setTrainMethod [ARG int val=]>
+CLASS cv.ml..KNearest : StatModel
+[CONST BRUTE_FORCE=1, CONST KDTREE=2]
+FUNC <Ptr_KNearest cv.ml.KNearest.create []>
+FUNC <bool cv.ml.KNearest.getIsClassifier []>
+FUNC <float cv.ml.KNearest.findNearest [ARG Mat samples=, ARG int k=, ARG Mat results=, ARG Mat neighborResponses=Mat(), ARG Mat dist=Mat()]>
+FUNC <int cv.ml.KNearest.getAlgorithmType []>
+FUNC <int cv.ml.KNearest.getDefaultK []>
+FUNC <int cv.ml.KNearest.getEmax []>
+FUNC <void cv.ml.KNearest.setAlgorithmType [ARG int val=]>
+FUNC <void cv.ml.KNearest.setDefaultK [ARG int val=]>
+FUNC <void cv.ml.KNearest.setEmax [ARG int val=]>
+FUNC <void cv.ml.KNearest.setIsClassifier [ARG bool val=]>
+CLASS cv.ml..DTrees : StatModel
+[CONST PREDICT_AUTO=0, CONST PREDICT_SUM=(1<<8), CONST PREDICT_MAX_VOTE=(2<<8), CONST PREDICT_MASK=(3<<8)]
+FUNC <Mat cv.ml.DTrees.getPriors []>
+FUNC <Ptr_DTrees cv.ml.DTrees.create []>
+FUNC <bool cv.ml.DTrees.getTruncatePrunedTree []>
+FUNC <bool cv.ml.DTrees.getUse1SERule []>
+FUNC <bool cv.ml.DTrees.getUseSurrogates []>
+FUNC <float cv.ml.DTrees.getRegressionAccuracy []>
+FUNC <int cv.ml.DTrees.getCVFolds []>
+FUNC <int cv.ml.DTrees.getMaxCategories []>
+FUNC <int cv.ml.DTrees.getMaxDepth []>
+FUNC <int cv.ml.DTrees.getMinSampleCount []>
+FUNC <void cv.ml.DTrees.setCVFolds [ARG int val=]>
+FUNC <void cv.ml.DTrees.setMaxCategories [ARG int val=]>
+FUNC <void cv.ml.DTrees.setMaxDepth [ARG int val=]>
+FUNC <void cv.ml.DTrees.setMinSampleCount [ARG int val=]>
+FUNC <void cv.ml.DTrees.setPriors [ARG Mat val=]>
+FUNC <void cv.ml.DTrees.setRegressionAccuracy [ARG float val=]>
+FUNC <void cv.ml.DTrees.setTruncatePrunedTree [ARG bool val=]>
+FUNC <void cv.ml.DTrees.setUse1SERule [ARG bool val=]>
+FUNC <void cv.ml.DTrees.setUseSurrogates [ARG bool val=]>
+CLASS cv.ml..ANN_MLP : StatModel
+[CONST BACKPROP=0, CONST RPROP=1, CONST IDENTITY=0, CONST SIGMOID_SYM=1, CONST GAUSSIAN=2, CONST UPDATE_WEIGHTS=1, CONST NO_INPUT_SCALE=2, CONST NO_OUTPUT_SCALE=4]
+FUNC <Mat cv.ml.ANN_MLP.getLayerSizes []>
+FUNC <Mat cv.ml.ANN_MLP.getWeights [ARG int layerIdx=]>
+FUNC <Ptr_ANN_MLP cv.ml.ANN_MLP.create []>
+FUNC <TermCriteria cv.ml.ANN_MLP.getTermCriteria []>
+FUNC <double cv.ml.ANN_MLP.getBackpropMomentumScale []>
+FUNC <double cv.ml.ANN_MLP.getBackpropWeightScale []>
+FUNC <double cv.ml.ANN_MLP.getRpropDW0 []>
+FUNC <double cv.ml.ANN_MLP.getRpropDWMax []>
+FUNC <double cv.ml.ANN_MLP.getRpropDWMin []>
+FUNC <double cv.ml.ANN_MLP.getRpropDWMinus []>
+FUNC <double cv.ml.ANN_MLP.getRpropDWPlus []>
+FUNC <int cv.ml.ANN_MLP.getTrainMethod []>
+FUNC <void cv.ml.ANN_MLP.setActivationFunction [ARG int type=, ARG double param1=0, ARG double param2=0]>
+FUNC <void cv.ml.ANN_MLP.setBackpropMomentumScale [ARG double val=]>
+FUNC <void cv.ml.ANN_MLP.setBackpropWeightScale [ARG double val=]>
+FUNC <void cv.ml.ANN_MLP.setLayerSizes [ARG Mat _layer_sizes=]>
+FUNC <void cv.ml.ANN_MLP.setRpropDW0 [ARG double val=]>
+FUNC <void cv.ml.ANN_MLP.setRpropDWMax [ARG double val=]>
+FUNC <void cv.ml.ANN_MLP.setRpropDWMin [ARG double val=]>
+FUNC <void cv.ml.ANN_MLP.setRpropDWMinus [ARG double val=]>
+FUNC <void cv.ml.ANN_MLP.setRpropDWPlus [ARG double val=]>
+FUNC <void cv.ml.ANN_MLP.setTermCriteria [ARG TermCriteria val=]>
+FUNC <void cv.ml.ANN_MLP.setTrainMethod [ARG int method=, ARG double param1=0, ARG double param2=0]>
+CLASS cv.ml..StatModel : Algorithm
+[CONST UPDATE_MODEL=1, CONST RAW_OUTPUT=1, CONST COMPRESSED_INPUT=2, CONST PREPROCESSED_INPUT=4]
+FUNC <bool cv.ml.StatModel.empty []>
+FUNC <bool cv.ml.StatModel.isClassifier []>
+FUNC <bool cv.ml.StatModel.isTrained []>
+FUNC <bool cv.ml.StatModel.train [ARG Mat samples=, ARG int layout=, ARG Mat responses=]>
+FUNC <bool cv.ml.StatModel.train [ARG Ptr_TrainData trainData=, ARG int flags=0]>
+SKIP:bool train(Ptr_TrainData trainData, int flags = 0)	 due to ARG typePtr_TrainData/I
+FUNC <float cv.ml.StatModel.calcError [ARG Ptr_TrainData data=, ARG bool test=, ARG Mat resp=]>
+SKIP:float calcError(Ptr_TrainData data, bool test, Mat& resp)	 due to ARG typePtr_TrainData/I
+FUNC <float cv.ml.StatModel.predict [ARG Mat samples=, ARG Mat results=Mat(), ARG int flags=0]>
+FUNC <int cv.ml.StatModel.getVarCount []>
+CLASS cv.ml..RTrees : DTrees
+FUNC <Mat cv.ml.RTrees.getVarImportance []>
+FUNC <Ptr_RTrees cv.ml.RTrees.create []>
+FUNC <TermCriteria cv.ml.RTrees.getTermCriteria []>
+FUNC <bool cv.ml.RTrees.getCalculateVarImportance []>
+FUNC <int cv.ml.RTrees.getActiveVarCount []>
+FUNC <void cv.ml.RTrees.setActiveVarCount [ARG int val=]>
+FUNC <void cv.ml.RTrees.setCalculateVarImportance [ARG bool val=]>
+FUNC <void cv.ml.RTrees.setTermCriteria [ARG TermCriteria val=]>

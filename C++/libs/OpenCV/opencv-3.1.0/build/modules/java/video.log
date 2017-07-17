@@ -1,0 +1,610 @@
+ok: CLASS ..Video : 
+
+
+===== Header: /home/pi/opencv-3.1.0/modules/video/include/opencv2/video/tracking_c.h =====
+Namespaces: set([''])
+
+
+===== Header: /home/pi/opencv-3.1.0/modules/video/include/opencv2/video.hpp =====
+Namespaces: set([''])
+
+
+===== Header: /home/pi/opencv-3.1.0/modules/video/include/opencv2/video/background_segm.hpp =====
+Namespaces: set(['', u'cv'])
+
+--- Incoming ---
+[u'class cv.BackgroundSubtractor', ': cv::Algorithm', [], []]
+ok: CLASS cv..BackgroundSubtractor : Algorithm
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractor.apply',
+    u'void',
+    [],
+    [   ['Mat', u'image', '', []],
+        ['Mat', u'fgmask', '', ['/O']],
+        [u'double', u'learningRate', u'-1', []]],
+    u'void']
+ok: FUNC <void cv.BackgroundSubtractor.apply [ARG Mat image=, ARG Mat fgmask=, ARG double learningRate=-1]>
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractor.getBackgroundImage',
+    u'void',
+    [],
+    [['Mat', u'backgroundImage', '', ['/O']]],
+    u'void']
+ok: FUNC <void cv.BackgroundSubtractor.getBackgroundImage [ARG Mat backgroundImage=]>
+
+--- Incoming ---
+[u'class cv.BackgroundSubtractorMOG2', u': cv::BackgroundSubtractor', [], []]
+ok: CLASS cv..BackgroundSubtractorMOG2 : BackgroundSubtractor
+
+--- Incoming ---
+[u'cv.BackgroundSubtractorMOG2.getHistory', u'int', [], [], u'int']
+ok: FUNC <int cv.BackgroundSubtractorMOG2.getHistory []>
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractorMOG2.setHistory',
+    u'void',
+    [],
+    [[u'int', u'history', u'', []]],
+    u'void']
+ok: FUNC <void cv.BackgroundSubtractorMOG2.setHistory [ARG int history=]>
+
+--- Incoming ---
+[u'cv.BackgroundSubtractorMOG2.getNMixtures', u'int', [], [], u'int']
+ok: FUNC <int cv.BackgroundSubtractorMOG2.getNMixtures []>
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractorMOG2.setNMixtures',
+    u'void',
+    [],
+    [[u'int', u'nmixtures', u'', []]],
+    u'void']
+ok: FUNC <void cv.BackgroundSubtractorMOG2.setNMixtures [ARG int nmixtures=]>
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractorMOG2.getBackgroundRatio',
+    u'double',
+    [],
+    [],
+    u'double']
+ok: FUNC <double cv.BackgroundSubtractorMOG2.getBackgroundRatio []>
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractorMOG2.setBackgroundRatio',
+    u'void',
+    [],
+    [[u'double', u'ratio', u'', []]],
+    u'void']
+ok: FUNC <void cv.BackgroundSubtractorMOG2.setBackgroundRatio [ARG double ratio=]>
+
+--- Incoming ---
+[u'cv.BackgroundSubtractorMOG2.getVarThreshold', u'double', [], [], u'double']
+ok: FUNC <double cv.BackgroundSubtractorMOG2.getVarThreshold []>
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractorMOG2.setVarThreshold',
+    u'void',
+    [],
+    [[u'double', u'varThreshold', u'', []]],
+    u'void']
+ok: FUNC <void cv.BackgroundSubtractorMOG2.setVarThreshold [ARG double varThreshold=]>
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractorMOG2.getVarThresholdGen',
+    u'double',
+    [],
+    [],
+    u'double']
+ok: FUNC <double cv.BackgroundSubtractorMOG2.getVarThresholdGen []>
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractorMOG2.setVarThresholdGen',
+    u'void',
+    [],
+    [[u'double', u'varThresholdGen', u'', []]],
+    u'void']
+ok: FUNC <void cv.BackgroundSubtractorMOG2.setVarThresholdGen [ARG double varThresholdGen=]>
+
+--- Incoming ---
+[u'cv.BackgroundSubtractorMOG2.getVarInit', u'double', [], [], u'double']
+ok: FUNC <double cv.BackgroundSubtractorMOG2.getVarInit []>
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractorMOG2.setVarInit',
+    u'void',
+    [],
+    [[u'double', u'varInit', u'', []]],
+    u'void']
+ok: FUNC <void cv.BackgroundSubtractorMOG2.setVarInit [ARG double varInit=]>
+
+--- Incoming ---
+[u'cv.BackgroundSubtractorMOG2.getVarMin', u'double', [], [], u'double']
+ok: FUNC <double cv.BackgroundSubtractorMOG2.getVarMin []>
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractorMOG2.setVarMin',
+    u'void',
+    [],
+    [[u'double', u'varMin', u'', []]],
+    u'void']
+ok: FUNC <void cv.BackgroundSubtractorMOG2.setVarMin [ARG double varMin=]>
+
+--- Incoming ---
+[u'cv.BackgroundSubtractorMOG2.getVarMax', u'double', [], [], u'double']
+ok: FUNC <double cv.BackgroundSubtractorMOG2.getVarMax []>
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractorMOG2.setVarMax',
+    u'void',
+    [],
+    [[u'double', u'varMax', u'', []]],
+    u'void']
+ok: FUNC <void cv.BackgroundSubtractorMOG2.setVarMax [ARG double varMax=]>
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractorMOG2.getComplexityReductionThreshold',
+    u'double',
+    [],
+    [],
+    u'double']
+ok: FUNC <double cv.BackgroundSubtractorMOG2.getComplexityReductionThreshold []>
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractorMOG2.setComplexityReductionThreshold',
+    u'void',
+    [],
+    [[u'double', u'ct', u'', []]],
+    u'void']
+ok: FUNC <void cv.BackgroundSubtractorMOG2.setComplexityReductionThreshold [ARG double ct=]>
+
+--- Incoming ---
+[u'cv.BackgroundSubtractorMOG2.getDetectShadows', u'bool', [], [], u'bool']
+ok: FUNC <bool cv.BackgroundSubtractorMOG2.getDetectShadows []>
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractorMOG2.setDetectShadows',
+    u'void',
+    [],
+    [[u'bool', u'detectShadows', u'', []]],
+    u'void']
+ok: FUNC <void cv.BackgroundSubtractorMOG2.setDetectShadows [ARG bool detectShadows=]>
+
+--- Incoming ---
+[u'cv.BackgroundSubtractorMOG2.getShadowValue', u'int', [], [], u'int']
+ok: FUNC <int cv.BackgroundSubtractorMOG2.getShadowValue []>
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractorMOG2.setShadowValue',
+    u'void',
+    [],
+    [[u'int', u'value', u'', []]],
+    u'void']
+ok: FUNC <void cv.BackgroundSubtractorMOG2.setShadowValue [ARG int value=]>
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractorMOG2.getShadowThreshold',
+    u'double',
+    [],
+    [],
+    u'double']
+ok: FUNC <double cv.BackgroundSubtractorMOG2.getShadowThreshold []>
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractorMOG2.setShadowThreshold',
+    u'void',
+    [],
+    [[u'double', u'threshold', u'', []]],
+    u'void']
+ok: FUNC <void cv.BackgroundSubtractorMOG2.setShadowThreshold [ARG double threshold=]>
+
+--- Incoming ---
+[   u'cv.createBackgroundSubtractorMOG2',
+    u'Ptr_BackgroundSubtractorMOG2',
+    [],
+    [   [u'int', u'history', u'500', []],
+        [u'double', u'varThreshold', u'16', []],
+        [u'bool', u'detectShadows', u'true', []]],
+    u'Ptr<BackgroundSubtractorMOG2>']
+ok: FUNC <Ptr_BackgroundSubtractorMOG2 cv..createBackgroundSubtractorMOG2 [ARG int history=500, ARG double varThreshold=16, ARG bool detectShadows=true]>
+
+--- Incoming ---
+[u'class cv.BackgroundSubtractorKNN', u': cv::BackgroundSubtractor', [], []]
+ok: CLASS cv..BackgroundSubtractorKNN : BackgroundSubtractor
+
+--- Incoming ---
+[u'cv.BackgroundSubtractorKNN.getHistory', u'int', [], [], u'int']
+ok: FUNC <int cv.BackgroundSubtractorKNN.getHistory []>
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractorKNN.setHistory',
+    u'void',
+    [],
+    [[u'int', u'history', u'', []]],
+    u'void']
+ok: FUNC <void cv.BackgroundSubtractorKNN.setHistory [ARG int history=]>
+
+--- Incoming ---
+[u'cv.BackgroundSubtractorKNN.getNSamples', u'int', [], [], u'int']
+ok: FUNC <int cv.BackgroundSubtractorKNN.getNSamples []>
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractorKNN.setNSamples',
+    u'void',
+    [],
+    [[u'int', u'_nN', u'', []]],
+    u'void']
+ok: FUNC <void cv.BackgroundSubtractorKNN.setNSamples [ARG int _nN=]>
+
+--- Incoming ---
+[u'cv.BackgroundSubtractorKNN.getDist2Threshold', u'double', [], [], u'double']
+ok: FUNC <double cv.BackgroundSubtractorKNN.getDist2Threshold []>
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractorKNN.setDist2Threshold',
+    u'void',
+    [],
+    [[u'double', u'_dist2Threshold', u'', []]],
+    u'void']
+ok: FUNC <void cv.BackgroundSubtractorKNN.setDist2Threshold [ARG double _dist2Threshold=]>
+
+--- Incoming ---
+[u'cv.BackgroundSubtractorKNN.getkNNSamples', u'int', [], [], u'int']
+ok: FUNC <int cv.BackgroundSubtractorKNN.getkNNSamples []>
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractorKNN.setkNNSamples',
+    u'void',
+    [],
+    [[u'int', u'_nkNN', u'', []]],
+    u'void']
+ok: FUNC <void cv.BackgroundSubtractorKNN.setkNNSamples [ARG int _nkNN=]>
+
+--- Incoming ---
+[u'cv.BackgroundSubtractorKNN.getDetectShadows', u'bool', [], [], u'bool']
+ok: FUNC <bool cv.BackgroundSubtractorKNN.getDetectShadows []>
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractorKNN.setDetectShadows',
+    u'void',
+    [],
+    [[u'bool', u'detectShadows', u'', []]],
+    u'void']
+ok: FUNC <void cv.BackgroundSubtractorKNN.setDetectShadows [ARG bool detectShadows=]>
+
+--- Incoming ---
+[u'cv.BackgroundSubtractorKNN.getShadowValue', u'int', [], [], u'int']
+ok: FUNC <int cv.BackgroundSubtractorKNN.getShadowValue []>
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractorKNN.setShadowValue',
+    u'void',
+    [],
+    [[u'int', u'value', u'', []]],
+    u'void']
+ok: FUNC <void cv.BackgroundSubtractorKNN.setShadowValue [ARG int value=]>
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractorKNN.getShadowThreshold',
+    u'double',
+    [],
+    [],
+    u'double']
+ok: FUNC <double cv.BackgroundSubtractorKNN.getShadowThreshold []>
+
+--- Incoming ---
+[   u'cv.BackgroundSubtractorKNN.setShadowThreshold',
+    u'void',
+    [],
+    [[u'double', u'threshold', u'', []]],
+    u'void']
+ok: FUNC <void cv.BackgroundSubtractorKNN.setShadowThreshold [ARG double threshold=]>
+
+--- Incoming ---
+[   u'cv.createBackgroundSubtractorKNN',
+    u'Ptr_BackgroundSubtractorKNN',
+    [],
+    [   [u'int', u'history', u'500', []],
+        [u'double', u'dist2Threshold', u'400.0', []],
+        [u'bool', u'detectShadows', u'true', []]],
+    u'Ptr<BackgroundSubtractorKNN>']
+ok: FUNC <Ptr_BackgroundSubtractorKNN cv..createBackgroundSubtractorKNN [ARG int history=500, ARG double dist2Threshold=400.0, ARG bool detectShadows=true]>
+
+
+===== Header: /home/pi/opencv-3.1.0/modules/video/include/opencv2/video/tracking.hpp =====
+Namespaces: set(['', u'cv'])
+
+--- Incoming ---
+[u'const cv.OPTFLOW_USE_INITIAL_FLOW', u'4', [], []]
+ok: CONST OPTFLOW_USE_INITIAL_FLOW=4
+
+--- Incoming ---
+[u'const cv.OPTFLOW_LK_GET_MIN_EIGENVALS', u'8', [], []]
+ok: CONST OPTFLOW_LK_GET_MIN_EIGENVALS=8
+
+--- Incoming ---
+[u'const cv.OPTFLOW_FARNEBACK_GAUSSIAN', u'256', [], []]
+ok: CONST OPTFLOW_FARNEBACK_GAUSSIAN=256
+
+--- Incoming ---
+[   u'cv.CamShift',
+    u'RotatedRect',
+    [],
+    [   ['Mat', u'probImage', '', []],
+        [u'Rect', u'window', u'', ['/IO']],
+        [u'TermCriteria', u'criteria', u'', []]],
+    u'RotatedRect']
+ok: FUNC <RotatedRect cv..CamShift [ARG Mat probImage=, ARG Rect window=, ARG TermCriteria criteria=]>
+
+--- Incoming ---
+[   u'cv.meanShift',
+    u'int',
+    [],
+    [   ['Mat', u'probImage', '', []],
+        [u'Rect', u'window', u'', ['/IO']],
+        [u'TermCriteria', u'criteria', u'', []]],
+    u'int']
+ok: FUNC <int cv..meanShift [ARG Mat probImage=, ARG Rect window=, ARG TermCriteria criteria=]>
+
+--- Incoming ---
+[   u'cv.buildOpticalFlowPyramid',
+    u'int',
+    [],
+    [   ['Mat', u'img', '', []],
+        ['vector_Mat', u'pyramid', '', ['/O']],
+        [u'Size', u'winSize', u'', []],
+        [u'int', u'maxLevel', u'', []],
+        [u'bool', u'withDerivatives', u'true', []],
+        [u'int', u'pyrBorder', u'BORDER_REFLECT_101', []],
+        [u'int', u'derivBorder', u'BORDER_CONSTANT', []],
+        [u'bool', u'tryReuseInputImage', u'true', []]],
+    u'int']
+ok: FUNC <int cv..buildOpticalFlowPyramid [ARG Mat img=, ARG vector_Mat pyramid=, ARG Size winSize=, ARG int maxLevel=, ARG bool withDerivatives=true, ARG int pyrBorder=BORDER_REFLECT_101, ARG int derivBorder=BORDER_CONSTANT, ARG bool tryReuseInputImage=true]>
+
+--- Incoming ---
+[   u'cv.calcOpticalFlowPyrLK',
+    u'void',
+    [],
+    [   ['Mat', u'prevImg', '', []],
+        ['Mat', u'nextImg', '', []],
+        ['Mat', u'prevPts', '', []],
+        ['Mat', u'nextPts', '', ['/IO']],
+        ['Mat', u'status', '', ['/O']],
+        ['Mat', u'err', '', ['/O']],
+        [u'Size', u'winSize', u'Size(21,21)', []],
+        [u'int', u'maxLevel', u'3', []],
+        [   u'TermCriteria',
+            u'criteria',
+            u'TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 30, 0.01)',
+            []],
+        [u'int', u'flags', u'0', []],
+        [u'double', u'minEigThreshold', u'1e-4', []]],
+    u'void']
+ok: FUNC <void cv..calcOpticalFlowPyrLK [ARG Mat prevImg=, ARG Mat nextImg=, ARG vector_Point2f prevPts=, ARG vector_Point2f nextPts=, ARG vector_uchar status=, ARG vector_float err=, ARG Size winSize=Size(21,21), ARG int maxLevel=3, ARG TermCriteria criteria=TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 30, 0.01), ARG int flags=0, ARG double minEigThreshold=1e-4]>
+
+--- Incoming ---
+[   u'cv.calcOpticalFlowFarneback',
+    u'void',
+    [],
+    [   ['Mat', u'prev', '', []],
+        ['Mat', u'next', '', []],
+        ['Mat', u'flow', '', ['/IO']],
+        [u'double', u'pyr_scale', u'', []],
+        [u'int', u'levels', u'', []],
+        [u'int', u'winsize', u'', []],
+        [u'int', u'iterations', u'', []],
+        [u'int', u'poly_n', u'', []],
+        [u'double', u'poly_sigma', u'', []],
+        [u'int', u'flags', u'', []]],
+    u'void']
+ok: FUNC <void cv..calcOpticalFlowFarneback [ARG Mat prev=, ARG Mat next=, ARG Mat flow=, ARG double pyr_scale=, ARG int levels=, ARG int winsize=, ARG int iterations=, ARG int poly_n=, ARG double poly_sigma=, ARG int flags=]>
+
+--- Incoming ---
+[   u'cv.estimateRigidTransform',
+    u'Mat',
+    [],
+    [   ['Mat', u'src', '', []],
+        ['Mat', u'dst', '', []],
+        [u'bool', u'fullAffine', u'', []]],
+    u'Mat']
+ok: FUNC <Mat cv..estimateRigidTransform [ARG Mat src=, ARG Mat dst=, ARG bool fullAffine=]>
+
+--- Incoming ---
+[u'const cv.MOTION_TRANSLATION', u'0', [], []]
+ok: CONST MOTION_TRANSLATION=0
+
+--- Incoming ---
+[u'const cv.MOTION_EUCLIDEAN', u'1', [], []]
+ok: CONST MOTION_EUCLIDEAN=1
+
+--- Incoming ---
+[u'const cv.MOTION_AFFINE', u'2', [], []]
+ok: CONST MOTION_AFFINE=2
+
+--- Incoming ---
+[u'const cv.MOTION_HOMOGRAPHY', u'3', [], []]
+ok: CONST MOTION_HOMOGRAPHY=3
+
+--- Incoming ---
+[   u'cv.findTransformECC',
+    u'double',
+    [],
+    [   ['Mat', u'templateImage', '', []],
+        ['Mat', u'inputImage', '', []],
+        ['Mat', u'warpMatrix', '', ['/IO']],
+        [u'int', u'motionType', u'MOTION_AFFINE', []],
+        [   u'TermCriteria',
+            u'criteria',
+            u'TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 50, 0.001)',
+            []],
+        ['Mat', u'inputMask', u'Mat()', []]],
+    u'double']
+ok: FUNC <double cv..findTransformECC [ARG Mat templateImage=, ARG Mat inputImage=, ARG Mat warpMatrix=, ARG int motionType=MOTION_AFFINE, ARG TermCriteria criteria=TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 50, 0.001), ARG Mat inputMask=Mat()]>
+
+--- Incoming ---
+[   u'class cv.KalmanFilter',
+    '',
+    [],
+    [   [u'Mat', u'statePre', '', ['/RW']],
+        [u'Mat', u'statePost', '', ['/RW']],
+        [u'Mat', u'transitionMatrix', '', ['/RW']],
+        [u'Mat', u'controlMatrix', '', ['/RW']],
+        [u'Mat', u'measurementMatrix', '', ['/RW']],
+        [u'Mat', u'processNoiseCov', '', ['/RW']],
+        [u'Mat', u'measurementNoiseCov', '', ['/RW']],
+        [u'Mat', u'errorCovPre', '', ['/RW']],
+        [u'Mat', u'gain', '', ['/RW']],
+        [u'Mat', u'errorCovPost', '', ['/RW']]]]
+ok: CLASS cv..KalmanFilter : 
+
+--- Incoming ---
+[u'cv.KalmanFilter.KalmanFilter', '', [], []]
+ok: FUNC < cv.KalmanFilter.KalmanFilter []>
+
+--- Incoming ---
+[   u'cv.KalmanFilter.KalmanFilter',
+    '',
+    [],
+    [   [u'int', u'dynamParams', u'', []],
+        [u'int', u'measureParams', u'', []],
+        [u'int', u'controlParams', u'0', []],
+        [u'int', u'type', u'CV_32F', []]]]
+ok: FUNC < cv.KalmanFilter.KalmanFilter [ARG int dynamParams=, ARG int measureParams=, ARG int controlParams=0, ARG int type=CV_32F]>
+
+--- Incoming ---
+[   u'cv.KalmanFilter.predict',
+    u'Mat',
+    [],
+    [[u'Mat', u'control', u'Mat()', []]],
+    u'Mat']
+ok: FUNC <Mat cv.KalmanFilter.predict [ARG Mat control=Mat()]>
+
+--- Incoming ---
+[   u'cv.KalmanFilter.correct',
+    u'Mat',
+    [],
+    [[u'Mat', u'measurement', u'', []]],
+    u'Mat']
+ok: FUNC <Mat cv.KalmanFilter.correct [ARG Mat measurement=]>
+
+--- Incoming ---
+[u'class cv.DenseOpticalFlow', ': cv::Algorithm', [], []]
+ok: CLASS cv..DenseOpticalFlow : Algorithm
+
+--- Incoming ---
+[   u'cv.DenseOpticalFlow.calc',
+    u'void',
+    [],
+    [   ['Mat', u'I0', '', []],
+        ['Mat', u'I1', '', []],
+        ['Mat', u'flow', '', ['/IO']]],
+    u'void']
+ok: FUNC <void cv.DenseOpticalFlow.calc [ARG Mat I0=, ARG Mat I1=, ARG Mat flow=]>
+
+--- Incoming ---
+[u'cv.DenseOpticalFlow.collectGarbage', u'void', [], [], u'void']
+ok: FUNC <void cv.DenseOpticalFlow.collectGarbage []>
+
+--- Incoming ---
+[u'class cv.DualTVL1OpticalFlow', u': cv::DenseOpticalFlow', [], []]
+ok: CLASS cv..DualTVL1OpticalFlow : DenseOpticalFlow
+
+--- Incoming ---
+[   u'cv.createOptFlow_DualTVL1',
+    u'Ptr_DualTVL1OpticalFlow',
+    [],
+    [],
+    u'Ptr<DualTVL1OpticalFlow>']
+ok: FUNC <Ptr_DualTVL1OpticalFlow cv..createOptFlow_DualTVL1 []>
+
+
+===== Header: /home/pi/opencv-3.1.0/modules/video/include/opencv2/video/video.hpp =====
+Namespaces: set(['', u'cv'])
+
+
+===== Generating... =====
+CLASS cv..DualTVL1OpticalFlow : DenseOpticalFlow
+CLASS cv..DenseOpticalFlow : Algorithm
+FUNC <void cv.DenseOpticalFlow.calc [ARG Mat I0=, ARG Mat I1=, ARG Mat flow=]>
+FUNC <void cv.DenseOpticalFlow.collectGarbage []>
+CLASS cv..BackgroundSubtractor : Algorithm
+FUNC <void cv.BackgroundSubtractor.apply [ARG Mat image=, ARG Mat fgmask=, ARG double learningRate=-1]>
+FUNC <void cv.BackgroundSubtractor.getBackgroundImage [ARG Mat backgroundImage=]>
+CLASS ..Video : 
+[CONST CV_LKFLOW_INITIAL_GUESSES=4(manual), CONST CV_LKFLOW_GET_MIN_EIGENVALS=8(manual)]
+[CONST OPTFLOW_USE_INITIAL_FLOW=4, CONST OPTFLOW_LK_GET_MIN_EIGENVALS=8, CONST OPTFLOW_FARNEBACK_GAUSSIAN=256, CONST MOTION_TRANSLATION=0, CONST MOTION_EUCLIDEAN=1, CONST MOTION_AFFINE=2, CONST MOTION_HOMOGRAPHY=3]
+FUNC <Mat cv..estimateRigidTransform [ARG Mat src=, ARG Mat dst=, ARG bool fullAffine=]>
+FUNC <Ptr_BackgroundSubtractorKNN cv..createBackgroundSubtractorKNN [ARG int history=500, ARG double dist2Threshold=400.0, ARG bool detectShadows=true]>
+FUNC <Ptr_BackgroundSubtractorMOG2 cv..createBackgroundSubtractorMOG2 [ARG int history=500, ARG double varThreshold=16, ARG bool detectShadows=true]>
+FUNC <Ptr_DualTVL1OpticalFlow cv..createOptFlow_DualTVL1 []>
+FUNC <RotatedRect cv..CamShift [ARG Mat probImage=, ARG Rect window=, ARG TermCriteria criteria=]>
+FUNC <double cv..findTransformECC [ARG Mat templateImage=, ARG Mat inputImage=, ARG Mat warpMatrix=, ARG int motionType=MOTION_AFFINE, ARG TermCriteria criteria=TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 50, 0.001), ARG Mat inputMask=Mat()]>
+FUNC <int cv..buildOpticalFlowPyramid [ARG Mat img=, ARG vector_Mat pyramid=, ARG Size winSize=, ARG int maxLevel=, ARG bool withDerivatives=true, ARG int pyrBorder=BORDER_REFLECT_101, ARG int derivBorder=BORDER_CONSTANT, ARG bool tryReuseInputImage=true]>
+FUNC <int cv..meanShift [ARG Mat probImage=, ARG Rect window=, ARG TermCriteria criteria=]>
+FUNC <void cv..calcOpticalFlowFarneback [ARG Mat prev=, ARG Mat next=, ARG Mat flow=, ARG double pyr_scale=, ARG int levels=, ARG int winsize=, ARG int iterations=, ARG int poly_n=, ARG double poly_sigma=, ARG int flags=]>
+FUNC <void cv..calcOpticalFlowPyrLK [ARG Mat prevImg=, ARG Mat nextImg=, ARG vector_Point2f prevPts=, ARG vector_Point2f nextPts=, ARG vector_uchar status=, ARG vector_float err=, ARG Size winSize=Size(21,21), ARG int maxLevel=3, ARG TermCriteria criteria=TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 30, 0.01), ARG int flags=0, ARG double minEigThreshold=1e-4]>
+CLASS cv..KalmanFilter : 
+FUNC < cv.KalmanFilter.KalmanFilter [ARG int dynamParams=, ARG int measureParams=, ARG int controlParams=0, ARG int type=CV_32F]>
+FUNC < cv.KalmanFilter.KalmanFilter []>
+FUNC <Mat cv.KalmanFilter.correct [ARG Mat measurement=]>
+FUNC <Mat cv.KalmanFilter.predict [ARG Mat control=Mat()]>
+FUNC <Mat cv.KalmanFilter.get_statePre []>
+FUNC <void cv.KalmanFilter.set_statePre [ARG Mat statePre=]>
+FUNC <Mat cv.KalmanFilter.get_statePost []>
+FUNC <void cv.KalmanFilter.set_statePost [ARG Mat statePost=]>
+FUNC <Mat cv.KalmanFilter.get_transitionMatrix []>
+FUNC <void cv.KalmanFilter.set_transitionMatrix [ARG Mat transitionMatrix=]>
+FUNC <Mat cv.KalmanFilter.get_controlMatrix []>
+FUNC <void cv.KalmanFilter.set_controlMatrix [ARG Mat controlMatrix=]>
+FUNC <Mat cv.KalmanFilter.get_measurementMatrix []>
+FUNC <void cv.KalmanFilter.set_measurementMatrix [ARG Mat measurementMatrix=]>
+FUNC <Mat cv.KalmanFilter.get_processNoiseCov []>
+FUNC <void cv.KalmanFilter.set_processNoiseCov [ARG Mat processNoiseCov=]>
+FUNC <Mat cv.KalmanFilter.get_measurementNoiseCov []>
+FUNC <void cv.KalmanFilter.set_measurementNoiseCov [ARG Mat measurementNoiseCov=]>
+FUNC <Mat cv.KalmanFilter.get_errorCovPre []>
+FUNC <void cv.KalmanFilter.set_errorCovPre [ARG Mat errorCovPre=]>
+FUNC <Mat cv.KalmanFilter.get_gain []>
+FUNC <void cv.KalmanFilter.set_gain [ARG Mat gain=]>
+FUNC <Mat cv.KalmanFilter.get_errorCovPost []>
+FUNC <void cv.KalmanFilter.set_errorCovPost [ARG Mat errorCovPost=]>
+CLASS cv..BackgroundSubtractorMOG2 : BackgroundSubtractor
+FUNC <bool cv.BackgroundSubtractorMOG2.getDetectShadows []>
+FUNC <double cv.BackgroundSubtractorMOG2.getBackgroundRatio []>
+FUNC <double cv.BackgroundSubtractorMOG2.getComplexityReductionThreshold []>
+FUNC <double cv.BackgroundSubtractorMOG2.getShadowThreshold []>
+FUNC <double cv.BackgroundSubtractorMOG2.getVarInit []>
+FUNC <double cv.BackgroundSubtractorMOG2.getVarMax []>
+FUNC <double cv.BackgroundSubtractorMOG2.getVarMin []>
+FUNC <double cv.BackgroundSubtractorMOG2.getVarThreshold []>
+FUNC <double cv.BackgroundSubtractorMOG2.getVarThresholdGen []>
+FUNC <int cv.BackgroundSubtractorMOG2.getHistory []>
+FUNC <int cv.BackgroundSubtractorMOG2.getNMixtures []>
+FUNC <int cv.BackgroundSubtractorMOG2.getShadowValue []>
+FUNC <void cv.BackgroundSubtractorMOG2.setBackgroundRatio [ARG double ratio=]>
+FUNC <void cv.BackgroundSubtractorMOG2.setComplexityReductionThreshold [ARG double ct=]>
+FUNC <void cv.BackgroundSubtractorMOG2.setDetectShadows [ARG bool detectShadows=]>
+FUNC <void cv.BackgroundSubtractorMOG2.setHistory [ARG int history=]>
+FUNC <void cv.BackgroundSubtractorMOG2.setNMixtures [ARG int nmixtures=]>
+FUNC <void cv.BackgroundSubtractorMOG2.setShadowThreshold [ARG double threshold=]>
+FUNC <void cv.BackgroundSubtractorMOG2.setShadowValue [ARG int value=]>
+FUNC <void cv.BackgroundSubtractorMOG2.setVarInit [ARG double varInit=]>
+FUNC <void cv.BackgroundSubtractorMOG2.setVarMax [ARG double varMax=]>
+FUNC <void cv.BackgroundSubtractorMOG2.setVarMin [ARG double varMin=]>
+FUNC <void cv.BackgroundSubtractorMOG2.setVarThreshold [ARG double varThreshold=]>
+FUNC <void cv.BackgroundSubtractorMOG2.setVarThresholdGen [ARG double varThresholdGen=]>
+CLASS cv..BackgroundSubtractorKNN : BackgroundSubtractor
+FUNC <bool cv.BackgroundSubtractorKNN.getDetectShadows []>
+FUNC <double cv.BackgroundSubtractorKNN.getDist2Threshold []>
+FUNC <double cv.BackgroundSubtractorKNN.getShadowThreshold []>
+FUNC <int cv.BackgroundSubtractorKNN.getHistory []>
+FUNC <int cv.BackgroundSubtractorKNN.getNSamples []>
+FUNC <int cv.BackgroundSubtractorKNN.getShadowValue []>
+FUNC <int cv.BackgroundSubtractorKNN.getkNNSamples []>
+FUNC <void cv.BackgroundSubtractorKNN.setDetectShadows [ARG bool detectShadows=]>
+FUNC <void cv.BackgroundSubtractorKNN.setDist2Threshold [ARG double _dist2Threshold=]>
+FUNC <void cv.BackgroundSubtractorKNN.setHistory [ARG int history=]>
+FUNC <void cv.BackgroundSubtractorKNN.setNSamples [ARG int _nN=]>
+FUNC <void cv.BackgroundSubtractorKNN.setShadowThreshold [ARG double threshold=]>
+FUNC <void cv.BackgroundSubtractorKNN.setShadowValue [ARG int value=]>
+FUNC <void cv.BackgroundSubtractorKNN.setkNNSamples [ARG int _nkNN=]>
