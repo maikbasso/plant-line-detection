@@ -33,6 +33,7 @@ public:
     void setCameraApertureAngle(float cameraApertureAngle);
     void setCameraAngleToGround(float cameraAngleToGround);
     void setCameraHeight(float cameraHeight);
+    float getReferenceDistanceInM();
     void showResults();
     void follow();
 };
@@ -110,4 +111,8 @@ void LineFollower::showResults(){
 	cout << "Image proportion in meters: " << this->imageSizeInMeters[0] << " x " << this->imageSizeInMeters[1] << endl;
     cout << "Distance in px: " << this->referenceDistanceInPx << endl;
     cout << "Distance in m: " << this->referenceDistanceInM << endl;
+}
+
+float LineFollower::getReferenceDistanceInM(){
+	return this->referenceDistanceInM;
 }

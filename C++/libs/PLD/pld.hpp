@@ -66,7 +66,7 @@ PlantLineDetection::PlantLineDetection(){
     colorThreshold[0] = 60;
     colorThreshold[1] = 255;
     maxLineDistance = 20;//px
-    printResultsImage = true;
+    printResultsImage = false;
     saveFrames = false;
     resultFrameSize[0] = 260;
     resultFrameSize[1] = 180;
@@ -78,11 +78,6 @@ PlantLineDetection::PlantLineDetection(){
     // load the images from the algorithm
     for(int i=0; i < 7; i++){
         this->images[i] = new Image();
-    }
-
-    if(this->printResultsImage == true){
-        //create a window called "Results"
-        namedWindow("Results", CV_WINDOW_AUTOSIZE);
     }
 }
 
@@ -457,46 +452,50 @@ Point PlantLineDetection::intersectPoint(Point p1, Point p2, Point p3, Point p4)
 }
 
 void PlantLineDetection::showResults(){
-    if(this->printResultsImage == true){
-        int numCols = this->grid[0];
-        int numRows = this->grid[1];
-        Mat resultsImage = Mat::zeros(numRows*this->resultFrameSize[1], numCols*this->resultFrameSize[0], this->images[0]->data.type());
-        int countx = 0;
-        int county = 0;
-        for(int i=0; i < 7; i++){
-            Mat currentImage;
-            if(this->images[i]->data.type() == CV_8UC1){
-                cvtColor(this->images[i]->data, currentImage, CV_GRAY2BGR);
-            }
-            else{
-                currentImage = this->images[i]->data.clone();
-            }
-            //save frames
-            if(this->saveFrames){
-                string frameName = this->images[i]->name;
-                frameName.erase(std::remove(frameName.begin(),frameName.end(),' '),frameName.end());
-                imwrite("frames/" + frameName + ".png", currentImage);
-            }
-            //create temp image
-            Mat tempImage = Mat::zeros(this->resultFrameSize[1], this->resultFrameSize[0], this->images[0]->data.type());
-            //resize the image
-            resize(currentImage,tempImage, Size(tempImage.cols,tempImage.rows) );
-            //write name in frame
-            ostringstream convert;   // stream used for the conversion
-            convert << i;
-            putText(tempImage, convert.str() + "-" + this->images[i]->name, Point(25, 25), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(255, 255, 255), 1, 5);
-            //copy temp image to resultsImage
-            tempImage.copyTo(resultsImage(cv::Rect(countx*this->resultFrameSize[0], county*this->resultFrameSize[1],tempImage.cols, tempImage.rows)));
-            //grid design
-            countx++;
-            if(countx == numCols){
-                county++;
-                countx = 0;
-            }
-        }
-        //show the frame in "Results" window
-        imshow("Results", resultsImage);
+    if(this->printResultsImage == false){
+        //create a window called "Results"
+        namedWindow("Results", CV_WINDOW_AUTOSIZE);
+        this->printResultsImage = true;
     }
+    
+    int numCols = this->grid[0];
+    int numRows = this->grid[1];
+    Mat resultsImage = Mat::zeros(numRows*this->resultFrameSize[1], numCols*this->resultFrameSize[0], this->images[0]->data.type());
+    int countx = 0;
+    int county = 0;
+    for(int i=0; i < 7; i++){
+        Mat currentImage;
+        if(this->images[i]->data.type() == CV_8UC1){
+            cvtColor(this->images[i]->data, currentImage, CV_GRAY2BGR);
+        }
+        else{
+            currentImage = this->images[i]->data.clone();
+        }
+        //save frames
+        if(this->saveFrames){
+            string frameName = this->images[i]->name;
+            frameName.erase(std::remove(frameName.begin(),frameName.end(),' '),frameName.end());
+            imwrite("frames/" + frameName + ".png", currentImage);
+        }
+        //create temp image
+        Mat tempImage = Mat::zeros(this->resultFrameSize[1], this->resultFrameSize[0], this->images[0]->data.type());
+        //resize the image
+        resize(currentImage,tempImage, Size(tempImage.cols,tempImage.rows) );
+        //write name in frame
+        ostringstream convert;   // stream used for the conversion
+        convert << i;
+        putText(tempImage, convert.str() + "-" + this->images[i]->name, Point(25, 25), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(255, 255, 255), 1, 5);
+        //copy temp image to resultsImage
+        tempImage.copyTo(resultsImage(cv::Rect(countx*this->resultFrameSize[0], county*this->resultFrameSize[1],tempImage.cols, tempImage.rows)));
+        //grid design
+        countx++;
+        if(countx == numCols){
+            county++;
+            countx = 0;
+        }
+    }
+    //show the frame in "Results" window
+    imshow("Results", resultsImage);
     //system("clear");
     double timeInSeconds = (this->stopTime - this->startTime) / getTickFrequency();
     cout << "=========================================" << endl;
