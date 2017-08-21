@@ -1,7 +1,4 @@
-videos/
-Python/PlantLineDetection.pyc
-Python/indexv.pyc
-C++/pld-photo.o
-C++/pld-video.o
-C++/pld-photo
-C++/pld-video
+tests/videos/
+build/
+libs/OpenCV/opencv-3.1.0/build/
+libs/RaspiCam/raspicam-0.1.6/build/
