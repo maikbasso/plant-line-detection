@@ -1,3 +1,0 @@
-{
-	"shell_cmd": "cd build && cmake ../src && make clean && make && ./main"
-}
