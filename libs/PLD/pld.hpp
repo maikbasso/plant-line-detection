@@ -475,7 +475,7 @@ void PlantLineDetection::showResults(){
         if(this->saveFrames){
             string frameName = this->images[i]->name;
             frameName.erase(std::remove(frameName.begin(),frameName.end(),' '),frameName.end());
-            imwrite("frames/" + frameName + ".png", currentImage);
+            imwrite("../tests/frames/" + frameName + ".png", currentImage);
         }
         //create temp image
         Mat tempImage = Mat::zeros(this->resultFrameSize[1], this->resultFrameSize[0], this->images[0]->data.type());

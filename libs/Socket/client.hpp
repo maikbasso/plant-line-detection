@@ -77,7 +77,8 @@ bool TCPClient::conn(string address , int port){
 bool TCPClient::sendData(string data){
     if(send(this->sock , data.c_str() , strlen( data.c_str() ) , MSG_EOR) < 0){
         return false;
-    }     
+    }
+    cout << "Send data: " << data.c_str() << endl;
     return true;
 }
  

@@ -15,85 +15,20 @@ using namespace cv;
 using namespace std;
 using namespace raspicam;
 
-void video(){
-    Mat frame;
-    // create a capture object
-    VideoCapture cap;
-    //from camera capture
-    //cap.open(0);
-    //from video file
-    cap.open("../../videos/video-lines.mp4");
-
-    if(!cap.isOpened()){
-        cout << "Cannot open the capture or video file." << endl;
-        return;
-    }
-
-    //create the line detection object
-    PlantLineDetection *ld = new PlantLineDetection();
-
-    //read frame per frame
-    while(cap.read(frame)){
-    	//resize image for input
-    	Mat tempImage;
-    	resize(frame, tempImage, Size(320,240) );
-
-        //set image
-        ld->setImage(tempImage);
-
-        //detect
-        ld->detect();
-
-        //show results
-        ld->showResults();
-
-        //wait for 'esc' key press for 30 ms. If 'esc' key is pressed, break loop
-        if(waitKey(30) == 27) {
-            break;
-        }
-    }
-}
-
-void photo(){
-
-    // create the mat and open an image
-    Mat image = imread("../../photos/test1.png");
-
-    // Check for invalid input
-    if(!image.data){
-        cout << "Could not open or find the image." << endl;
-        return;
-    }
+void followLine(Mat frame, TCPClient *client, PlantLineDetection *pld, LineFollower *fl){
     
-    // create the line detection object
-    PlantLineDetection *pld = new PlantLineDetection();
-
-    //create the follow line object
-    LineFollower *fl = new LineFollower();
-
-    //connect to server
-    TCPClient *c = new TCPClient();
-    c->conn("localhost", 7000);
-    
-    //set parameters to line follower
-    fl->setImageSize(320,240); // in px
-    fl->setReferenceToFollow(320/2); // in px
-    fl->setCameraApertureAngle(64); //66 <> 62 degrees from raspicam
-    fl->setCameraAngleToGround(15); //in relation of the ground
-    fl->setCameraHeight(2); //in meters
-        
     //resize image for input
-    Mat tempImage;
-    resize(image, tempImage, Size(320,240) );
+    Mat resizedFrame;
+    resize(frame, resizedFrame, Size(320,240));
 
     //set image
-    pld->setImage(tempImage);
+    pld->setImage(resizedFrame);
 
     // detect
     pld->detect();
 
     // show results
-    //pld->showResults();
+    pld->showResults();
 
     vector <Line*> lines = pld->getDetectedLines();
 
@@ -105,16 +40,81 @@ void photo(){
         std::ostringstream ss;
         ss << fl->getReferenceDistanceInM();
         
-        c->sendData("{\"command\":\"test\",\"args\": {\"x\":" + ss.str() + "}}");
+        client->sendData("{\"command\":\"setPosition\", \"args\": {\"x\":" + ss.str() +", \"y\":0.5, \"z\":0}}");
 
     }
+}
+
+void photo(TCPClient *c, PlantLineDetection *pld, LineFollower *fl){
+
+    // create the mat and open an image
+    Mat image = imread("../tests/photos/test1.png");
+
+    // Check for invalid input
+    if(!image.data){
+        cout << "Could not open or find the image." << endl;
+        return;
+    }
+
+    //follow line and send command to drone
+    followLine(image, c, pld, fl);
 
     //wait key to finish
     waitKey(0);
 }
 
+void video(TCPClient *c, PlantLineDetection *pld, LineFollower *fl){
+    Mat frame;
+    // create a capture object
+    VideoCapture cap;
+    //from video file
+    cap.open("../tests/videos/video-lines.mp4");
+
+    if(!cap.isOpened()){
+        cout << "Cannot open the capture or video file." << endl;
+        return;
+    }
+
+    //read frame per frame
+    while(cap.read(frame)){
+
+        //follow line and send command to drone
+        followLine(frame, c, pld, fl);
+
+        //wait for 'esc' key press for 30 ms. If 'esc' key is pressed, break loop
+        if(waitKey(30) == 27) {
+            break;
+        }
+    }
+}
+
+void webcam(TCPClient *c, PlantLineDetection *pld, LineFollower *fl){
+    Mat frame;
+    // create a capture object
+    VideoCapture cap;
+    //capture from webcam
+    cap.open(0);
+
+    if(!cap.isOpened()){
+        cout << "Cannot open the capture or video file." << endl;
+        return;
+    }
+
+    //read frame per frame
+    while(cap.read(frame)){
+
+        //follow line and send command to drone
+        followLine(frame, c, pld, fl);
+
+        //wait for 'esc' key press for 30 ms. If 'esc' key is pressed, break loop
+        if(waitKey(30) == 27) {
+            break;
+        }
+    }
+}
+
 /*
-void piCamera(){
+void piCamera(TCPClient *c, PlantLineDetection *pld, LineFollower *fl){
 
     //create camera object
     raspicam::RaspiCam_Cv Camera;
@@ -134,8 +134,8 @@ void piCamera(){
 
     //configure all parameters
     Camera.set(CV_CAP_PROP_FORMAT, CV_8UC3);   
-    Camera.set(CV_CAP_PROP_FRAME_WIDTH, 640);
-    Camera.set(CV_CAP_PROP_FRAME_HEIGHT, 480);
+    Camera.set(CV_CAP_PROP_FRAME_WIDTH, 320);
+    Camera.set(CV_CAP_PROP_FRAME_HEIGHT, 240);
     Camera.set(CV_CAP_PROP_FPS, 30); 
     Camera.setHorizontalFlip(true);
     Camera.setVerticalFlip(true);
@@ -146,8 +146,30 @@ void piCamera(){
         return;
     }
     
-    //create a window to show the image
-    //namedWindow("Results", CV_WINDOW_AUTOSIZE);
+    while(true) {        
+        //frame capture
+        Camera.grab();
+        Camera.retrieve(frame);
+
+        //follow line and send command to drone
+        followLine(frame, c, pld, fl);
+
+        //wait for 'esc' key press for 30 ms. If 'esc' key is pressed, break loop
+        if(waitKey(30) == 27) {
+            break;
+        }
+    }
+    
+    //stop the camera
+    Camera.release();
+}
+*/
+
+int main(){
+
+    //connect to drone-server
+    TCPClient *c = new TCPClient();
+    c->conn("localhost", 7000);
 
     // create the line detection object
     PlantLineDetection *pld = new PlantLineDetection();
@@ -161,78 +183,25 @@ void piCamera(){
     fl->setCameraApertureAngle(64); //66 <> 62 degrees from raspicam
     fl->setCameraAngleToGround(15); //in relation of the ground
     fl->setCameraHeight(2); //in meters
-    
-    while(true) {        
-        //frame capture
-        Camera.grab();
-        Camera.retrieve(frame);
 
-        //set image
-        pld->setImage(frame);
+    //set gimbal position
+    c->sendData("{\"command\": \"rotateGimbal\", \"args\": {\"pitch\":15,\"roll\":0,\"yaw\":0}}");
+    sleep(1);
+    //arming motors and take off
+    c->sendData("{\"command\": \"arm\", \"args\": {}}");
+    sleep(1);
+    c->sendData("{\"command\": \"setSpeed\", \"args\": {\"airSpeed\": 7,\"groundSpeed\": 5}}");
+    sleep(1);
+    c->sendData("{\"command\": \"takeOff\", \"args\": {\"z\": 2}}");
 
-        // detect
-        pld->detect();
+    //Awaits take-off
+    sleep(10);
 
-        // show results
-        pld->showResults();
-
-        vector <Line*> lines = pld->getDetectedLines();
-
-        if(lines.size() > 0){
-
-            fl->setLines(lines);
-            fl->follow();
-            fl->showResults();
-
-        }
-        
-        //display image
-        //imshow("Results", frame);
-        //waitKey(1);
-    }
-    
-    //stop the camera
-    Camera.release();
-}
-*/
-
-int main(){
-
-    int op = -1;
-
-    do{
-        // ask user for use video or photo data
-        cout << "Select the input:" << endl;
-        cout << "\t[0] Exit \t[1] Video \t[2] Photo \t[3] Raspicam" << endl;
-        cout << ">> ";
-        //cin >> op;
-        //fixed for build it in sublime
-        op = 2; cout << "2" << endl;
-
-        if(op == 1){
-            cout << "Video input selected!" << endl;
-            video();
-            op = 0;
-        }
-        else if(op == 2){
-            cout << "Photo input selected!" << endl;
-            photo();
-            op = 0;
-        }
-        else if(op == 3){
-            cout << "Raspicam was selected as input!" << endl;
-            //piCamera();
-            op = 0;
-        }
-        else if(op == 0){
-            cout << "Bye Bye!" << endl;
-        }
-        else{
-            cout << "Error: Select the correct data type!" << endl;
-            op == -1;
-        }
-
-    }while(op != 0);
+    //Select data imput
+    //webcam(c, pld, fl);
+    video(c, pld, fl);
+    //photo(c, pld, fl);
+    //piCamera(c, pld, fl);
 
     // finish the program without errors
     return 0;
