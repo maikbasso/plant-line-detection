@@ -198,8 +198,8 @@ int main(){
     sleep(10);
 
     //Select data imput
-    //webcam(c, pld, fl);
-    video(c, pld, fl);
+    webcam(c, pld, fl);
+    //video(c, pld, fl);
     //photo(c, pld, fl);
     //piCamera(c, pld, fl);
 
