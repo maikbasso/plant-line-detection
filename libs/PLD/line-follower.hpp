@@ -99,8 +99,8 @@ void LineFollower::calculateImageSizeInMeters(){
 	float alpha = this->cameraApertureAngle;
 	float beta = this->cameraAngleToGround;
 
-	float dt = tan((beta+(alpha/2)) * (math.pi/180)) * dz;
-	float da = tan((beta-(alpha/2)) * (math.pi/180)) * dz;
+	float dt = tan((beta+(alpha/2)) * (CV_PI/180)) * dz;
+	float da = tan((beta-(alpha/2)) * (CV_PI/180)) * dz;
 	float dy = dt - da;
 	float px = dy / h;
 	float dx = px * w;
