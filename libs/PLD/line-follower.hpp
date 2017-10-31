@@ -85,7 +85,7 @@ void LineFollower::selectLineForFollow(){
 }
 
 void LineFollower::calculateImageSizeInMeters(){
-
+	
 	/*
 	dt = math.tan((beta+(alpha/2))*(math.pi/180))*dz
 	da = math.tan((beta-(alpha/2))*(math.pi/180))*dz
@@ -93,22 +93,17 @@ void LineFollower::calculateImageSizeInMeters(){
 	px = dy/h
 	dx = px * w
 	*/
-
+	int w = this->imageWidth;
+	int h = this->imageHeight;
 	float dz = this->cameraHeight;
 	float alpha = this->cameraApertureAngle;
 	float beta = this->cameraAngleToGround;
 
-	float dt = tan((beta+(alpha/2)) * (math.pi/180)) * dz;
-	float da = tan((beta-(alpha/2)) * (math.pi/180)) * dz;
+	float dt = tan((beta+(alpha/2)) * (CV_PI/180)) * dz;
+	float da = tan((beta-(alpha/2)) * (CV_PI/180)) * dz;
 	float dy = dt - da;
 	float px = dy / h;
 	float dx = px * w;
-	
-	//float beta = this->cameraHeight*tan(this->cameraAngleToGround*(CV_PI/180));
-	//float alpha = this->cameraHeight*tan(((this->cameraApertureAngle/2)+this->cameraAngleToGround)*(CV_PI/180));
-	
-	//float y = alpha - beta;
-	//float x = (this->imageWidth*y)/this->imageHeight;
 	
 	this->imageSizeInMeters[0] = dx;
 	this->imageSizeInMeters[1] = dy;
