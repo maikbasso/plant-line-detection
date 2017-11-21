@@ -4,6 +4,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <iostream>
+#include <omp.h>
 
 using namespace cv;
 using namespace std;
@@ -40,12 +41,6 @@ private:
     int frameCounter;
 
     //methods
-    void pretreatmentRGB();
-    void pretreatmentHSV();
-    void lineDetection();
-    void lineDetectionGPU();
-    void reduceLinesForImageSpace();
-    void lineFilter();
     bool isParallelLines(Point p1, Point p2, Point p3, Point p4);
     int lineDistance(Point p1, Point p2, Point p3, Point p4);
     Point intersectPoint(Point p1, Point p2, Point p3, Point p4);
@@ -54,6 +49,14 @@ public:
     PlantLineDetection();
     void setImage(Mat image);
     void detect();
+    //====
+    void pretreatmentRGB();
+    void pretreatmentHSV();
+    void lineDetection();
+    void lineDetectionGPU();
+    void reduceLinesForImageSpace();
+    void lineFilter();
+    //====
     void showResults();
     vector <Line*> getDetectedLines();
 };
@@ -67,7 +70,7 @@ PlantLineDetection::PlantLineDetection(){
     colorThreshold[1] = 255;
     maxLineDistance = 20;//px
     printResultsImage = false;
-    saveFrames = false;
+    saveFrames = true;
     resultFrameSize[0] = 260;
     resultFrameSize[1] = 180;
     grid[0] = 3;
@@ -127,12 +130,19 @@ vector <Line*> PlantLineDetection::getDetectedLines(){
 }
 
 void PlantLineDetection::pretreatmentRGB(){
-    for(int y=(this->height-1); y >= 0; y--){
+    int y, x;
+    int height = this->height-1; 
+    int width = this->width-1;
+    
+    #pragma omp parallel private (y,x) 
+    {
+	#pragma omp for
+    for(y=(height); y >= 0; y--){
 
         bool isLine = false;
         int x1,x2 = 0;
-
-        for(int x=(this->width-1); x >= 0; x--){
+		
+		for(x=(width); x >= 0; x--){
             //get the pixelIm1 data
             Vec3b pixel = this->images[0]->data.at<Vec3b>(Point(x,y));
             int B = (int)pixel.val[0];
@@ -183,6 +193,7 @@ void PlantLineDetection::pretreatmentRGB(){
             }
         }
     }
+    }
 
     //cvSobel(this->images[2]->data, this->images[3]->data);
 
@@ -227,7 +238,12 @@ void PlantLineDetection::lineDetection(){
     vector<Vec2f> lines;
     // detect lines with hough transform
     //HoughLines(this->images[4]->data, lines, 1, CV_PI/180, 180, 0, 0); // HSV
-    HoughLines(this->images[4]->data, lines, 1, CV_PI/180, 38, 50, 10 ); // RGB
+    //HoughLines(this->images[4]->data, lines, 1, CV_PI/180, 38, 50, 10 ); // RGB
+
+    //HoughLines(this->images[4]->data, lines, 1, CV_PI/60, 30, 0, 0);
+
+    HoughLines(this->images[4]->data, lines, 20, CV_PI/60, 30, 0, 0);
+
     for(size_t i = 0; i < lines.size(); i++){
         //get the rho and theta values
         float rho = lines[i][0];
@@ -251,9 +267,18 @@ void PlantLineDetection::lineDetection(){
             this->lines.push_back(new Line(p1,p2));
         //}
     }
+
+    // vector<Vec4i> linesP; // will hold the results of the detection
+    // HoughLinesP(this->images[4]->data, linesP, 1, CV_PI/180, 150, 0, 0 ); // runs the actual detection
+    // // Draw the lines
+    // for( size_t i = 0; i < linesP.size(); i++ ){
+    //     Vec4i l = linesP[i];
+    //     this->lines.push_back(new Line(Point(l[0], l[1]), Point(l[2], l[3])));
+    // }
 }
 
 void PlantLineDetection::reduceLinesForImageSpace(){
+
     for(size_t i=0; i < this->lines.size(); i++){
 
         int x1 = this->lines[i]->p1.x;
@@ -321,9 +346,15 @@ void PlantLineDetection::lineFilter(){
     vector<int> avgx2;
     int maxLineDistance = 8;
     vector<Line*> newLines;
+    int i,z;
+    int size = this->lines.size();
 
-    for(size_t i=0; i < this->lines.size(); i++){
-        for(size_t z=0; z < this->lines.size(); z++){
+    #pragma omp parallel private (i,z) 
+    {
+    #pragma omp for
+    for(i=0; i < size; i++){
+        #pragma omp parallel for
+        for(z=0; z < size; z++){
 
             Point p = this->intersectPoint(this->lines[i]->p1, this->lines[i]->p2, this->lines[z]->p1, this->lines[z]->p2);
 
@@ -347,6 +378,7 @@ void PlantLineDetection::lineFilter(){
                 int avgx = (xa + xb) / 2;
 
                 bool equals = false;
+                //#pragma omp parallel for
                 for (size_t m=0; m < avg.size(); m++){
                     if(abs(avg[m] - avgx) <= maxLineDistance){
                         equals = true;
@@ -367,18 +399,21 @@ void PlantLineDetection::lineFilter(){
 
         }
     }
-
-    //show and store the results
-    cout << "Vector of avgs:" << endl;
-    for (size_t m=0; m < avg.size(); m++){
-        cout << avg[m] << ", ";
-        //store the detected lines
-        //this->filteredLines.push_back(new Line(Point(avgx1[m],1),Point(avg[m],this->height-1)));
-        this->filteredLines.push_back(new Line(Point(avgx1[m],1),Point(avgx2[m],this->height-1)));
-        //draw lines in image
-        line(this->images[6]->data, this->filteredLines[m]->p1, this->filteredLines[m]->p2, Scalar(255,0,0), 1, CV_AA);
     }
-    cout << endl;
+
+    if (this->printResultsImage == true){
+        //show and store the results
+        cout << "Vector of avgs:" << endl;
+        for (size_t m=0; m < avg.size(); m++){
+            cout << avg[m] << ", ";
+            //store the detected lines
+            //this->filteredLines.push_back(new Line(Point(avgx1[m],1),Point(avg[m],this->height-1)));
+            this->filteredLines.push_back(new Line(Point(avgx1[m],1),Point(avgx2[m],this->height-1)));
+            //draw lines in image
+            line(this->images[6]->data, this->filteredLines[m]->p1, this->filteredLines[m]->p2, Scalar(255,0,0), 1, CV_AA);
+        }
+        cout << endl;
+    }
 }
 
 int PlantLineDetection::lineDistance(Point p1, Point p2, Point p3, Point p4){
@@ -494,9 +529,12 @@ void PlantLineDetection::showResults(){
             countx = 0;
         }
     }
+    if(this->saveFrames){
+        imwrite("../tests/frames/all-results.png", resultsImage);
+    }
     //show the frame in "Results" window
     imshow("Results", resultsImage);
-    //system("clear");
+    system("clear");
     double timeInSeconds = (this->stopTime - this->startTime) / getTickFrequency();
     cout << "=========================================" << endl;
     cout << "Plant Line Detection (PLD) by Maik Basso" << endl;
@@ -516,7 +554,5 @@ void PlantLineDetection::showResults(){
         cout  << i << ":\tp1(" << this->filteredLines[i]->p1.x << ", " << this->filteredLines[i]->p1.y << ")\tp2(" << this->filteredLines[i]->p2.x << ", " << this->filteredLines[i]->p2.y << ")" << endl;
     }
     // instructions for close the program
-    cout << "=========================================" << endl;
-    cout << "CTRL+C for close in terminal." << endl << "ESC for close in GUI interface." << endl;
     cout << "=========================================" << endl;
 }

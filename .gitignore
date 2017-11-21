@@ -1,4 +1,6 @@
 tests/videos/
+tests/results/
+tests/benchmarks-test/
 build/
 libs/OpenCV/opencv-3.1.0/build/
 libs/RaspiCam/raspicam-0.1.6/build/

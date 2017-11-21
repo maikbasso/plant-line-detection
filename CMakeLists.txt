@@ -3,8 +3,13 @@ project( PLD )
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} /usr/local/lib/cmake/)
 find_package(raspicam REQUIRED)
 find_package( OpenCV REQUIRED )
+find_package(OpenMP)
+if (OPENMP_FOUND)
+    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+endif()
 unset(LD_LIBRARY_PATH)
 include_directories( libs )
 add_executable( main main.cpp )
-target_link_libraries( main ${OpenCV_LIBS} ) # use this in pc
-#target_link_libraries( main ${raspicam_CV_LIBS} ) # use this in the Raspberry Pi
+#target_link_libraries( main ${OpenCV_LIBS} ) # use this in pc
+target_link_libraries( main ${raspicam_CV_LIBS} ${OpenCV_LIBS} ) # use this in the Raspberry Pi
