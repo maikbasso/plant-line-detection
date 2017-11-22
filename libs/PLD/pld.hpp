@@ -244,6 +244,8 @@ void PlantLineDetection::lineDetection(){
 
     HoughLines(this->images[4]->data, lines, 20, CV_PI/60, 30, 0, 0);
 
+    //HoughLines(this->images[4]->data, lines, 1, CV_PI/60, 10, 0, 0);
+
     for(size_t i = 0; i < lines.size(); i++){
         //get the rho and theta values
         float rho = lines[i][0];
@@ -278,7 +280,7 @@ void PlantLineDetection::lineDetection(){
 }
 
 void PlantLineDetection::reduceLinesForImageSpace(){
-
+    #pragma omp parallel for
     for(size_t i=0; i < this->lines.size(); i++){
 
         int x1 = this->lines[i]->p1.x;
@@ -304,120 +306,138 @@ void PlantLineDetection::reduceLinesForImageSpace(){
     }
 }
 
-// void PlantLineDetection::lineFilter(){
-//     vector <Line*>lastLine;
-//     for(size_t i=0; i < this->lines.size(); i++){
-
-//         if(lastLine.size() == 0){
-//             line(this->images[6]->data, this->lines[i]->p1, this->lines[i]->p2, Scalar(255,0,0), 1, CV_AA);
-//         }
-//         else{
-            
-//             int count = 0;
-
-//             for(size_t n=0; n < lastLine.size(); n++){
-
-//                 Point p = this->intersectPoint(lastLine[n]->p1,lastLine[n]->p2, this->lines[i]->p1, this->lines[i]->p2);
-                
-//                 if(0 < p.x && p.x < this->width && 0 < p.y && p.y < this->height){
-//                     count++;
-//                 }
-
-//                 if(this->isParallelLines(lastLine[n]->p1,lastLine[n]->p2, this->lines[i]->p1, this->lines[i]->p2) == true){
-//                     if(this->lineDistance(lastLine[n]->p1,lastLine[n]->p2, this->lines[i]->p1, this->lines[i]->p2) < this->maxLineDistance){
-//                         count++;
-//                     }
-//                 }
-//             }
-
-//             if(count == 0){
-//                 this->filteredLines.push_back(this->lines[i]);
-//                 line(this->images[6]->data, this->lines[i]->p1, this->lines[i]->p2, Scalar(255,0,0), 1, CV_AA);
-//             }
-//         }
-
-//         lastLine.push_back(this->lines[i]);
-//     }
-// }
-
 void PlantLineDetection::lineFilter(){
-    vector<int> avg;
-    vector<int> avgx1;
-    vector<int> avgx2;
-    int maxLineDistance = 8;
-    vector<Line*> newLines;
-    int i,z;
-    int size = this->lines.size();
 
-    #pragma omp parallel private (i,z) 
-    {
-    #pragma omp for
-    for(i=0; i < size; i++){
-        #pragma omp parallel for
-        for(z=0; z < size; z++){
+    //cout << "Identified lines: " << this->lines.size() << endl;
+    //usleep(2000000);
+    vector <Line*>lastLine;
 
-            Point p = this->intersectPoint(this->lines[i]->p1, this->lines[i]->p2, this->lines[z]->p1, this->lines[z]->p2);
+    for(size_t i=0; i < this->lines.size(); i++){
+            
+        int count = 0;
 
-            if(this->lineDistance(this->lines[i]->p1, this->lines[i]->p2, this->lines[z]->p1, this->lines[z]->p2) <= maxLineDistance){
-                int x1 = this->lines[i]->p1.x;
-                int y1 = this->lines[i]->p1.y;
-                int x2 = this->lines[i]->p2.x;
-                int y2 = this->lines[i]->p2.y;
+        for(size_t n=0; n < lastLine.size(); n++){
 
-                int ya = this->height/2;
-                int xa = (x2*ya+x1*y2-x2*y1-x1*ya)/(y2-y1);
+            Point p = this->intersectPoint(lastLine[n]->p1,lastLine[n]->p2, this->lines[i]->p1, this->lines[i]->p2);
+            
+            //cout << "p: " << p << endl;
 
-                int x3 = this->lines[z]->p1.x;
-                int y3 = this->lines[z]->p1.y;
-                int x4 = this->lines[z]->p2.x;
-                int y4 = this->lines[z]->p2.y;
-
-                int yb = this->height/2;
-                int xb = (x4*yb+x3*y4-x4*y3-x3*yb)/(y4-y3);
-
-                int avgx = (xa + xb) / 2;
-
-                bool equals = false;
-                //#pragma omp parallel for
-                for (size_t m=0; m < avg.size(); m++){
-                    if(abs(avg[m] - avgx) <= maxLineDistance){
-                        equals = true;
-                        avg[m] = abs((avg[m] + avgx) / 2);
-                        //avgx1[m] = abs((avgx1[m] + ((x1+x3)/2)) / 2);
-                        //avgx2[m] = abs((avgx2[m] + ((x2+x4)/2)) / 2);
-                        break;
-                    }
-                }
-
-                if(equals == false){
-                    avg.push_back(avgx);
-                    avgx1.push_back((x1+x3)/2);
-                    avgx2.push_back((x2+x4)/2);
-                }
-
+            if((p.x > 0) && (p.x < this->width) && (p.y > 0) && (p.y < this->height)){
+                count++;
+                //cout << this->width << "x" << this->height << endl;
+                //cout << "i:" << i << " n:" << n << " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<< endl;
+                break;
             }
 
-        }
-    }
-    }
+            if(this->isParallelLines(lastLine[n]->p1,lastLine[n]->p2, this->lines[i]->p1, this->lines[i]->p2) == true){
+                //cout << "Is parallel i:" << i << " n:" << n << endl;
+                if(this->lineDistance(lastLine[n]->p1,lastLine[n]->p2, this->lines[i]->p1, this->lines[i]->p2) < this->maxLineDistance){
+                    count++;
+                    //cout << "Distance < maxDistance <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl;
+                    break;
+                }
+            }
 
-    if (this->printResultsImage == true){
-        //show and store the results
-        cout << "Vector of avgs:" << endl;
-        for (size_t m=0; m < avg.size(); m++){
-            cout << avg[m] << ", ";
-            //store the detected lines
-            //this->filteredLines.push_back(new Line(Point(avgx1[m],1),Point(avg[m],this->height-1)));
-            this->filteredLines.push_back(new Line(Point(avgx1[m],1),Point(avgx2[m],this->height-1)));
-            //draw lines in image
-            line(this->images[6]->data, this->filteredLines[m]->p1, this->filteredLines[m]->p2, Scalar(255,0,0), 1, CV_AA);
+            //cout << "count: " << count << endl;
         }
-        cout << endl;
+
+        if(count == 0){
+            // float m = 0.0;
+            // float a = (this->lines[i]->p2.y - this->lines[i]->p1.y)*1.0;
+            // float b = (this->lines[i]->p2.x-this->lines[i]->p1.x)*1.0;
+            // if(b != 0.0){
+            //     float m = a/b;
+            // }
+
+            // cout << std::fixed << "m: " << m << endl;
+
+            // usleep(200000);
+
+            lastLine.push_back(this->lines[i]);
+            this->filteredLines.push_back(this->lines[i]);
+            line(this->images[6]->data, this->lines[i]->p1, this->lines[i]->p2, Scalar(255,0,0), 1, CV_AA);
+        }
     }
 }
 
-int PlantLineDetection::lineDistance(Point p1, Point p2, Point p3, Point p4){
+// old line filter based on the angular coefficient
+// void PlantLineDetection::lineFilter(){
+//     vector<int> avg;
+//     vector<int> avgx1;
+//     vector<int> avgx2;
+//     int maxLineDistance = 8;
+//     vector<Line*> newLines;
+//     int i,z;
+//     int size = this->lines.size();
 
+//     #pragma omp parallel private (i,z) 
+//     {
+//     #pragma omp for
+//     for(i=0; i < size; i++){
+//         #pragma omp parallel for
+//         for(z=0; z < size; z++){
+
+//             Point p = this->intersectPoint(this->lines[i]->p1, this->lines[i]->p2, this->lines[z]->p1, this->lines[z]->p2);
+
+//             if(this->lineDistance(this->lines[i]->p1, this->lines[i]->p2, this->lines[z]->p1, this->lines[z]->p2) <= maxLineDistance){
+//                 int x1 = this->lines[i]->p1.x;
+//                 int y1 = this->lines[i]->p1.y;
+//                 int x2 = this->lines[i]->p2.x;
+//                 int y2 = this->lines[i]->p2.y;
+
+//                 int ya = this->height/2;
+//                 int xa = (x2*ya+x1*y2-x2*y1-x1*ya)/(y2-y1);
+
+//                 int x3 = this->lines[z]->p1.x;
+//                 int y3 = this->lines[z]->p1.y;
+//                 int x4 = this->lines[z]->p2.x;
+//                 int y4 = this->lines[z]->p2.y;
+
+//                 int yb = this->height/2;
+//                 int xb = (x4*yb+x3*y4-x4*y3-x3*yb)/(y4-y3);
+
+//                 int avgx = (xa + xb) / 2;
+
+//                 bool equals = false;
+//                 //#pragma omp parallel for
+//                 for (size_t m=0; m < avg.size(); m++){
+//                     if(abs(avg[m] - avgx) <= maxLineDistance){
+//                         equals = true;
+//                         avg[m] = abs((avg[m] + avgx) / 2);
+//                         //avgx1[m] = abs((avgx1[m] + ((x1+x3)/2)) / 2);
+//                         //avgx2[m] = abs((avgx2[m] + ((x2+x4)/2)) / 2);
+//                         break;
+//                     }
+//                 }
+
+//                 if(equals == false){
+//                     avg.push_back(avgx);
+//                     avgx1.push_back((x1+x3)/2);
+//                     avgx2.push_back((x2+x4)/2);
+//                 }
+
+//             }
+
+//         }
+//     }
+//     }
+//     //show and store the results
+//     //cout << "Vector of avgs:" << endl;
+//     for (size_t m=0; m < avg.size(); m++){
+//         //cout << avg[m] << ", ";
+//         //store the detected lines
+//         //this->filteredLines.push_back(new Line(Point(avgx1[m],1),Point(avg[m],this->height-1)));
+//         this->filteredLines.push_back(new Line(Point(avgx1[m],1),Point(avgx2[m],this->height-1)));
+//         //draw lines in image
+//         line(this->images[6]->data, this->filteredLines[m]->p1, this->filteredLines[m]->p2, Scalar(255,0,0), 1, CV_AA);
+//     }
+//     //cout << endl;
+// }
+
+int PlantLineDetection::lineDistance(Point p1, Point p2, Point p3, Point p4){
+    /*
+    gets the pixel belonging to the line located in the center of the image and calculates the distance between the two lines
+    */
     int x1 = p1.x;
     int y1 = p1.y;
     int x2 = p2.x;
@@ -438,12 +458,12 @@ int PlantLineDetection::lineDistance(Point p1, Point p2, Point p3, Point p4){
 }
 
 bool PlantLineDetection::isParallelLines(Point p1, Point p2, Point p3, Point p4){
-    float m1=0, m2=0;
+    float m1=0.0, m2=0.0;
 
-    if((p2.x-p1.x) != 0){
+    if(((p2.x-p1.x)*1.0) != 0.0){
         m1 = (p2.y-p1.y)/(p2.x-p1.x);
     }
-    if((p4.x-p3.x) != 0){
+    if(((p4.x-p3.x)*1.0) != 0.0){
         m2 = (p4.y-p3.y)/(p4.x-p3.x);
     }
 
@@ -455,7 +475,7 @@ bool PlantLineDetection::isParallelLines(Point p1, Point p2, Point p3, Point p4)
 }
 
 Point PlantLineDetection::intersectPoint(Point p1, Point p2, Point p3, Point p4){
-    int a1, a2, b1, b2, c1, c2;
+    float a1=0.0, a2=0.0, b1=0.0, b2=0.0, c1=0.0, c2=0.0;
 
     //calculate the coeficients for line 1 and 2
     a1 = p1.y - p2.y;
@@ -467,15 +487,19 @@ Point PlantLineDetection::intersectPoint(Point p1, Point p2, Point p3, Point p4)
     c2 = (p3.x*p4.y) - (p4.x*p3.y);
 
     //set the matrix a and b
-    int a[2][2] = {{a1,b1},{a2,b2}};
-    int b[2][1] = {{-c1},{-c2}};
+    float a[2][2] = {{a1,b1},
+                     {a2,b2}};
+    float b[2][1] = {{-c1},
+                     {-c2}};
 
     //create the opencv matrix
     Mat A = Mat(2,2, CV_32FC1, a);
     Mat B = Mat(2,1, CV_32FC1, b);
 
+    float detA = determinant(A);
+
     //determinant
-    if (determinant(A) != 0){
+    if (detA != 0.00){
         //solve the eq ax=b
         Mat x = A.inv() * B;
         return Point(x);
@@ -489,8 +513,8 @@ Point PlantLineDetection::intersectPoint(Point p1, Point p2, Point p3, Point p4)
 void PlantLineDetection::showResults(){
     if(this->printResultsImage == false){
         //create a window called "Results"
-        namedWindow("Results", CV_WINDOW_AUTOSIZE);
-        this->printResultsImage = true;
+        //namedWindow("Results", CV_WINDOW_AUTOSIZE);
+        //this->printResultsImage = true;
     }
     
     int numCols = this->grid[0];
@@ -533,26 +557,26 @@ void PlantLineDetection::showResults(){
         imwrite("../tests/frames/all-results.png", resultsImage);
     }
     //show the frame in "Results" window
-    imshow("Results", resultsImage);
-    system("clear");
-    double timeInSeconds = (this->stopTime - this->startTime) / getTickFrequency();
-    cout << "=========================================" << endl;
-    cout << "Plant Line Detection (PLD) by Maik Basso" << endl;
-    cout << "=========================================" << endl;
-    cout << "OpenCV version   = " << CV_VERSION << endl;
-    //show the plant line detection properties
-    cout << "=========================================" << endl;
-    cout << "Frame resolution = " << this->width << " x " << this->height << endl;
-    cout << "Frame counter    = " << this->frameCounter << endl;
-    cout << "Time per frame   = " << timeInSeconds << " s" << endl;
-    cout << "FPS              = " << (1 / timeInSeconds) << endl;
-    cout << "All lines        = " << this->lines.size() << endl;
-    cout << "Filtered lines   = " << this->filteredLines.size() << endl;
-    cout << "=========================================" << endl;
-    cout << "List of lines:" << endl;
-    for(int i = 0; i< this->filteredLines.size(); i++){
-        cout  << i << ":\tp1(" << this->filteredLines[i]->p1.x << ", " << this->filteredLines[i]->p1.y << ")\tp2(" << this->filteredLines[i]->p2.x << ", " << this->filteredLines[i]->p2.y << ")" << endl;
-    }
-    // instructions for close the program
-    cout << "=========================================" << endl;
+    //imshow("Results", resultsImage);
+    // system("clear");
+    // double timeInSeconds = (this->stopTime - this->startTime) / getTickFrequency();
+    // cout << "=========================================" << endl;
+    // cout << "Plant Line Detection (PLD) by Maik Basso" << endl;
+    // cout << "=========================================" << endl;
+    // cout << "OpenCV version   = " << CV_VERSION << endl;
+    // //show the plant line detection properties
+    // cout << "=========================================" << endl;
+    // cout << "Frame resolution = " << this->width << " x " << this->height << endl;
+    // cout << "Frame counter    = " << this->frameCounter << endl;
+    // cout << "Time per frame   = " << timeInSeconds << " s" << endl;
+    // cout << "FPS              = " << (1 / timeInSeconds) << endl;
+    // cout << "All lines        = " << this->lines.size() << endl;
+    // cout << "Filtered lines   = " << this->filteredLines.size() << endl;
+    // cout << "=========================================" << endl;
+    // cout << "List of lines:" << endl;
+    // for(int i = 0; i< this->filteredLines.size(); i++){
+    //     cout  << i << ":\tp1(" << this->filteredLines[i]->p1.x << ", " << this->filteredLines[i]->p1.y << ")\tp2(" << this->filteredLines[i]->p2.x << ", " << this->filteredLines[i]->p2.y << ")" << endl;
+    // }
+    // // instructions for close the program
+    // cout << "=========================================" << endl;
 }

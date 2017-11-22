@@ -83,7 +83,7 @@ void simulatedTests(TCPClient *c, PlantLineDetection *pld, LineFollower *fl){
     int resolutions[][2] = {{160,120},{320,240},{640,480},{800,600},{1024,768},{1296,972},{1366,768},{1920,1080}};
 
     //number of tests per resolution
-    int testsPerResolution = 1;
+    int testsPerResolution = 100;
 
     display << "Total number of tests: " << (testsPerResolution*(sizeof(resolutions)/sizeof(*resolutions))) << endl;
 
@@ -127,12 +127,14 @@ void simulatedTests(TCPClient *c, PlantLineDetection *pld, LineFollower *fl){
 
     display << "Writing test header..." << endl;
 
+    display << "tn\trn\trl\ttim\ttp\ttld\ttlf\ttlf\tttf\tfps\tdl\n";
+
     int testNumber = 0;
 
     //for all resolutions
-    //for(int i=0; i < (sizeof(resolutions)/sizeof(*resolutions)); i++){
-    int i = 1;
-    {
+    for(int i=0; i < (sizeof(resolutions)/sizeof(*resolutions)); i++){
+    //int i = 1;
+    //{
         //resize image for input
         Mat imageTestResized;
         resize(imageTest, imageTestResized, Size(resolutions[i][0],resolutions[i][1]));
@@ -150,7 +152,7 @@ void simulatedTests(TCPClient *c, PlantLineDetection *pld, LineFollower *fl){
         Camera.setVerticalFlip(true);
 
         //wait camera configure
-        //usleep(5000000);
+        usleep(1000000);
 
         //Open camera
         if (!Camera.open()) {
@@ -161,6 +163,9 @@ void simulatedTests(TCPClient *c, PlantLineDetection *pld, LineFollower *fl){
         //capture the first frame
         Camera.grab();
         Camera.retrieve(frame);
+
+        //wait the first capture
+        usleep(1000000);
 
         int count = 0;
 
@@ -229,7 +234,7 @@ void simulatedTests(TCPClient *c, PlantLineDetection *pld, LineFollower *fl){
             //save test result
             ostringstream dataTest;
             dataTest << testNumber++; // test number
-            dataTest << "\t" << (i+1); // resolution number
+            dataTest << "\t" << i; // resolution number
             dataTest << "\t" << resolutions[i][0] << "x" << resolutions[i][1]; // resolution label
             dataTest << "\t" << t_im_acquisition.count(); // time to image acquisition
             dataTest << "\t" << t_pretreatment.count(); // pretreatment step
@@ -237,26 +242,24 @@ void simulatedTests(TCPClient *c, PlantLineDetection *pld, LineFollower *fl){
             dataTest << "\t" << t_line_filter.count(); // line filter step
             dataTest << "\t" << t_line_follower.count(); // line follower step
             dataTest << "\t" << t_total_frame.count(); // all time
-            dataTest << "\t" << (1000/t_total_frame.count()); // fps
+            dataTest << std::fixed << "\t" << (1000.0/t_total_frame.count()); // fps
             dataTest << "\t" << numberOfLines; // all detected lines
             dataTest << "\n";
 
             resultsFile << dataTest.str();
+            resultsFile.flush();
 
             //write in results file
-            //system("clear");
-            cout << display.str() << "Writing test number: " << testNumber << endl;
-
-            cout << "Results file:" << endl << "tn\trn\trl\ttim\ttp\ttld\ttlf\ttlf\tttf\tfps\tdl\n" << dataTest.str() << endl;
-
-            resultsFile.flush();
+            system("clear");
+            display << dataTest.str();
+            cout << std::fixed << display.str() << endl << "Writing test number: " << testNumber - 1 << endl;
 
 
             count++;
 
             //wait for 'esc' key press for 30 ms. If 'esc' key is pressed, break loop
             //if(waitKey(30) == 27) {
-            //    break;
+                //break;
             //}
         }
 
