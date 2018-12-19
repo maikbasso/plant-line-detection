@@ -73,9 +73,9 @@ void LineFollower::follow(){
 
 void LineFollower::selectLineForFollow(){
 	int lineIndex = 0;
-	int distance = 0;
+	int distance = this->imageWidth;
 	for(size_t i=0; i<this->lines.size(); i++){
-		int d = (this->imageWidth/2) - abs((this->lines[i]->p1.x + this->lines[i]->p2.x) / 2);
+		int d = abs((this->imageWidth/2) - ((this->lines[i]->p1.x + this->lines[i]->p2.x) / 2));
 		if(d <= distance){
 			lineIndex = i;
 			distance = d;
